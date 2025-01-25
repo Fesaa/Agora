@@ -1,5 +1,6 @@
 using API.Data;
 using API.Logging;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -79,6 +80,13 @@ public class Program
             })
             .ConfigureWebHostDefaults(builder =>
             {
+                builder.UseKestrel(opts =>
+                {
+                    opts.ListenAnyIP(5050, options =>
+                    {
+                        options.Protocols = HttpProtocols.Http1AndHttp2AndHttp3;
+                    });
+                });
                 builder.UseStartup<Startup>();
             });
 }
