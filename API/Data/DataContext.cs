@@ -16,4 +16,6 @@ public class DataContext: IdentityDbContext<AppUser, AppRole, int,
     }
     
     public DbSet<AppUser> AppUsers { get; set; } = null!;
+    public DbSet<AppUserPreferences> AppUserPreferences { get; set; } = null!;
+    public DbSet<ServerSettings> ServerSettings { get; set; } = null!;
 }

@@ -3,7 +3,10 @@ using API.Extensions;
 using API.Logging;
 using API.Middleware;
 using API.Middleware.RateLimit;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 namespace API;
@@ -16,7 +19,35 @@ public class Startup(IConfiguration configuration, IWebHostEnvironment env)
 
         services.AddCors();
         services.AddIdentityServices(configuration);
-        services.AddAuthentication();
+
+        #region Authentication
+        services.AddAuthentication(opts =>
+        {
+            opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            opts.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+        })
+        .AddCookie()
+        .AddOpenIdConnect(opts =>
+        {
+            opts.Authority = "http://localhost:8080/realms/dev-realm";
+            opts.ClientId = "agora";
+            opts.ClientSecret = "82OFTHpTNVuw4t80jkv42PTHXmt1gxpR";
+            opts.SaveTokens = true;
+            opts.GetClaimsFromUserInfoEndpoint = true;
+            opts.RequireHttpsMetadata = false;
+            opts.ResponseType = "code";
+            opts.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true
+            };
+
+            opts.Scope.Add("openid");
+            opts.Scope.Add("profile");
+            opts.Scope.Add("email");
+        });
+        #endregion
+        
+        
         services.AddAuthorization();
         services.AddControllers();
 
