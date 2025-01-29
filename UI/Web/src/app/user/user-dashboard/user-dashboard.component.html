@@ -1,2 +1,5 @@
 
-Hello {{name}} !
+<div *transloco="let t;">
+  Hello {{name}} !
+  {{t("example")}} - {{t("foo.bar")}}
+</div>

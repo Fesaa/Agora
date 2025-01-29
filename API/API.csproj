@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
+        <ImplicitUsings>disable</ImplicitUsings>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
@@ -29,6 +29,9 @@
         <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
         <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
         <PackageReference Include="Serilog.Sinks.SignalR.Core" Version="0.1.2" />
+        <PackageReference Include="System.IO.Abstractions" Version="21.2.12" />
+        <PackageReference Include="TestableIO.System.IO.Abstractions" Version="21.2.12" />
+        <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="21.2.12" />
     </ItemGroup>
 
     <ItemGroup>
@@ -39,7 +42,6 @@
 
     <ItemGroup>
       <Folder Include="config\logs\" />
-      <Folder Include="Services\" />
     </ItemGroup>
 
 </Project>

@@ -1,11 +1,19 @@
+using System.IO.Abstractions;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using API.Data;
 using API.Entities.Enums;
 using API.Helpers;
+using API.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 
@@ -18,7 +26,11 @@ public static class ApplicationServiceExtensions
     {
         services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
+        services.AddScoped<IMemoryCache, MemoryCache>();
+        services.AddScoped<IFileSystem, FileSystem>();
+        services.AddScoped<IDirectoryService, DirectoryService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<ILocalizationService, LocalizationService>();
         
         services.AddSqlite();
 
