@@ -1,3 +1,4 @@
+using API.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-public class AccountController: BaseApiController
+public class AccountController(ILogger<AccountController> logger): BaseApiController
 {
 
     [AllowAnonymous]
@@ -23,5 +24,11 @@ public class AccountController: BaseApiController
         return SignOut(new AuthenticationProperties { RedirectUri = "/" },
             CookieAuthenticationDefaults.AuthenticationScheme,
             OpenIdConnectDefaults.AuthenticationScheme);
+    }
+
+    [HttpGet("name")]
+    public string Name()
+    {
+        return User.GetName() ?? "No name";
     }
 }

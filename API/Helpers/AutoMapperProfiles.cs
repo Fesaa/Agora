@@ -10,10 +10,10 @@ public class AutoMapperProfiles: Profile
     public AutoMapperProfiles()
     {
         
-        CreateMap<IList<ServerSettings>, ServerSettingDto>()
+        CreateMap<IList<ServerSetting>, ServerSettingDto>()
             .ConvertUsing<ServerSettingConverter>();
 
-        CreateMap<IEnumerable<ServerSettings>, ServerSettingDto>()
+        CreateMap<IEnumerable<ServerSetting>, ServerSettingDto>()
             .ConvertUsing<ServerSettingConverter>();
 
     }

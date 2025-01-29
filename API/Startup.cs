@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using System.Security.Claims;
 using API.Extensions;
 using API.Logging;
 using API.Middleware;
@@ -18,37 +19,11 @@ public class Startup(IConfiguration configuration, IWebHostEnvironment env)
         services.AddApplicationServices(configuration, env);
 
         services.AddCors();
-        services.AddIdentityServices(configuration);
-
-        #region Authentication
-        services.AddAuthentication(opts =>
+        
+        services.AddAuthorization(options =>
         {
-            opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            opts.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-        })
-        .AddCookie()
-        .AddOpenIdConnect(opts =>
-        {
-            opts.Authority = "http://localhost:8080/realms/dev-realm";
-            opts.ClientId = "agora";
-            opts.ClientSecret = "82OFTHpTNVuw4t80jkv42PTHXmt1gxpR";
-            opts.SaveTokens = true;
-            opts.GetClaimsFromUserInfoEndpoint = true;
-            opts.RequireHttpsMetadata = false;
-            opts.ResponseType = "code";
-            opts.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true
-            };
-
-            opts.Scope.Add("openid");
-            opts.Scope.Add("profile");
-            opts.Scope.Add("email");
+            options.AddPolicy("AdminPolicy", policy => policy.RequireRole("admin"));
         });
-        #endregion
-        
-        
-        services.AddAuthorization();
         services.AddControllers();
 
         services.AddResponseCompression(opts =>

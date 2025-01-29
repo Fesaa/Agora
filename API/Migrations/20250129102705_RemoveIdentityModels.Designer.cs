@@ -2,6 +2,7 @@
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,12 +10,29 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250129102705_RemoveIdentityModels")]
+    partial class RemoveIdentityModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
+
+            modelBuilder.Entity("API.Entities.AppUserPreferences", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ExternalId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppUserPreferences");
+                });
 
             modelBuilder.Entity("API.Entities.ServerSetting", b =>
                 {
@@ -32,16 +50,6 @@ namespace API.Migrations
                     b.HasKey("Key");
 
                     b.ToTable("ServerSettings");
-                });
-
-            modelBuilder.Entity("API.Entities.UserPreferences", b =>
-                {
-                    b.Property<string>("ExternalId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ExternalId");
-
-                    b.ToTable("AppUserPreferences");
                 });
 #pragma warning restore 612, 618
         }

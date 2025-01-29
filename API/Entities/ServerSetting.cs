@@ -3,7 +3,7 @@ using API.Entities.Enums;
 
 namespace API.Entities;
 
-public class ServerSettings
+public class ServerSetting
 {
     [Key]
     public required ServerSettingKey Key { get; set; }
