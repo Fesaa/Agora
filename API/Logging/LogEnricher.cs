@@ -1,3 +1,5 @@
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Serilog;
 
 namespace API.Logging;

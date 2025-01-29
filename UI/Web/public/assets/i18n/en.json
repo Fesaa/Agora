@@ -1,0 +1,6 @@
+{
+  "example": "This is an example translations",
+  "foo": {
+    "bar": "This is a nested example"
+  }
+}

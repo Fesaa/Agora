@@ -9,4 +9,6 @@ public class UserPreferences
     /// </summary>
     [Key]
     public required string ExternalId { get; set; } = null!;
+
+    public string Language { get; set; } = "en";
 }

@@ -1,5 +1,8 @@
+using System;
+using System.Threading.Tasks;
 using API.Data.Repositories;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 
 namespace API.Data;
 
@@ -7,6 +10,7 @@ public interface IUnitOfWork
 {
     
     ISettingsRepository SettingsRepository { get; }
+    UserPreferencesRepository UserPreferencesRepository { get; }
     
     bool Commit();
     Task<bool> CommitAsync();
@@ -18,6 +22,7 @@ public class UnitOfWork(DataContext context, IMapper mapper, ILogger<UnitOfWork>
 {
 
     public ISettingsRepository SettingsRepository { get; } = new SettingsRepository(context, mapper);
+    public UserPreferencesRepository UserPreferencesRepository { get; } = new UserPreferencesRepository(context, mapper);
 
     public bool Commit()
     {

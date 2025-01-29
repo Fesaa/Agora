@@ -1,9 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {AccountService} from '../../_services/account.service';
+import {TranslocoDirective} from '@jsverse/transloco';
 
 @Component({
   selector: 'app-user-dashboard',
-  imports: [],
+  imports: [
+    TranslocoDirective
+  ],
   templateUrl: './user-dashboard.component.html',
   styleUrl: './user-dashboard.component.css'
 })
