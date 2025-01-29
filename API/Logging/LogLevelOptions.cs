@@ -36,6 +36,43 @@ public class LogLevelOptions
             )
             .Filter.ByIncludingOnly(ShouldIncludeLogStatement);
     }
+    
+    public static void SwitchLogLevel(string level)
+    {
+        switch (level)
+        {
+            case "Debug":
+                LogLevelSwitch.MinimumLevel = LogEventLevel.Debug;
+                MicrosoftLogLevelSwitch.MinimumLevel = LogEventLevel.Warning; // This is DB output information, Inf shows the SQL
+                MicrosoftHostingLifetimeLogLevelSwitch.MinimumLevel = LogEventLevel.Information;
+                AspNetCoreLogLevelSwitch.MinimumLevel = LogEventLevel.Warning;
+                break;
+            case "Information":
+                LogLevelSwitch.MinimumLevel = LogEventLevel.Information;
+                MicrosoftLogLevelSwitch.MinimumLevel = LogEventLevel.Error;
+                MicrosoftHostingLifetimeLogLevelSwitch.MinimumLevel = LogEventLevel.Error;
+                AspNetCoreLogLevelSwitch.MinimumLevel = LogEventLevel.Error;
+                break;
+            case "Trace":
+                LogLevelSwitch.MinimumLevel = LogEventLevel.Verbose;
+                MicrosoftLogLevelSwitch.MinimumLevel = LogEventLevel.Information;
+                MicrosoftHostingLifetimeLogLevelSwitch.MinimumLevel = LogEventLevel.Debug;
+                AspNetCoreLogLevelSwitch.MinimumLevel = LogEventLevel.Information;
+                break;
+            case "Warning":
+                LogLevelSwitch.MinimumLevel = LogEventLevel.Warning;
+                MicrosoftLogLevelSwitch.MinimumLevel = LogEventLevel.Error;
+                MicrosoftHostingLifetimeLogLevelSwitch.MinimumLevel = LogEventLevel.Error;
+                AspNetCoreLogLevelSwitch.MinimumLevel = LogEventLevel.Error;
+                break;
+            case "Critical":
+                LogLevelSwitch.MinimumLevel = LogEventLevel.Fatal;
+                MicrosoftLogLevelSwitch.MinimumLevel = LogEventLevel.Error;
+                MicrosoftHostingLifetimeLogLevelSwitch.MinimumLevel = LogEventLevel.Error;
+                AspNetCoreLogLevelSwitch.MinimumLevel = LogEventLevel.Error;
+                break;
+        }
+    }
 
     private static bool ShouldIncludeLogStatement(LogEvent e)
     {

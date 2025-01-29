@@ -1,4 +1,5 @@
 using API.Data;
+using API.Entities.Enums;
 using API.Logging;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ public class Program
             var host = CreateHostBuilder(args).Build();
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
+            var unitOfWork = services.GetRequiredService<IUnitOfWork>();
 
             try
             {
@@ -39,7 +41,7 @@ public class Program
                 await context.Database.MigrateAsync();
 
                 // Database seeding
-
+                await Seed.SeedSettings(context);
 
             }
             catch (Exception ex)
@@ -49,6 +51,9 @@ public class Program
                 logger.LogCritical(ex, "An exception occurred while migrating the database. Restoring from backup");
                 // TODO: Restore from backup
             }
+
+            var logLevel = await unitOfWork.SettingsRepository.GetSettingAsync(ServerSettingKey.LoggingLevel);
+            LogLevelOptions.SwitchLogLevel(logLevel.Value);
             
             await host.RunAsync();
         }
@@ -67,7 +72,7 @@ public class Program
             .UseSerilog((_, services, configuration) =>
             {
                 LogLevelOptions.CreateConfig(configuration);
-            })
+            }, true)
             .ConfigureAppConfiguration((hostingContext, config) =>
             {
                 config.Sources.Clear();

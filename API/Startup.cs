@@ -1,9 +1,13 @@
 using System.IO.Compression;
+using System.Security.Claims;
 using API.Extensions;
 using API.Logging;
 using API.Middleware;
 using API.Middleware.RateLimit;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 namespace API;
@@ -15,9 +19,11 @@ public class Startup(IConfiguration configuration, IWebHostEnvironment env)
         services.AddApplicationServices(configuration, env);
 
         services.AddCors();
-        services.AddIdentityServices(configuration);
-        services.AddAuthentication();
-        services.AddAuthorization();
+        
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("AdminPolicy", policy => policy.RequireRole("admin"));
+        });
         services.AddControllers();
 
         services.AddResponseCompression(opts =>
