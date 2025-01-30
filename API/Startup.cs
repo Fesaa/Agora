@@ -1,5 +1,6 @@
 using System;
 using System.IO.Compression;
+using System.Linq;
 using API.Extensions;
 using API.Logging;
 using API.Middleware;
@@ -22,11 +23,6 @@ public class Startup(IConfiguration configuration, IWebHostEnvironment env)
         services.AddApplicationServices(configuration, env);
 
         services.AddCors();
-        
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy("AdminPolicy", policy => policy.RequireRole("admin"));
-        });
         services.AddControllers();
 
         services.AddResponseCompression(opts =>

@@ -23,13 +23,11 @@ public interface ISettingsRepository
 
 public class SettingsRepository(DataContext context, IMapper mapper): ISettingsRepository
 {
-    private readonly ServerSettingKey[] OpenIdConnectKeys = 
-        [ServerSettingKey.OpenIdAuthority, ServerSettingKey.OpenIdClientId, ServerSettingKey.OpenIdClientSecret]; 
     
     public async Task<bool> CompleteOpenIdConnectSettingsAsync()
     {
         return await context.ServerSettings
-            .CountAsync(s => OpenIdConnectKeys.Contains(s.Key) && !string.IsNullOrEmpty(s.Value)) == 3;
+            .CountAsync(s => s.Key == ServerSettingKey.OpenIdAuthority && !string.IsNullOrEmpty(s.Value)) == 1;
     }
 
     public void Update(ServerSetting setting)

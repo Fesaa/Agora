@@ -18,11 +18,8 @@ public class ServerSettingConverter: ITypeConverter<IEnumerable<ServerSetting>, 
                 case ServerSettingKey.OpenIdAuthority:
                     destination.OpenIdAuthority = row.Value;
                     break;
-                case ServerSettingKey.OpenIdClientId:
-                    destination.OpenIdClientId = row.Value;
-                    break;
-                case ServerSettingKey.OpenIdClientSecret:
-                    destination.OpenIdClientSecret = row.Value;
+                case ServerSettingKey.LoggingLevel:
+                    destination.LoggingLevel = row.Value;
                     break;
                 default:
                     break;

@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
@@ -16,6 +15,20 @@ namespace API.Controllers;
 public class SettingsController(ILogger<SettingsController> logger, IUnitOfWork unitOfWork,
     ILocalizationService localizationService): BaseApiController
 {
+
+    [AllowAnonymous]
+    [HttpGet("open-id-connect-info")]
+    public async Task<ActionResult<string>> GetOpenIdConnectInfo()
+    {
+        var settingDto = await unitOfWork.SettingsRepository.GetSettingsDtoAsync();
+        if (string.IsNullOrEmpty(settingDto.OpenIdAuthority))
+        {
+            return BadRequest(await localizationService.Translate("", "open-id-not-set-up"));
+        }
+        
+        return Ok(settingDto.OpenIdAuthority);
+    }
+    
 
     [HttpGet]
     public async Task<ActionResult<ServerSettingDto>> GetSettings()
@@ -65,20 +78,6 @@ public class SettingsController(ILogger<SettingsController> logger, IUnitOfWork 
                         && !string.IsNullOrEmpty(settingDto.OpenIdAuthority))
                     {
                         setting.Value = settingDto.OpenIdAuthority;
-                    }
-                    break;
-                case ServerSettingKey.OpenIdClientId:
-                    if (setting.Value != settingDto.OpenIdClientId 
-                        && !string.IsNullOrEmpty(settingDto.OpenIdClientId))
-                    {
-                        setting.Value = settingDto.OpenIdClientId;
-                    }
-                    break;
-                case ServerSettingKey.OpenIdClientSecret:
-                    if (setting.Value != settingDto.OpenIdClientSecret 
-                        && !string.IsNullOrEmpty(settingDto.OpenIdClientSecret))
-                    {
-                        setting.Value = settingDto.OpenIdClientSecret;
                     }
                     break;
             }

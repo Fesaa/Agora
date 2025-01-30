@@ -7,12 +7,14 @@ using API.Helpers;
 using API.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
@@ -34,10 +36,10 @@ public static class ApplicationServiceExtensions
         
         services.AddSqlite();
 
-        Task.Run(services.AddAuthenticationAsync).Wait();
+        Task.Run(async () => await services.AddAuthenticationAsync(environment)).Wait();
     }
 
-    private static async Task AddAuthenticationAsync(this IServiceCollection services)
+    private static async Task AddAuthenticationAsync(this IServiceCollection services, IWebHostEnvironment environment)
     {
         var provider = services.BuildServiceProvider();
         var context = provider.GetRequiredService<DataContext>();
@@ -57,35 +59,22 @@ public static class ApplicationServiceExtensions
         }
 
         var authority = await settingsRepository.GetSettingAsync(ServerSettingKey.OpenIdAuthority);
-        var clientId = await settingsRepository.GetSettingAsync(ServerSettingKey.OpenIdClientId);
-        var clientSecret = await settingsRepository.GetSettingAsync(ServerSettingKey.OpenIdClientSecret);
-        
-        services.AddAuthentication(opts =>
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
             {
-                opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                opts.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            })
-            .AddCookie()
-            .AddOpenIdConnect(opts =>
-            {
-                opts.Authority = authority.Value;
-                opts.ClientId = clientId.Value;
-                opts.ClientSecret = clientSecret.Value;
-                opts.SaveTokens = true;
-                opts.GetClaimsFromUserInfoEndpoint = true;
-                opts.RequireHttpsMetadata = false;
-                opts.ResponseType = OpenIdConnectResponseType.Code;
-                opts.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true
-                };
+                options.Authority = authority.Value;
+                options.Audience = "agora-api";
 
-                opts.Scope.Add("openid");
-                opts.Scope.Add("profile");
-                opts.Scope.Add("email");
-                opts.TokenValidationParameters.RoleClaimType = "roles";
-                opts.ClaimActions.MapUniqueJsonKey(ClaimTypes.Name, "name");
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true
+                };
             });
+        services.AddAuthorization();
     }
 
     private static void AddSqlite(this IServiceCollection services)
