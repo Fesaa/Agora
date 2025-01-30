@@ -1,3 +1,7 @@
 {
-  "example": "This is an example translation"
+  "example": "This is an example translation",
+
+
+  "settings-not-first": "The server has already been setup, need authentication",
+  "invalid-openid-authority": "The authority ({0}) cannot be reached. Please check"
 }

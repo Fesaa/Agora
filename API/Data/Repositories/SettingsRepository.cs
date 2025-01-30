@@ -29,7 +29,7 @@ public class SettingsRepository(DataContext context, IMapper mapper): ISettingsR
     public async Task<bool> CompleteOpenIdConnectSettingsAsync()
     {
         return await context.ServerSettings
-            .CountAsync(s => OpenIdConnectKeys.Contains(s.Key) && s.Value != "") == 3;
+            .CountAsync(s => OpenIdConnectKeys.Contains(s.Key) && !string.IsNullOrEmpty(s.Value)) == 3;
     }
 
     public void Update(ServerSetting setting)

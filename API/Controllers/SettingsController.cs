@@ -1,15 +1,20 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities.Enums;
 using API.Extensions;
+using API.Services;
+using Flurl.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace API.Controllers;
 
-public class SettingsController(ILogger<SettingsController> logger, IUnitOfWork unitOfWork): BaseApiController
+public class SettingsController(ILogger<SettingsController> logger, IUnitOfWork unitOfWork,
+    ILocalizationService localizationService): BaseApiController
 {
 
     [HttpGet]
@@ -19,10 +24,29 @@ public class SettingsController(ILogger<SettingsController> logger, IUnitOfWork 
         return Ok(settingDto);
     }
 
-    [HttpPost]
+    [AllowAnonymous]
+    [HttpPost("update-settings-first")]
+    public async Task<ActionResult<ServerSettingDto>> UpdateSettingsFirst(ServerSettingDto settingDto)
+    {
+        if (await unitOfWork.SettingsRepository.CompleteOpenIdConnectSettingsAsync())
+        {
+            return BadRequest(await localizationService.Translate("", "settings-not-first"));
+        }
+
+        return await UpdateSettings(settingDto);
+    }
+
+    [HttpPost("update-settings")]
     public async Task<ActionResult<ServerSettingDto>> UpdateSettings(ServerSettingDto settingDto)
     {
         logger.LogInformation("{UserName} is updating server settings", User.GetName());
+
+        if (!await TestOpenIDConfiguration(settingDto))
+        {
+            return BadRequest(
+                await localizationService.Translate("", "invalid-openid-authority", settingDto.OpenIdAuthority ?? "<empty>"));
+        }
+        
         
         var currentSettings = await unitOfWork.SettingsRepository.GetSettingsAsync();
 
@@ -60,6 +84,9 @@ public class SettingsController(ILogger<SettingsController> logger, IUnitOfWork 
             }
         }
 
+        // TODO: Fail if OpenId Connect fields are not all set
+        
+
         if (!unitOfWork.HasChanges())
         {
             return Ok(settingDto);
@@ -78,6 +105,26 @@ public class SettingsController(ILogger<SettingsController> logger, IUnitOfWork 
         
         logger.LogInformation("Successfully updated server settings");
         return Ok(settingDto);
+    }
+
+    private async Task<bool> TestOpenIDConfiguration(ServerSettingDto dto)
+    {
+        if (string.IsNullOrEmpty(dto.OpenIdAuthority))
+        {
+            return false;
+        }
+
+        var url = dto.OpenIdAuthority + ".well-known/openid-configuration";
+        try
+        {
+            var resp = await url.GetAsync();
+            return resp.StatusCode == 200;
+        }
+        catch (Exception)
+        {
+            /* Swallow exception */
+            return false;
+        }
     }
     
 }
