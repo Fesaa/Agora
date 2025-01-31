@@ -51,6 +51,14 @@ public static class ApplicationServiceExtensions
         var settingsRepository = unitOfWork.SettingsRepository;
 
         var canConnect = await context.Database.CanConnectAsync();
+        
+        // Need the policies to be always present, or requests fail 
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(PolicyConstants.AdminRole,
+                policy => policy.RequireClaim(ClaimTypes.Role,
+                    PolicyConstants.AdminRole, PolicyConstants.AdminRole.ToLower(), PolicyConstants.AdminRole.ToUpper()));
+        });
 
         // First start up, only local authentication
         // TODO: Check how we can best set this up.
@@ -61,15 +69,30 @@ public static class ApplicationServiceExtensions
             return;
         }
 
-        var authority = await settingsRepository.GetSettingAsync(ServerSettingKey.OpenIdAuthority);
+        var dto = await settingsRepository.GetSettingsDtoAsync();
+        var authority = dto.OpenIdAuthority;
+        var openIdProvider = dto.OpenIdProvider;
 
-        // TODO: Switch on provider type, just using KeyCloak for now as we use that locally
-        services.AddTransient<IClaimsTransformation, KeyCloakRoleClaimsTransformation>();
+        switch (openIdProvider)
+        {
+            case OpenIdProvider.KeyCloak:
+                logger.LogDebug("Using the KeyCloak claims transformer");
+                services.AddTransient<IClaimsTransformation, KeyCloakRoleClaimsTransformation>();
+                break;
+            case OpenIdProvider.AzureAd:
+                logger.LogDebug("Using the Azure claims transformer");
+                services.AddTransient<IClaimsTransformation, AzureRoleClaimsTransformation>();
+                break;
+            default:
+                logger.LogCritical("The configured provider is not known, Authorization may not work as expected. Check your configuration!");
+                break;
+        }
+        
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.Authority = authority.Value;
+                options.Authority = authority;
                 options.Audience = "agora-api";
 
                 options.RequireHttpsMetadata = false;
@@ -81,12 +104,6 @@ public static class ApplicationServiceExtensions
                     ValidateLifetime = true
                 };
             });
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy(PolicyConstants.AdminRole,
-                policy => policy.RequireClaim(ClaimTypes.Role,
-                    PolicyConstants.AdminRole, PolicyConstants.AdminRole.ToLower(), PolicyConstants.AdminRole.ToUpper()));
-        });
     }
 
     private static void AddSqlite(this IServiceCollection services)

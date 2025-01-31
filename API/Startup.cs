@@ -24,6 +24,8 @@ public class Startup(IConfiguration configuration, IWebHostEnvironment env)
 
         services.AddCors();
         services.AddControllers();
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
 
         services.AddResponseCompression(opts =>
         {
@@ -68,6 +70,9 @@ public class Startup(IConfiguration configuration, IWebHostEnvironment env)
                 .WithOrigins("http://localhost:4200")
                 .WithExposedHeaders("Content-Disposition", "Pagination")
             );
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
         else
         {

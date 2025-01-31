@@ -6,6 +6,10 @@ import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import { TranslocoService } from './_services/transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import {provideOAuthClient} from 'angular-oauth2-oidc';
+import {providePrimeNG} from 'primeng/config';
+import Aura from '@primeng/themes/aura';
+import {provideAnimations} from '@angular/platform-browser/animations';
+import {MessageService} from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,7 +21,9 @@ export const appConfig: ApplicationConfig = {
       }
     }),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes), provideHttpClient(), provideTransloco({
+    provideRouter(routes),
+    provideHttpClient(),
+    provideTransloco({
         config: {
           availableLangs: ['en'],
           defaultLang: 'en',
@@ -29,5 +35,12 @@ export const appConfig: ApplicationConfig = {
         },
         loader: TranslocoService
       }),
+    provideAnimations(),
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    }),
+    MessageService,
   ]
 };

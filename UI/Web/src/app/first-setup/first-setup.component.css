@@ -1,0 +1,22 @@
+
+.first-setup-form {
+  background-color: var(--background-color);
+  width: 100%;
+  height: 100vh;
+  padding-top: 25vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.first-setup-form p-card {
+  max-width: 35vw;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}

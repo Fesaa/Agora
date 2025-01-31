@@ -20,7 +20,7 @@ public static class ClaimsPrincipalExtensions
         var nameClaim = principal.Claims.FirstOrDefault(c => c.Type == "name" || c.Type == ClaimTypes.Name);
         if (nameClaim == null)
         {
-            return "Guest";
+            throw new UnauthorizedAccessException();;
         }
 
         return nameClaim.Value;
