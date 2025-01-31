@@ -14,4 +14,8 @@ export class AccountService {
   name() {
     return this.httpClient.get(`${this.baseUrl}Account/name`, {responseType: "text"});
   }
+
+  test() {
+    return this.httpClient.get(`${this.baseUrl}Account/test`, {responseType: "text"});
+  }
 }

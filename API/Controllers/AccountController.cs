@@ -35,10 +35,10 @@ public class AccountController(ILogger<AccountController> logger, ILocalizationS
         return User.GetName() ?? "No name";
     }
 
-    [AllowAnonymous]
+    [Authorize("admin")]
     [HttpGet("test")]
     public async Task<string> Test()
     {
-        return await localizationService.Translate(User.GetIdentifier(), "example");
+        return await localizationService.Translate(User.GetIdentifier(), "secret");
     }
 }

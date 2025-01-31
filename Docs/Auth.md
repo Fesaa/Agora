@@ -35,3 +35,8 @@ Quick steps;
   - Select agora-api-audience
   - Set default
 - Edit DB and set in ServerSettings Key 0, Value: `http://localhost:8080/realm/dev-realm`
+- Roles for authorization
+  - In agora-api -> roles
+  - Add roles we have
+    - admin
+  - To your user, add the role

@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using API.Constants;
 using API.Data;
 using API.Entities.Enums;
 using API.Helpers;
+using API.Helpers.RoleClaimTransformers;
 using API.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -59,6 +62,10 @@ public static class ApplicationServiceExtensions
         }
 
         var authority = await settingsRepository.GetSettingAsync(ServerSettingKey.OpenIdAuthority);
+
+        // TODO: Switch on provider type, just using KeyCloak for now as we use that locally
+        services.AddTransient<IClaimsTransformation, KeyCloakRoleClaimsTransformation>();
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -74,7 +81,12 @@ public static class ApplicationServiceExtensions
                     ValidateLifetime = true
                 };
             });
-        services.AddAuthorization();
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(PolicyConstants.AdminRole,
+                policy => policy.RequireClaim(ClaimTypes.Role,
+                    PolicyConstants.AdminRole, PolicyConstants.AdminRole.ToLower(), PolicyConstants.AdminRole.ToUpper()));
+        });
     }
 
     private static void AddSqlite(this IServiceCollection services)

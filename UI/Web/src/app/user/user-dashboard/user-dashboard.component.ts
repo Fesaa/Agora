@@ -14,6 +14,7 @@ import {AuthService} from '../../_services/auth.service';
 export class UserDashboardComponent implements OnInit{
 
   name: string = '';
+  test: string = '';
 
   constructor(
     private accountService: AccountService,
@@ -25,6 +26,9 @@ export class UserDashboardComponent implements OnInit{
     this.accountService.name().subscribe(name => {
       this.name = name;
     });
+    this.accountService.test().subscribe(test => {
+      this.test = test;
+    })
   }
 
   logout() {

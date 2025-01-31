@@ -1,5 +1,6 @@
 {
   "example": "This is an example translation",
+  "secret": "This string is protected by the admin role",
 
   "open-id-not-set-up": "OpenId-Connect has not yet been set up",
 
