@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using API.Data;
 using API.Entities.Enums;
@@ -17,6 +18,13 @@ namespace API;
 
 public class Program
 {
+    
+    private static CancellationTokenSource cancelTokenSource = new System.Threading.CancellationTokenSource();
+    
+    public static void Shutdown() {
+        cancelTokenSource.Cancel();
+    }
+    
     public static async Task Main(string[] args)
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -63,7 +71,7 @@ public class Program
             var logLevel = await unitOfWork.SettingsRepository.GetSettingAsync(ServerSettingKey.LoggingLevel);
             LogLevelOptions.SwitchLogLevel(logLevel.Value);
             
-            await host.RunAsync();
+            await host.RunAsync(cancelTokenSource.Token);
         }
         catch (Exception ex)
         {

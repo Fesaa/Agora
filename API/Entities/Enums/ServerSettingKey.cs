@@ -7,16 +7,14 @@ public enum ServerSettingKey
     /// The open id authority to connect to for authentication
     /// </summary>
     OpenIdAuthority = 0,
-    /// <summary>
-    /// The configured client id
-    /// </summary>
-    OpenIdClientId = 1,
-    /// <summary>
-    /// The configured client secret
-    /// </summary>
-    OpenIdClientSecret = 2,
+    // Do NOT use 1,2; these have been removed
     /// <summary>
     /// At which level Agora will log
     /// </summary>
     LoggingLevel = 3,
+    /// <summary>
+    /// The provider used as open id authority.
+    /// </summary>
+    /// <remarks>This is used to register the correct RoleClaimTransformer</remarks>
+    OpenIdConnectProviders = 4,
 }

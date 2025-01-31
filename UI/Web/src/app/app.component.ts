@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
-import {ServerService} from './_services/server.service';
+import {AuthService} from './_services/auth.service';
+import {OpenIdConnectService} from './_services/open-id-connect.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -8,22 +10,26 @@ import {ServerService} from './_services/server.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit{
-  title = 'Web';
+export class AppComponent implements OnInit {
+  title = 'Agora';
 
   constructor(
-    private serverService: ServerService,
     private router: Router,
+    private authService: AuthService, // Needed so the flow can finish on callback DO NOT REMOVE
+    private openIdService: OpenIdConnectService,
+    private titleService: Title,
   ) {
   }
 
   ngOnInit(): void {
-    this.serverService.firstStartup().subscribe(firstStartup => {
-      if (!firstStartup) {
+    this.titleService.setTitle(this.title)
+
+    this.openIdService.isSetup().subscribe(isSetup => {
+      if (isSetup) {
         return;
       }
 
-      // TODO: Redirect to set up
+      this.router.navigateByUrl('/first-setup')
     })
   }
 

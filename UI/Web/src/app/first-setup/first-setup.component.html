@@ -1,0 +1,34 @@
+
+<p-toast/>
+
+<div class="first-setup-form" *transloco="let t; prefix: 'first-setup'">
+
+  <p-card>
+    <p class="title">{{t('title')}}</p>
+    <p>
+      {{t('description.p1')}}
+      <a [href]="SSO_PROVIDER">{{t('description.docs-link')}}</a>
+      {{t('description.p2')}}
+    </p>
+
+    <div class="form space-y-5">
+      <p-floatlabel variant="on" class="w-72">
+        <p-iconfield>
+          <p-inputicon class="pi pi-link" />
+          <input pInputText id="authority" [(ngModel)]="model.authority" autocomplete="off" >
+        </p-iconfield>
+        <label for="authority">{{t('authority')}}</label>
+      </p-floatlabel>
+
+      <p-select [placeholder]="t('provider')" [options]="providerOptions" [(ngModel)]="model.provider" class="w-72" />
+
+      <div class="w-full flex flex-row justify-end">
+        <p-button *transloco="let t" (click)="submit()"
+                  [label]="t('shared.forms.submit', { scope: '' })"  />
+      </div>
+
+    </div>
+
+  </p-card>
+
+</div>

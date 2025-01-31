@@ -1,0 +1,28 @@
+:root, :root .default {
+  --background-color: #F5F3F5;
+
+  --error-color: #BD362F;
+  --warning-color: #FFECB5;
+
+  --primary-color: #274690;
+  --primary-color-dark-shade: #1F3A75;
+  --primary-color-darker-shade: #182D5A;
+  --primary-color-darkest-shade: #101F3F;
+
+  --secundairy-color: #576CA8;
+  --body-text-color: #302B27;
+
+
+  --title-font-size: 2rem;
+}
+
+.title {
+  color: var(--body-text-color);
+  font-size: var(--title-font-size);
+  box-shadow: var(--primary-color-darker-shade);
+}
+
+a:hover {
+  color: var(--secundairy-color);
+  cursor: pointer;
+}

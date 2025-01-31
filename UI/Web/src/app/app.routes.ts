@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
+import {AuthGuard} from './_guard/auth.guard';
 
 export const routes: Routes = [
   {
-    path: 'user', // TODO: Write guard
+    path: 'user',
+    canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
     loadChildren: () => import('./_routes/user.routes').then(m => m.routes)
   },

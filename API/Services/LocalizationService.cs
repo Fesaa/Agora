@@ -12,8 +12,29 @@ namespace API.Services;
 
 public interface ILocalizationService
 {
+    /// <summary>
+    /// Translate the key in the given locale, falls back to English
+    /// </summary>
+    /// <param name="locale">Locale</param>
+    /// <param name="key">Key to translate</param>
+    /// <param name="args">Argument to format the translation with</param>
+    /// <returns>Formated translated string</returns>
     Task<string> Get(string locale, string key, params object[] args);
+    /// <summary>
+    /// Translate the key in the locale of the user, fallback to English
+    /// </summary>
+    /// <param name="userId">User to get the locale form</param>
+    /// <param name="key">Key to translate</param>
+    /// <param name="args">Argument to format the translation with</param>
+    /// <returns>Formated translated string</returns>
     Task<string> Translate(string userId, string key, params object[] args);
+    /// <summary>
+    /// Translate the key in the English local, convince function for AllowAnonymous routes
+    /// </summary>
+    /// <param name="key">Key to translate</param>
+    /// <param name="args">Argument to format the translation with</param>
+    /// <returns>Formated translated string</returns>
+    Task<string> Translate(string key, params object[] args);
     IEnumerable<string> GetLocales();
 }
 
@@ -102,6 +123,11 @@ public class LocalizationService: ILocalizationService
     {
         var userLocale = await _unitOfWork.UserPreferencesRepository.GetLocaleAsync(userId);
         return await Get(userLocale ?? "en", key, args);
+    }
+
+    public Task<string> Translate(string key, params object[] args)
+    {
+        return Get("en", key, args);
     }
 
     public IEnumerable<string> GetLocales()

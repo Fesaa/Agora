@@ -4,14 +4,16 @@ using API.Data;
 using API.DTOs;
 using API.Entities.Enums;
 using API.Extensions;
+using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace API.Controllers;
 
-public class SettingsController(ILogger<SettingsController> logger, IUnitOfWork unitOfWork): BaseApiController
+public class SettingsController(ILogger<SettingsController> logger, IUnitOfWork unitOfWork,
+    ILocalizationService localizationService): BaseApiController
 {
-
+    
     [HttpGet]
     public async Task<ActionResult<ServerSettingDto>> GetSettings()
     {
@@ -19,7 +21,8 @@ public class SettingsController(ILogger<SettingsController> logger, IUnitOfWork 
         return Ok(settingDto);
     }
 
-    [HttpPost]
+    /// <remarks>Does not update OpenIdConnect settings</remarks>
+    [HttpPost("update-settings")]
     public async Task<ActionResult<ServerSettingDto>> UpdateSettings(ServerSettingDto settingDto)
     {
         logger.LogInformation("{UserName} is updating server settings", User.GetName());
@@ -34,27 +37,6 @@ public class SettingsController(ILogger<SettingsController> logger, IUnitOfWork 
                     if (setting.Value != settingDto.LoggingLevel)
                     {
                         setting.Value = settingDto.LoggingLevel;
-                    }
-                    break;
-                case ServerSettingKey.OpenIdAuthority:
-                    if (setting.Value != settingDto.OpenIdAuthority 
-                        && !string.IsNullOrEmpty(settingDto.OpenIdAuthority))
-                    {
-                        setting.Value = settingDto.OpenIdAuthority;
-                    }
-                    break;
-                case ServerSettingKey.OpenIdClientId:
-                    if (setting.Value != settingDto.OpenIdClientId 
-                        && !string.IsNullOrEmpty(settingDto.OpenIdClientId))
-                    {
-                        setting.Value = settingDto.OpenIdClientId;
-                    }
-                    break;
-                case ServerSettingKey.OpenIdClientSecret:
-                    if (setting.Value != settingDto.OpenIdClientSecret 
-                        && !string.IsNullOrEmpty(settingDto.OpenIdClientSecret))
-                    {
-                        setting.Value = settingDto.OpenIdClientSecret;
                     }
                     break;
             }

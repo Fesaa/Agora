@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using API.DTOs;
 using API.Entities;
 using API.Entities.Enums;
@@ -18,11 +20,11 @@ public class ServerSettingConverter: ITypeConverter<IEnumerable<ServerSetting>, 
                 case ServerSettingKey.OpenIdAuthority:
                     destination.OpenIdAuthority = row.Value;
                     break;
-                case ServerSettingKey.OpenIdClientId:
-                    destination.OpenIdClientId = row.Value;
+                case ServerSettingKey.LoggingLevel:
+                    destination.LoggingLevel = row.Value;
                     break;
-                case ServerSettingKey.OpenIdClientSecret:
-                    destination.OpenIdClientSecret = row.Value;
+                case ServerSettingKey.OpenIdConnectProviders:
+                    destination.OpenIdProvider = Enum.Parse<OpenIdProvider>(row.Value);
                     break;
                 default:
                     break;
