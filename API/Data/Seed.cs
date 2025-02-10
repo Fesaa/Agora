@@ -19,8 +19,6 @@ public class Seed
         DefaultSettings = ImmutableArray.Create(new List<ServerSetting>
         {
             new() {Key = ServerSettingKey.OpenIdAuthority, Value = ""},
-            new() {Key = ServerSettingKey.OpenIdClientId, Value = ""},
-            new() {Key = ServerSettingKey.OpenIdClientSecret, Value = ""},
             new() {Key = ServerSettingKey.LoggingLevel, Value = "Information"}
         }.ToArray());
 

@@ -1,6 +1,46 @@
 {
+  "application": {
+    "name": "Agora"
+  },
+
+  "shared": {
+    "docs": "documentation",
+    "forms": {
+      "submit": "submit",
+      "cannot-submit": "Cannot submit"
+    }
+  },
+
+  "open-id-connect": {
+    "name": "Open Id Connect",
+    "info": "{{open-id-connect.name}} info",
+    "authority": "authority",
+    "provider": "provider"
+  },
+
   "example": "This is an example translations",
   "foo": {
     "bar": "This is a nested example"
+  },
+  "first-setup": {
+    "title": "Welcome to {{application.name}}!",
+    "description": {
+      "p1": "First things first, you'll have to setup your OpenId Connect provider. Check out our",
+      "docs-link": "{{shared.docs}}",
+      "p2": "for how {{application.name}} expects it to be set up."
+    },
+    "authority": "{{open-id-connect.authority}}",
+    "provider": "{{open-id-connect.provider}}",
+    "success": {
+      "summary": "OpenId Connect info set",
+      "detail": "Restart your Application to continue"
+    },
+
+    "errors": {
+      "cannot-submit": "{{shared.forms.cannot-submit}}",
+      "missing-authority": "You must provide a valid {{open-id-connect.authority}}",
+      "no-url": "The {{open-id-connect.authority}} must be a valid url",
+      "failed": "Failed to set {{open-id-connect.info}}"
+    }
   }
 }

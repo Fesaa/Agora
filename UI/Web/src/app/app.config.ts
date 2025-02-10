@@ -2,19 +2,28 @@ import { ApplicationConfig, provideZoneChangeDetection, isDevMode } from '@angul
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
-import {AuthInterceptor} from './_interceptors/auth-cookies.interceptor';
-import {AuthRedirectInterceptor} from './_interceptors/auth-redirect.interceptor';
+import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import { TranslocoService } from './_services/transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
+import {provideOAuthClient} from 'angular-oauth2-oidc';
+import {providePrimeNG} from 'primeng/config';
+import Aura from '@primeng/themes/aura';
+import {provideAnimations} from '@angular/platform-browser/animations';
+import {MessageService} from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: AuthRedirectInterceptor, multi: true},
     provideHttpClient(withInterceptorsFromDi()),
+    provideOAuthClient({
+      resourceServer: {
+        allowedUrls: ["http://localhost:5050"],
+        sendAccessToken: true,
+      }
+    }),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes), provideHttpClient(), provideTransloco({
+    provideRouter(routes),
+    provideHttpClient(),
+    provideTransloco({
         config: {
           availableLangs: ['en'],
           defaultLang: 'en',
@@ -25,6 +34,13 @@ export const appConfig: ApplicationConfig = {
           prodMode: !isDevMode(),
         },
         loader: TranslocoService
-      })
+      }),
+    provideAnimations(),
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    }),
+    MessageService,
   ]
 };
