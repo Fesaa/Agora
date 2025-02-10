@@ -42,5 +42,11 @@
       "no-url": "The {{open-id-connect.authority}} must be a valid url",
       "failed": "Failed to set {{open-id-connect.info}}"
     }
+  },
+  "themes":{
+    "errors": {
+      "file-not-found": "Unable to create theme, as the uploaded file was not found",
+      "in-use": "A theme by this name, is already in use. Update the existing one, or choose a different name"
+    }
   }
 }

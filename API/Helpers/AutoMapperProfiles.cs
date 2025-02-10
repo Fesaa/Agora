@@ -17,5 +17,7 @@ public class AutoMapperProfiles: Profile
         CreateMap<IEnumerable<ServerSetting>, ServerSettingDto>()
             .ConvertUsing<ServerSettingConverter>();
 
+        CreateMap<Theme, ThemeDto>();
+
     }
 }

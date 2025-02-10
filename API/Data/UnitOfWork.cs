@@ -10,7 +10,8 @@ public interface IUnitOfWork
 {
     
     ISettingsRepository SettingsRepository { get; }
-    UserPreferencesRepository UserPreferencesRepository { get; }
+    IUserPreferencesRepository UserPreferencesRepository { get; }
+    IThemeRepository ThemeRepository { get; }
     
     bool Commit();
     Task<bool> CommitAsync();
@@ -22,7 +23,8 @@ public class UnitOfWork(DataContext context, IMapper mapper, ILogger<UnitOfWork>
 {
 
     public ISettingsRepository SettingsRepository { get; } = new SettingsRepository(context, mapper);
-    public UserPreferencesRepository UserPreferencesRepository { get; } = new UserPreferencesRepository(context, mapper);
+    public IUserPreferencesRepository UserPreferencesRepository { get; } = new UserPreferencesRepository(context, mapper);
+    public IThemeRepository ThemeRepository { get; } = new ThemeRepository(context, mapper);
 
     public bool Commit()
     {

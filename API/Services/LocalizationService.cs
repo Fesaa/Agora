@@ -36,6 +36,8 @@ public interface ILocalizationService
     /// <returns>Formated translated string</returns>
     Task<string> Translate(string key, params object[] args);
     IEnumerable<string> GetLocales();
+    
+    string DefaultLocale { get; }
 }
 
 public class LocalizationService: ILocalizationService
@@ -142,4 +144,6 @@ public class LocalizationService: ILocalizationService
 
         return uiLanguages.Intersect(backendLanguages).Distinct();
     }
+
+    public string DefaultLocale => "en";
 }
