@@ -58,6 +58,7 @@ public class Program
 
                 // Database seeding
                 await Seed.SeedSettings(context);
+                await Seed.SeedThemes(context);
 
             }
             catch (Exception ex)

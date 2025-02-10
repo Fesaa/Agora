@@ -16,4 +16,6 @@ public class ThemeDto
     public required string FileName { get; set; }
 
     public required Provider ThemeProvider { get; set; } = Provider.System;
+
+    public string Selector => "bg-" + Name;
 }

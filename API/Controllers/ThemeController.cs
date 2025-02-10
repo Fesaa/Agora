@@ -18,7 +18,7 @@ public class ThemeController(ILogger<ThemeController> logger, IUnitOfWork unitOf
     : BaseApiController
 {
 
-    [HttpGet]
+    [HttpGet("all")]
     [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<ThemeDto>>> GetAllThemes()
     {
@@ -39,7 +39,7 @@ public class ThemeController(ILogger<ThemeController> logger, IUnitOfWork unitOf
         }
     }
 
-    [HttpPost]
+    [HttpPost("upload")]
     public async Task<ActionResult<ThemeDto>> UploadTheme(IFormFile file)
     {
         if (!file.FileName.EndsWith(".css"))

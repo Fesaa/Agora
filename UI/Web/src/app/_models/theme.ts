@@ -1,8 +1,9 @@
 import {Provider} from './provider';
 
-export interface SiteTheme {
+export interface Theme {
   id: number;
   name: string;
   fileName: string;
   themeProvider: Provider;
+  selector: string;
 }

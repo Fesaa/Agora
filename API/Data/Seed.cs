@@ -11,6 +11,19 @@ public class Seed
 {
     
     public static ImmutableArray<ServerSetting> DefaultSettings;
+
+    public static async Task SeedThemes(DataContext context)
+    {
+        await context.Database.EnsureCreatedAsync();
+        
+        context.Themes.Add(new Theme()
+        {
+            Name = Theme.DefaultTheme,
+            FileName = "",
+            ThemeProvider = Provider.System
+        });
+        await context.SaveChangesAsync();
+    }
     
     public static async Task SeedSettings(DataContext context)
     {

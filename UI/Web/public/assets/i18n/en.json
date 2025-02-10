@@ -46,7 +46,17 @@
   "themes":{
     "errors": {
       "file-not-found": "Unable to create theme, as the uploaded file was not found",
-      "in-use": "A theme by this name, is already in use. Update the existing one, or choose a different name"
+      "in-use": "A theme by this name, is already in use. Update the existing one, or choose a different name",
+
+      "not-found": {
+        "title": "Theme not found",
+        "summary": "Unselected theme {{ name }}, as it became unavailable"
+      },
+      "cant-set": {
+        "title": "Can't set {{ name }}",
+        "summary": "Error occurred while loading css content: {{ msg }}"
+      }
+
     }
   }
 }
