@@ -7,22 +7,24 @@
     <p class="title">{{t('title')}}</p>
     <p>
       {{t('description.p1')}}
-      <a [href]="SSO_PROVIDER">{{t('description.docs-link')}}</a>
+      <a [href]="SSO_PROVIDER" target="_blank">{{t('description.docs-link')}}</a>
       {{t('description.p2')}}
     </p>
 
-    <div class="form space-y-5">
-      <p-floatlabel variant="on" class="w-72">
+    <div class="form">
+
+      <p-floatlabel class="form-member" variant="on">
         <p-iconfield>
           <p-inputicon class="pi pi-link" />
-          <input pInputText id="authority" [(ngModel)]="model.authority" autocomplete="off" >
+          <input pInputText id="authority" class="form-input" [(ngModel)]="model.authority" autocomplete="off" >
         </p-iconfield>
         <label for="authority">{{t('authority')}}</label>
       </p-floatlabel>
 
-      <p-select [placeholder]="t('provider')" [options]="providerOptions" [(ngModel)]="model.provider" class="w-72" />
+      <p-select [placeholder]="t('provider')" [options]="providerOptions" [(ngModel)]="model.provider"
+                class="form-input form-member" />
 
-      <div class="w-full flex flex-row justify-end">
+      <div class="form-member">
         <p-button *transloco="let t" (click)="submit()"
                   [label]="t('shared.forms.submit', { scope: '' })"  />
       </div>

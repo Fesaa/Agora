@@ -16,6 +16,8 @@ public interface IDirectoryService
     string LogDirectory { get; }
     string ConfigDirectory { get; }
     string LocalizationDirectory { get; }
+    string ThemeDirectory { get; }
+    string TempDirectory { get; }
 
     bool Exists(string directory);
     bool ExistOrCreate(string directoryPath);
@@ -38,6 +40,8 @@ public class DirectoryService: IDirectoryService
     public string LogDirectory { get; }
     public string ConfigDirectory { get; }
     public string LocalizationDirectory { get; }
+    public string ThemeDirectory { get; }
+    public string TempDirectory { get; }
 
     public DirectoryService(ILogger<DirectoryService> logger, IFileSystem fileSystem)
     {
@@ -54,6 +58,12 @@ public class DirectoryService: IDirectoryService
 
         LocalizationDirectory = FileSystem.Path.Join(root, "I18N");
         ExistOrCreate(LocalizationDirectory);
+        
+        ThemeDirectory = FileSystem.Path.Join(ConfigDirectory, "themes");
+        ExistOrCreate(ThemeDirectory);
+        
+        TempDirectory = FileSystem.Path.Join(ConfigDirectory, "temp");
+        ExistOrCreate(TempDirectory);
 
     }
 
@@ -160,7 +170,7 @@ public class DirectoryService: IDirectoryService
     {
         if (!Exists(folderPath))
         {
-            return ImmutableArray<string>.Empty;
+            return [];
         }
 
         return FileSystem.Directory.GetDirectories(folderPath);

@@ -12,4 +12,5 @@ public class DataContext: DbContext
 
     public DbSet<UserPreferences> AppUserPreferences { get; set; } = null!;
     public DbSet<ServerSetting> ServerSettings { get; set; } = null!;
+    public DbSet<Theme> Themes { get; set; } = null!;
 }

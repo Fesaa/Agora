@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
 using API.Entities.Enums;
@@ -11,6 +12,28 @@ public class Seed
 {
     
     public static ImmutableArray<ServerSetting> DefaultSettings;
+
+    public static async Task SeedThemes(DataContext context)
+    {
+        await context.Database.EnsureCreatedAsync();
+
+        var defaultTheme = await context.Themes
+            .Where(t => t.Name == Theme.DefaultTheme)
+            .FirstOrDefaultAsync();
+
+        if (defaultTheme != null)
+        {
+            return;
+        }
+        
+        context.Themes.Add(new Theme()
+        {
+            Name = Theme.DefaultTheme,
+            FileName = "",
+            ThemeProvider = Provider.System
+        });
+        await context.SaveChangesAsync();
+    }
     
     public static async Task SeedSettings(DataContext context)
     {
