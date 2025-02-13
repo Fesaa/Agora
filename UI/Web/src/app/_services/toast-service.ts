@@ -70,7 +70,7 @@ export class ToastService {
   }
 
   error(title: string, message?: string, opts?: ToastMessageOptions) {
-    console.debug(`An error occurred${title}:\n ${message}`);
+    console.debug(`An error occurred ${title}:\n ${message}`);
     this.msgService.add({
       summary: title,
       detail: message,

@@ -12,11 +12,11 @@ import {Provider} from '../_models/provider';
 @Injectable({
   providedIn: 'root'
 })
-export class ThemeServiceService {
+export class ThemeService {
 
   public defaultTheme: string = 'default';
 
-  baseUrl = environment.apiUrl + "Theme/";
+  baseUrl = environment.apiUrl + "Theme";
 
   private cache: Array<Theme> = [];
   private currentThemeSource = new ReplaySubject<Theme>(1);
@@ -35,7 +35,7 @@ export class ThemeServiceService {
   }
 
   all() {
-    return this.httpClient.get<Theme[]>(this.baseUrl + "all").pipe(map(themes => {
+    return this.httpClient.get<Theme[]>(this.baseUrl + "/all").pipe(map(themes => {
       this.cache = themes;
       this.currentTheme$.pipe(take(1)).subscribe(selectedTheme => {
         if (!themes.find(theme => theme.id === selectedTheme.id)) {
@@ -49,7 +49,7 @@ export class ThemeServiceService {
   }
 
   content(themeId: number) {
-    return this.httpClient.get<string>(this.baseUrl + "?themeId=" + themeId);
+    return this.httpClient.get(this.baseUrl + "?themeId=" + themeId, {responseType: 'text'});
   }
 
   setTheme(themeName:  string, recursive: boolean = true) {

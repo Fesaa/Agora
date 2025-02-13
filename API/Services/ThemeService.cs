@@ -43,7 +43,7 @@ public class ThemeService(IUnitOfWork unitOfWork, IDirectoryService directorySer
         }
         
         var path = directoryService.FileSystem.Path.Join(directoryService.ThemeDirectory, theme.FileName);
-        if (string.IsNullOrWhiteSpace(path) || !directoryService.Exists(path))
+        if (string.IsNullOrWhiteSpace(path) || !directoryService.FileSystem.File.Exists(path))
         {
             throw new AgoraException("theme-doesnt-exist");
         }
