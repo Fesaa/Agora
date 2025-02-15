@@ -1,0 +1,19 @@
+
+.theme-config-container {
+  width: 100%;
+}
+
+.theme-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  margin: calc(var(--spacing) * 5);
+}
+
+.theme-container > .badges {
+  display: flex;
+  flex-direction: row;
+  align-self: end;
+  align-items: end;
+}

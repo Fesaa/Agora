@@ -1,1 +1,23 @@
-<p>theme-configuration works!</p>
+
+<p-card styleClass="theme-config-container" *transloco="let t; prefix:'management.configuration.branding.themes'" [header]="t('header')">
+
+  <p>{{t('description.p1')}}</p>
+  <p>{{t('description.p2')}}</p>
+</p-card>
+
+<!--
+  TODO: Upload field
+  -->
+
+@for (theme of themes; track theme.id) {
+  <div class="theme-container">
+    <p-card>
+
+      <div class="badges">
+        <p-tag [value]="theme.themeProvider | provider | titlecase" />
+      </div>
+
+
+    </p-card>
+  </div>
+}

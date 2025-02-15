@@ -46,7 +46,9 @@
 
     @defer (when selected == ConfigurationId.BrandingThemes; prefetch on idle) {
       @if (selected == ConfigurationId.BrandingThemes) {
-        <app-theme-configuration />
+        <div style="width: 100%">
+          <app-theme-configuration />
+        </div>
       }
     }
 
