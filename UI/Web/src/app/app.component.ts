@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
     private authService: AuthService, // Needed so the flow can finish on callback DO NOT REMOVE
     private openIdService: OpenIdConnectService,
     private titleService: Title,
+    private themeService: ThemeService,
   ) {
   }
 
@@ -33,6 +34,15 @@ export class AppComponent implements OnInit {
       }
 
       this.router.navigateByUrl('/first-setup')
+    })
+
+    this.themeService.activatedTheme().subscribe({
+      next: theme => {
+        this.themeService.setTheme(theme.name)
+      },
+      error: err => {
+        console.log(err);
+      }
     })
   }
 

@@ -23,6 +23,8 @@ public class Theme
     /// </summary>
     public string? Author { get; set; }
 
+    public bool Default { get; set; }
+
     public required Provider ThemeProvider { get; set; } = Provider.System;
 
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Principal;
 
 namespace API.Extensions;
 
@@ -20,7 +19,7 @@ public static class ClaimsPrincipalExtensions
         var nameClaim = principal.Claims.FirstOrDefault(c => c.Type == "name" || c.Type == ClaimTypes.Name);
         if (nameClaim == null)
         {
-            throw new UnauthorizedAccessException();;
+            throw new UnauthorizedAccessException();
         }
 
         return nameClaim.Value;

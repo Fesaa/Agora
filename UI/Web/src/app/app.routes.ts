@@ -9,9 +9,10 @@ export const routes: Routes = [
     loadChildren: () => import('./_routes/user.routes').then(m => m.routes)
   },
   {
-    path: 'management', // TODO: Write guard
+    path: 'management',
+    canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
-    children: [],
+    loadChildren: () => import('./_routes/management.routes').then(m => m.routes)
   },
   {
     path: '',

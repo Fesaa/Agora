@@ -17,5 +17,7 @@ public class ThemeDto
 
     public required Provider ThemeProvider { get; set; } = Provider.System;
 
+    public bool Default {get; set; }
+    
     public string Selector => "bg-" + Name;
 }
