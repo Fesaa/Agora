@@ -23,8 +23,14 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
         }
         catch (Exception ex)
         {
+            var errorMessage = string.IsNullOrEmpty(ex.Message) ? "Internal Server Error" : ex.Message;
             if (ex is AgoraException)
             {
+                if (!string.IsNullOrEmpty(ex.Message))
+                {
+                    errorMessage = "api.errors." + errorMessage;
+                }
+                
                 logger.LogDebug(ex, "An exception occurred while handling an http request.");
             }
             else
@@ -36,7 +42,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
 
-            var errorMessage = string.IsNullOrEmpty(ex.Message) ? "Internal Server Error" : ex.Message;
+            
 
             var response = new ApiException(context.Response.StatusCode, errorMessage, ex.StackTrace);
 

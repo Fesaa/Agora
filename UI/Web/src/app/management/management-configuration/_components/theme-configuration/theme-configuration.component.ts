@@ -58,6 +58,17 @@ export class ThemeConfigurationComponent implements OnInit{
   }
 
   setDefaultTheme(theme: Theme): void {
+    this.themeService.setDefaultTheme(theme).subscribe({
+      next: () => {
+        this.toastR.successLoco("management.configuration.branding.themes.actions.update.success", {}, {name: theme.name})
+      },
+      error: (err) => {
+        this.toastR.errorLoco("management.configuration.branding.themes.actions.update.error", {}, {
+          name: theme.name,
+          msg: err.error.message,
+        })
+      }
+    });
   }
 
   uploadTheme(e: FileUploadHandlerEvent) {

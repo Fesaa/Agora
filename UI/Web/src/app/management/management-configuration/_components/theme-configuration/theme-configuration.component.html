@@ -26,8 +26,13 @@
                    (click)="deleteTheme(theme)"/>
           }
 
-          <p-tag [value]="t('actions.set-default.label')" styleClass="clickable" severity="info"
-                 (click)="setDefaultTheme(theme)"/>
+          @if (theme.default) {
+            <p-tag [value]="t('actions.is-default.label')" severity="info"/>
+          } @else {
+            <p-tag [value]="t('actions.set-default.label')" styleClass="clickable" severity="info"
+                   (click)="setDefaultTheme(theme)"/>
+          }
+
           <p-tag [value]="theme.themeProvider | provider | titlecase" />
         </div>
         <div class="information">

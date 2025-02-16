@@ -1,7 +1,7 @@
 import {Inject, Injectable, Renderer2, RendererFactory2} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {map, ReplaySubject, take} from 'rxjs';
+import {map, ReplaySubject, take, tap} from 'rxjs';
 import {Theme} from '../_models/theme';
 import {DOCUMENT} from '@angular/common';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -34,14 +34,32 @@ export class ThemeService {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
 
+  /**
+   * Sets the default theme, and updates the theme on the website afterward
+   * @param theme default theme
+   */
+  setDefaultTheme(theme: Theme) {
+    return this.httpClient.post(this.baseUrl+"/set-default?themeId="+theme.id, {}).pipe(tap(() => {
+      this.cache = this.cache.map(t => {
+        t.default = t.id == theme.id
+        return t;
+      })
+      this.setTheme(theme.name, true)
+    }))
+  }
+
   upload(file: File) {
     const formData = new FormData();
     formData.append('file', file);
-    return this.httpClient.post<Theme>(this.baseUrl+"/upload", formData)
+    return this.httpClient.post<Theme>(this.baseUrl+"/upload", formData).pipe(tap(theme => {
+      this.cache.push(theme);
+    }))
   }
 
   delete(themeId: number) {
-    return this.httpClient.delete(this.baseUrl+"?themeId=" + themeId);
+    return this.httpClient.delete(this.baseUrl+"?themeId=" + themeId).pipe(tap(() => {
+      this.cache = this.cache.filter(theme => theme.id !== themeId);
+    }));
   }
 
   all() {

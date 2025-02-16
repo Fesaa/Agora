@@ -4,6 +4,7 @@ using API.Data;
 using API.Entities;
 using API.Entities.Enums;
 using API.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace API.Services;
@@ -29,10 +30,15 @@ public interface IThemeService
     /// <param name="userName">The user uploading the theme</param>
     /// <returns>The newly created theme</returns>
     Task<Theme> ThemeFromFile(string path, string userName);
+    /// <summary>
+    /// Updates the default theme
+    /// </summary>
+    /// <param name="themeId"></param>
+    Task SetDefaultTheme(int themeId);
 }
 
 public class ThemeService(IUnitOfWork unitOfWork, IDirectoryService directoryService,
-    ILogger<ThemeService> logger): IThemeService
+    ILogger<ThemeService> logger, DataContext context): IThemeService
 {
     public async Task<string> GetThemeContent(int themeId)
     {
@@ -61,7 +67,12 @@ public class ThemeService(IUnitOfWork unitOfWork, IDirectoryService directorySer
 
         if (theme.ThemeProvider == Provider.System)
         {
-            throw new AgoraException("api.errors.cant-delete-system-theme");
+            throw new AgoraException("cant-delete-system-theme");
+        }
+
+        if (theme.Default)
+        {
+            throw new AgoraException("cant-delete-default-theme");
         }
 
         logger.LogInformation("Deleting theme {ThemeName}", theme.Name);
@@ -118,5 +129,20 @@ public class ThemeService(IUnitOfWork unitOfWork, IDirectoryService directorySer
         
         logger.LogInformation("Created a new theme {ThemeName} by {UserName}", theme.Name, userName);
         return theme;
+    }
+    public async Task SetDefaultTheme(int themeId)
+    {
+        var theme = await unitOfWork.ThemeRepository.GetThemeByIdAsync(themeId);
+        if (theme == null)
+        {
+            throw new AgoraException("theme-doesnt-exist");
+        }
+
+        var themes = await context.Themes.ToListAsync();
+        themes.ForEach(t => t.Default = false);
+        theme.Default = true;
+        unitOfWork.ThemeRepository.Update(theme);
+        
+        await unitOfWork.CommitAsync();
     }
 }

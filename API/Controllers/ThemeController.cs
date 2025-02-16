@@ -39,6 +39,13 @@ public class ThemeController(ILogger<ThemeController> logger, IUnitOfWork unitOf
         }
     }
 
+    [HttpPost("set-default")]
+    public async Task<IActionResult> SetDefaultTheme(int themeId)
+    {
+        await themeService.SetDefaultTheme(themeId);
+        return Ok();
+    }
+
     [HttpPost("upload")]
     public async Task<ActionResult<ThemeDto>> UploadTheme(IFormFile file)
     {

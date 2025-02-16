@@ -117,6 +117,9 @@
             "set-default": {
               "label": "Set default"
             },
+            "is-default": {
+              "label": "Default"
+            },
             "upload": {
               "no-file": {
                 "title": "Not uploading",
@@ -131,6 +134,12 @@
                 "summary": "{{msg}}"
               },
               "empty": "Choose a new file"
+            },
+            "update": {
+              "success": {
+                "title": "Success",
+                "summary": "Set {{name}} as default theme"
+              }
             }
           }
         }
@@ -139,7 +148,9 @@
   },
   "api": {
     "errors": {
-      "cant-delete-system-theme": "Can't delete system themes"
+      "cant-delete-system-theme": "Can't delete system themes",
+      "cant-delete-default-theme": "Can't delete default theme",
+      "theme-doesnt-exist": "Theme doesn't exist"
     }
   }
 }
