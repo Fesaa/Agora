@@ -23,7 +23,16 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An exception occurred while handling an http request.");
+            if (ex is AgoraException)
+            {
+                logger.LogDebug(ex, "An exception occurred while handling an http request.");
+            }
+            else
+            {
+                logger.LogError(ex, "An exception occurred while handling an http request.");
+            }
+            
+            
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
 

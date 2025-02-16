@@ -101,9 +101,45 @@
           "description": {
             "p1": "{{application.name}} can be set up with custom theme, to make the interface match your companies style better. Below you can see the themes you've already uploaded, and select the one to use globally. ",
             "p2": "You can upload new ones, or delete existing ones here as well."
+          },
+          "actions": {
+            "delete": {
+              "label": "Delete",
+              "success": {
+                "title": "Success",
+                "summary": "Deleted theme {{ name }}"
+              },
+              "error": {
+                "title": "Error",
+                "summary": "Failed to delete theme {{ name }}: {{ msg }}"
+              }
+            },
+            "set-default": {
+              "label": "Set default"
+            },
+            "upload": {
+              "no-file": {
+                "title": "Not uploading",
+                "summary": "Can't upload empty of non existent file"
+              },
+              "success": {
+                "title": "Added new theme",
+                "summary": "{{name}}"
+              },
+              "error": {
+                "title": "Failed to upload theme",
+                "summary": "{{msg}}"
+              },
+              "empty": "Choose a new file"
+            }
           }
         }
       }
+    }
+  },
+  "api": {
+    "errors": {
+      "cant-delete-system-theme": "Can't delete system themes"
     }
   }
 }

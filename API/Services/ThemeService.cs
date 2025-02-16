@@ -59,16 +59,24 @@ public class ThemeService(IUnitOfWork unitOfWork, IDirectoryService directorySer
             return false;
         }
 
+        if (theme.ThemeProvider == Provider.System)
+        {
+            throw new AgoraException("api.errors.cant-delete-system-theme");
+        }
+
         logger.LogInformation("Deleting theme {ThemeName}", theme.Name);
         var path = directoryService.FileSystem.Path.Join(directoryService.ThemeDirectory, theme.FileName);
-        if (string.IsNullOrWhiteSpace(path) || !directoryService.Exists(path))
+        if (string.IsNullOrWhiteSpace(path) || !directoryService.FileSystem.File.Exists(path))
         {
+            logger.LogDebug("File at {Path} does not exist, not removing", path);
             unitOfWork.ThemeRepository.Remove(theme);
+            await unitOfWork.CommitAsync();
             return true;
         }
 
         try
         {
+            logger.LogDebug("Deleting file at {Path}", path);
             directoryService.FileSystem.File.Delete(path);
         }
         catch (Exception e)
@@ -77,12 +85,13 @@ public class ThemeService(IUnitOfWork unitOfWork, IDirectoryService directorySer
         }
 
         unitOfWork.ThemeRepository.Remove(theme);
+        await unitOfWork.CommitAsync();
         return true;
     }
 
     public async Task<Theme> ThemeFromFile(string path, string userName)
     {
-        if (!directoryService.Exists(path))
+        if (!directoryService.FileSystem.File.Exists(path))
         {
             logger.LogError("Cannot create new theme as file ({FilePath}) doesn't exist", path);
             throw new AgoraException("themes.errors.file-not-found");

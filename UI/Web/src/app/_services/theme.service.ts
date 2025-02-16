@@ -34,6 +34,16 @@ export class ThemeService {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
 
+  upload(file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.httpClient.post<Theme>(this.baseUrl+"/upload", formData)
+  }
+
+  delete(themeId: number) {
+    return this.httpClient.delete(this.baseUrl+"?themeId=" + themeId);
+  }
+
   all() {
     return this.httpClient.get<Theme[]>(this.baseUrl + "/all").pipe(map(themes => {
       this.cache = themes;

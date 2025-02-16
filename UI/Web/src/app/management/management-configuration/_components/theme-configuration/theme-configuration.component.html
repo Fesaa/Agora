@@ -1,23 +1,41 @@
 
-<p-card styleClass="theme-config-container" *transloco="let t; prefix:'management.configuration.branding.themes'" [header]="t('header')">
+<div *transloco="let t; prefix:'management.configuration.branding.themes'">
+  <div class="theme-config-container">
+    <p-card [header]="t('header')">
 
-  <p>{{t('description.p1')}}</p>
-  <p>{{t('description.p2')}}</p>
-</p-card>
-
-<!--
-  TODO: Upload field
-  -->
-
-@for (theme of themes; track theme.id) {
-  <div class="theme-container">
-    <p-card>
-
-      <div class="badges">
-        <p-tag [value]="theme.themeProvider | provider | titlecase" />
-      </div>
-
-
+      <p>{{t('description.p1')}}</p>
+      <p>{{t('description.p2')}}</p>
     </p-card>
   </div>
-}
+
+  <p-fileupload #themeUploader name="file" [customUpload]="true"
+                [url]="baseUrl+'/upload'" (uploadHandler)="uploadTheme($event)"
+                [multiple]="false" accept=".css" maxFileSize="1000000" mode="advanced">
+    <ng-template #empty>
+      <div>{{t('actions.upload.empty')}}</div>
+    </ng-template>
+  </p-fileupload>
+
+  <div>
+    @for (theme of themes; track theme.id) {
+      <div class="theme-container">
+        <div class="badges">
+
+          @if (theme.themeProvider !== Provider.System) {
+            <p-tag [value]="t('actions.delete.label')" styleClass="clickable" severity="danger"
+                   (click)="deleteTheme(theme)"/>
+          }
+
+          <p-tag [value]="t('actions.set-default.label')" styleClass="clickable" severity="info"
+                 (click)="setDefaultTheme(theme)"/>
+          <p-tag [value]="theme.themeProvider | provider | titlecase" />
+        </div>
+        <div class="information">
+
+          <span class="theme-name">{{theme.name | titlecase}}</span>
+
+        </div>
+      </div>
+    }
+  </div>
+</div>
