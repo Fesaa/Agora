@@ -18,6 +18,13 @@ public class ThemeController(ILogger<ThemeController> logger, IUnitOfWork unitOf
     : BaseApiController
 {
 
+    [AllowAnonymous]
+    [HttpGet("activated")]
+    public async Task<ActionResult<ThemeDto>> ActivatedTheme()
+    {
+        return Ok(await unitOfWork.ThemeRepository.GetActivatedTheme());
+    }
+
     [HttpGet("all")]
     [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<ThemeDto>>> GetAllThemes()

@@ -34,6 +34,10 @@ export class ThemeService {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
 
+  activatedTheme() {
+    return this.httpClient.get<Theme>(this.baseUrl + '/activated')
+  }
+
   /**
    * Sets the default theme, and updates the theme on the website afterward
    * @param theme default theme
