@@ -78,7 +78,7 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'docsSidebar',
           position: 'left',
-          label: 'Quick Start',
+          label: 'Docs',
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {

@@ -22,6 +22,7 @@ const sidebars: SidebarsConfig = {
     {
       type: "category",
       label: "Guides",
+      collapsed: false,
       items: [
         {
           type: 'doc',
@@ -30,11 +31,38 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'doc',
-          id: 'guides/themes',
+          id: 'guides/roles-and-permissions',
+          label: 'Roles and Permissions'
+        },
+      ]
+    },
+    {
+      type: 'category',
+      label: 'Branding',
+      items: [
+        {
+          type: 'doc',
+          id: 'branding/themes',
           label: 'Themes'
         }
       ]
-    }
+    },
+    {
+      type: 'category',
+      label: 'Development',
+      items: [
+        {
+          type: 'doc',
+          id: 'dev/contributing',
+          label: 'Contributing'
+        },
+        {
+          type: 'doc',
+          id: 'dev/local-open-id-connect',
+          label: 'OpenIdConnect Locally'
+        },
+      ],
+    },
   ],
 };
 
