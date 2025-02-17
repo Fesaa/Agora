@@ -6,4 +6,5 @@ export interface Theme {
   fileName: string;
   themeProvider: Provider;
   selector: string;
+  default: boolean;
 }

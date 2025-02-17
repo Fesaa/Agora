@@ -18,6 +18,13 @@ public class ThemeController(ILogger<ThemeController> logger, IUnitOfWork unitOf
     : BaseApiController
 {
 
+    [AllowAnonymous]
+    [HttpGet("activated")]
+    public async Task<ActionResult<ThemeDto>> ActivatedTheme()
+    {
+        return Ok(await unitOfWork.ThemeRepository.GetActivatedTheme());
+    }
+
     [HttpGet("all")]
     [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<ThemeDto>>> GetAllThemes()
@@ -37,6 +44,13 @@ public class ThemeController(ILogger<ThemeController> logger, IUnitOfWork unitOf
         {
             return BadRequest(await localizationService.Get(localizationService.DefaultLocale, ex.Message));
         }
+    }
+
+    [HttpPost("set-default")]
+    public async Task<IActionResult> SetDefaultTheme(int themeId)
+    {
+        await themeService.SetDefaultTheme(themeId);
+        return Ok();
     }
 
     [HttpPost("upload")]
