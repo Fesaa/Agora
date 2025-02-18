@@ -19,6 +19,9 @@
   <div>
     @for (theme of themes; track theme.id) {
       <div class="theme-container">
+        <div class="information">
+          <span class="theme-name">{{theme.name | titlecase}}</span>
+        </div>
         <div class="badges">
 
           @if (theme.themeProvider !== Provider.System) {
@@ -34,11 +37,6 @@
           }
 
           <p-tag [value]="theme.themeProvider | provider | titlecase" />
-        </div>
-        <div class="information">
-
-          <span class="theme-name">{{theme.name | titlecase}}</span>
-
         </div>
       </div>
     }

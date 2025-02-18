@@ -6,11 +6,12 @@
 
 .theme-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-grow: 1;
   background-color: white;
   padding: calc(var(--spacing) * 2.5);
   border-radius: calc(var(--spacing)*2);
+  min-height: calc(var(--spacing)*20);
 
   margin: calc(var(--spacing) * 5);
 }
@@ -21,6 +22,7 @@
   justify-content: end;
 
   p-tag {
+    height: calc(var(--spacing)*7.5);
     margin: 0 var(--spacing);
   }
 }
@@ -29,6 +31,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  flex-grow: 1;
 
   .theme-name {
     font-weight: bold;
