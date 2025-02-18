@@ -43,10 +43,10 @@ public interface ILocalizationService
 public class LocalizationService: ILocalizationService
 {
 
-    private ILogger<LocalizationService> _logger;
+    private readonly ILogger<LocalizationService> _logger;
     private readonly IDirectoryService _directoryService;
     private readonly IMemoryCache _memoryCache;
-    private IUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
     private readonly string _localizationDirectoryUi;
     private readonly MemoryCacheEntryOptions _cacheOptions;
@@ -80,15 +80,24 @@ public class LocalizationService: ILocalizationService
             languageCode = "en";
         }
 
+        if (_memoryCache.TryGetValue(languageCode, out Dictionary<string, string>? language))
+        {
+            _logger.LogTrace("Returning language ({LanguageKey}) from memoryCache", languageCode);
+            return language;
+        }
+
         var languageFile = _directoryService.FileSystem.Path.Join(_directoryService.LocalizationDirectory, languageCode + ".json");
-        _logger.LogInformation("Retrieving translations from {File}", languageFile);
+        _logger.LogDebug("Retrieving translations from {File}", languageFile);
         if (!_directoryService.FileSystem.File.Exists(languageFile))
         {
             throw new ArgumentException($"Language {languageCode} does not exist");
         }
 
         var json = await _directoryService.FileSystem.File.ReadAllTextAsync(languageFile);
-        return JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+        var lang = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+        
+        _memoryCache.Set(languageCode, lang, _cacheOptions);
+        return lang;
     }
 
     public async Task<string> Get(string locale, string key, params object[] args)
