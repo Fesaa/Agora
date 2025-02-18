@@ -10,6 +10,7 @@ import {Provider} from '../../../../_models/provider';
 import {ToastService} from '../../../../_services/toast-service';
 import {FileUpload, FileUploadEvent, FileUploadHandlerEvent} from 'primeng/fileupload';
 import {environment} from '../../../../../environments/environment';
+import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-theme-configuration',
@@ -20,6 +21,9 @@ import {environment} from '../../../../../environments/environment';
     ProviderPipe,
     TitleCasePipe,
     FileUpload,
+    CdkVirtualScrollViewport,
+    CdkFixedSizeVirtualScroll,
+    CdkVirtualForOf,
   ],
   templateUrl: './theme-configuration.component.html',
   styleUrl: './theme-configuration.component.css'
