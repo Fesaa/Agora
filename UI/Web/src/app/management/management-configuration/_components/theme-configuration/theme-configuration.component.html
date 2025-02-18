@@ -16,29 +16,27 @@
     </ng-template>
   </p-fileupload>
 
-  <div>
-    @for (theme of themes; track theme.id) {
-      <div class="theme-container">
-        <div class="information">
-          <span class="theme-name">{{theme.name | titlecase}}</span>
-        </div>
-        <div class="badges">
-
-          @if (theme.themeProvider !== Provider.System) {
-            <p-tag [value]="t('actions.delete.label')" styleClass="clickable" severity="danger"
-                   (click)="deleteTheme(theme)"/>
-          }
-
-          @if (theme.default) {
-            <p-tag [value]="t('actions.is-default.label')" severity="info"/>
-          } @else {
-            <p-tag [value]="t('actions.set-default.label')" styleClass="clickable" severity="info"
-                   (click)="setDefaultTheme(theme)"/>
-          }
-
-          <p-tag [value]="theme.themeProvider | provider | titlecase" />
-        </div>
+  <cdk-virtual-scroll-viewport itemSize="50" style="height: 400px">
+    <div class="theme-container" *cdkVirtualFor="let theme of themes;">
+      <div class="information">
+        <span class="theme-name">{{theme.name | titlecase}}</span>
       </div>
-    }
-  </div>
+      <div class="badges">
+
+        @if (theme.themeProvider !== Provider.System) {
+          <p-tag [value]="t('actions.delete.label')" styleClass="clickable" severity="danger"
+                 (click)="deleteTheme(theme)"/>
+        }
+
+        @if (theme.default) {
+          <p-tag [value]="t('actions.is-default.label')" severity="info"/>
+        } @else {
+          <p-tag [value]="t('actions.set-default.label')" styleClass="clickable" severity="info"
+                 (click)="setDefaultTheme(theme)"/>
+        }
+
+        <p-tag [value]="theme.themeProvider | provider | titlecase" />
+      </div>
+    </div>
+  </cdk-virtual-scroll-viewport>
 </div>
