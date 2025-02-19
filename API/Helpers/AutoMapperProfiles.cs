@@ -18,6 +18,7 @@ public class AutoMapperProfiles: Profile
             .ConvertUsing<ServerSettingConverter>();
 
         CreateMap<Theme, ThemeDto>();
+        CreateMap<MeetingRoom, MeetingRoomDto>();
 
     }
 }
