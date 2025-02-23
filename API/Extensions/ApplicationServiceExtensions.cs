@@ -38,6 +38,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<ILocalizationService, LocalizationService>();
         services.AddScoped<IThemeService, ThemeService>();
         services.AddScoped<IRoomService, RoomService>();
+        services.AddScoped<IFacilityService, FacilityService>();
         
         services.AddSqlite();
 

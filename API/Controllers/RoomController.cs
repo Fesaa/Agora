@@ -26,5 +26,19 @@ public class RoomController(ILogger<RoomController> logger, IRoomService roomSer
         var room = await roomService.Create(meetingRoomDto);
         return Ok(mapper.Map<MeetingRoomDto>(room));
     }
+
+    [HttpPost("update")]
+    public async Task<ActionResult<MeetingRoomDto>> Update(MeetingRoomDto meetingRoomDto)
+    {
+        var room = await roomService.Update(meetingRoomDto);
+        return Ok(mapper.Map<MeetingRoomDto>(room));
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await roomService.Delete(id);
+        return Ok();
+    }
     
 }

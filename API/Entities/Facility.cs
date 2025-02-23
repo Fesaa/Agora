@@ -28,16 +28,7 @@ public class Facility
     /// </summary>
     public float Cost { get; set; } = 0f;
 
-    /// <summary>
-    /// Which days of the week this facility is available
-    /// </summary>
-    public List<DayOfWeek> DayRange { get; set; } = [];
-
-    /// <summary>
-    /// Which hours of the day this facility is available
-    /// </summary>
-    /// <remarks>Type is a placeholder, till we further work this feature out</remarks>
-    public string TimeRange { get; set; } = string.Empty;
+    public List<Availability> Availability { get; set; } = [];
 
     /// <summary>
     /// The rooms this facility is used in

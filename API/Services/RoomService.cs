@@ -20,7 +20,7 @@ public interface IRoomService
     Task DeleteMergeRoom(int id);
 }
 
-public class RoomService(ILogger<RoomService> logger, IUnitOfWork unitOfWork, IMapper mapper): IRoomService
+public class RoomService(ILogger<RoomService> logger, IUnitOfWork unitOfWork, IMapper mapper, DataContext dataContext): IRoomService
 {
     
     public async Task<MeetingRoom> Create(MeetingRoomDto meetingRoomDto)
@@ -48,9 +48,33 @@ public class RoomService(ILogger<RoomService> logger, IUnitOfWork unitOfWork, IM
     {
         throw new System.NotImplementedException();
     }
-    public Task<MeetingRoom> Update(MeetingRoomDto meetingRoomDto)
+    public async Task<MeetingRoom> Update(MeetingRoomDto meetingRoomDto)
     {
-        throw new System.NotImplementedException();
+        var room = await unitOfWork.RoomRepository.GetMeetingRoom(meetingRoomDto.Id);
+        if (room == null)
+        {
+            throw new AgoraException("room-not-found");
+        }
+
+        if (room.DisplayName != meetingRoomDto.DisplayName)
+        {
+            var other = await unitOfWork.RoomRepository.GetMeetingRoomByName(meetingRoomDto.DisplayName);
+            if (other != null)
+            {
+                throw new AgoraException("name-already-used");
+            }
+        }
+
+        if (!meetingRoomDto.MergeAble)
+        {
+            meetingRoomDto.MergeRooms.Clear();
+        }
+
+        var newRoom = await ToMeetingRoom(meetingRoomDto);
+        unitOfWork.RoomRepository.Update(newRoom);
+        await unitOfWork.CommitAsync();
+        
+        return newRoom;
     }
     public Task<MergeRooms> UpdateMergeRoom(MergeRoomDto mergeRoomDto)
     {
@@ -69,6 +93,7 @@ public class RoomService(ILogger<RoomService> logger, IUnitOfWork unitOfWork, IM
     {
         var room = new MeetingRoom()
         {
+            Id = meetingRoomDto.Id,
             DisplayName = meetingRoomDto.DisplayName,
             Location = meetingRoomDto.Location,
             Capacity = meetingRoomDto.Capacity,
