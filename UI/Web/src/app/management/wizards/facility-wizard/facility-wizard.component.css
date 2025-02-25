@@ -1,0 +1,11 @@
+
+.facility-wizard {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.steps {
+  margin-top: 1.25rem;
+}

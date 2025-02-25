@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {MenuItem, MenuItemCommandEvent} from 'primeng/api';
-import {TranslocoDirective, TranslocoService} from '@jsverse/transloco';
+import {MenuItem} from 'primeng/api';
+import {TranslocoDirective} from '@jsverse/transloco';
 import {Menu} from 'primeng/menu';
 import {Ripple} from 'primeng/ripple';
-import {NgIf} from '@angular/common';
 import {Card} from 'primeng/card';
 import {ThemeConfigurationComponent} from './_components/theme-configuration/theme-configuration.component';
+import {FacilityConfigurationComponent} from './_components/facility-configuration/facility-configuration.component';
 
 enum ConfigurationId {
   Rooms,
@@ -20,9 +20,9 @@ enum ConfigurationId {
     Menu,
     TranslocoDirective,
     Ripple,
-    NgIf,
     Card,
-    ThemeConfigurationComponent
+    ThemeConfigurationComponent,
+    FacilityConfigurationComponent
   ],
   templateUrl: './management-configuration.component.html',
   styleUrl: './management-configuration.component.css'
@@ -33,7 +33,6 @@ export class ManagementConfigurationComponent implements OnInit {
 
 
   constructor(
-    private loco: TranslocoService,
   ) {
   }
 
