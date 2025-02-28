@@ -47,6 +47,7 @@ public class OpenIdConnectController(ILogger<SettingsController> logger, IUnitOf
 
         if (await unitOfWork.SettingsRepository.CompleteOpenIdConnectSettingsAsync())
         {
+            logger.LogDebug("Open-ID-Connect was already setup");
             // No explanation is on purpose
             return BadRequest();
         }
@@ -109,7 +110,7 @@ public class OpenIdConnectController(ILogger<SettingsController> logger, IUnitOf
         }
         catch (Exception e)
         {
-            logger.LogDebug("OpenIdConfiguration failed: {Reason}", e.Message);
+            logger.LogError("OpenIdConfiguration failed: {Reason}", e.Message);
             return false;
         }
     }
