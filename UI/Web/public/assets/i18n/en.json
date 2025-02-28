@@ -6,6 +6,7 @@
   "shared": {
     "docs": "documentation",
     "unknown": "unknown",
+    "new": "new",
     "forms": {
       "submit": "submit",
       "cannot-submit": "Cannot submit"
@@ -17,8 +18,8 @@
       }
     },
     "generic-error": {
-      "summary": "An error occurred",
-      "detail": "{{err}}"
+      "title": "An error occurred",
+      "summary": "{{err}}"
     },
 
     "lorum-ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
@@ -145,6 +146,25 @@
                 "summary": "Set {{name}} as default theme"
               }
             }
+          }
+        }
+      },
+      "facilities": {
+        "header": "Facilities",
+        "description": {
+          "p1": "Manage your existing facilities or add new ones here.",
+          "p2": "Agora allows you to add facilities, there can be anything (optionally) extra that is available in all or some meeting rooms. When creating a new meeting the user can choose to select which they want to make use of."
+        },
+        "empty": {
+          "header": "No facilities configured",
+          "new": "{{shared.new}}"
+        },
+        "table": {
+          "title": "Title",
+          "actions": {
+            "label": "Actions",
+            "edit": "Edit",
+            "delete": "Delete"
           }
         }
       }

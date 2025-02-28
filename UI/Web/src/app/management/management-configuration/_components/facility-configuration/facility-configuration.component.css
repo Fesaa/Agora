@@ -1,0 +1,15 @@
+.facilities-config-container {
+  width: 100%;
+  margin-bottom: var(--spacing) !important;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  padding: calc(1.5 * var(--spacing));
+}
+
+.actions > p-button {
+  margin-left: var(--spacing);
+}

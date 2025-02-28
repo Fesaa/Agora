@@ -49,7 +49,6 @@ export class FacilityWizardComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log("HI")
     this.activatedRoute.queryParams.subscribe((params) => {
       const facilityIdParam = params['facilityId'];
       if (!facilityIdParam) {
@@ -72,7 +71,7 @@ export class FacilityWizardComponent implements OnInit{
         },
         error: (error) => {
           console.error(error);
-          this.toastService.errorLoco("shared.generic-error", {}, {err: error});
+          this.toastService.errorLoco("shared.generic-error", {}, {err: error.message});
           this.router.navigateByUrl("/management/configuration#facilities")
         }
       })
