@@ -25,7 +25,9 @@ export class AuthService {
           sessionChecksEnabled: true,
           useSilentRefresh: true,
         });
-        this.oauthService.loadDiscoveryDocumentAndTryLogin()
+        this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
+          this.oauthService.setupAutomaticSilentRefresh()
+        })
       },
       error: error => {
         console.log(error);
