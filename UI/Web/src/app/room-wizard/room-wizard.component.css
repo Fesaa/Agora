@@ -1,0 +1,27 @@
+.form-group {
+    margin-bottom: 16px;
+  }
+  
+  form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  form input, form textarea {
+    width: 100%;
+    max-width: 500px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  form h3 {
+    margin-bottom: 24px;
+  }
+  
+  form button {
+    margin-top: 16px;
+    margin-right: 8px;
+  }
+  

@@ -1,43 +1,57 @@
 <p-steps [model]="steps" [(activeIndex)]="currentStep" [readonly]="true"></p-steps>
 
 <div *ngIf="currentStep === 0">
-  <!-- Step 1: General Information -->
-  <h3>Step 1: General Information</h3>
-  <label for="displayName">Room Display Name</label>
-  <input id="displayName" [(ngModel)]="roomData.displayName" />
+    <h3>Step 1: General Information</h3>
+    <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+          <label for="displayName">Room Display Name</label>
+          <input id="displayName" pInputText [(ngModel)]="roomData.displayName" />
+        </div>
+        <div class="p-col-12 p-md-6">
+          <label for="description">Description</label>
+          <textarea id="description" pInputTextarea [(ngModel)]="roomData.description"></textarea>
+        </div>
+      </div>
+  
+    <div class="form-group">
+      <label for="location">Location</label>
+      <input id="location" pInputText [(ngModel)]="roomData.location" />
+    </div>
+  </div>
+  
+  <div *ngIf="currentStep === 1">
+    <h3>Step 2: Capacity and Features</h3>
+    <div class="form-group">
+      <label for="capacity">Capacity</label>
+      <input type="number" id="capacity" pInputText [(ngModel)]="roomData.capacity" />
+    </div>
+  
+    <div class="form-group">
+      <label for="mayExceedCapacity">May Exceed Capacity</label>
+      <p-checkbox id="mayExceedCapacity" [(ngModel)]="roomData.mayExceedCapacity"></p-checkbox>
+    </div>
+  
+    <div class="form-group">
+      <label for="mergeAble">Mergeable</label>
+      <p-checkbox id="mergeAble" [(ngModel)]="roomData.mergeAble"></p-checkbox>
+    </div>
+  </div>
 
-  <label for="description">Description</label>
-  <textarea id="description" [(ngModel)]="roomData.description"></textarea>
+  <div *ngIf="currentStep === 2">
+    <!-- Step 3: Facilities -->
+    <h3>Step 3: Facilities</h3>
+    <label for="facilities">Facilities (comma-separated)</label>
+    <input id="facilities" [(ngModel)]="roomData.facilities" />
+  </div>
+  
+  <div *ngIf="currentStep === 3">
+    <!-- Step 4: Summary -->
+    <h3>Step 4: Summary</h3>
+    <pre>{{ roomData | json }}</pre>
+    <button (click)="submitRoom()" *ngIf="currentStep === steps.length - 1">Submit</button>
 
-  <label for="location">Location</label>
-  <input id="location" [(ngModel)]="roomData.location" />
-</div>
-
-<div *ngIf="currentStep === 1">
-  <!-- Step 2: Capacity and Features -->
-  <h3>Step 2: Capacity and Features</h3>
-  <label for="capacity">Capacity</label>
-  <input type="number" id="capacity" [(ngModel)]="roomData.capacity" />
-
-  <label for="mayExceedCapacity">May Exceed Capacity</label>
-  <input type="checkbox" id="mayExceedCapacity" [(ngModel)]="roomData.mayExceedCapacity" />
-
-  <label for="mergeAble">Mergeable</label>
-  <input type="checkbox" id="mergeAble" [(ngModel)]="roomData.mergeAble" />
-</div>
-
-<div *ngIf="currentStep === 2">
-  <!-- Step 3: Facilities -->
-  <h3>Step 3: Facilities</h3>
-  <label for="facilities">Facilities (comma-separated)</label>
-  <input id="facilities" [(ngModel)]="roomData.facilities" />
-</div>
-
-<div *ngIf="currentStep === 3">
-  <!-- Step 4: Summary -->
-  <h3>Step 4: Summary</h3>
-  <pre>{{ roomData | json }}</pre>
-</div>
+  </div>
+  
 
 <button (click)="prevStep()" [disabled]="currentStep === 0">Back</button>
 <button (click)="nextStep()" [disabled]="currentStep === steps.length - 1">Next</button>
