@@ -1,0 +1,38 @@
+
+.theme-config-container {
+  width: 100%;
+  margin-bottom: var(--spacing) !important;
+}
+
+.theme-container {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  background-color: white;
+  padding: calc(var(--spacing) * 2.5);
+  border-radius: calc(var(--spacing)*2);
+
+  margin: calc(var(--spacing) * 5);
+}
+
+.theme-container > .badges {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+
+  p-tag {
+    height: calc(var(--spacing)*7.5);
+    margin: 0 var(--spacing);
+  }
+}
+
+.theme-container > .information {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+
+  .theme-name {
+    font-weight: bold;
+  }
+}

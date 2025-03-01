@@ -1,9 +1,6 @@
 using System.Threading.Tasks;
 using API.Extensions;
 using API.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,7 +13,7 @@ public class AccountController(ILogger<AccountController> logger, ILocalizationS
     [HttpGet("name")]
     public string Name()
     {
-        return User.GetName() ?? "No name";
+        return User.GetName();
     }
 
     [Authorize("admin")]

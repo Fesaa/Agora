@@ -16,6 +16,29 @@ namespace API.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
 
+            modelBuilder.Entity("API.Entities.Availability", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("FacilityId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TimeRange")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FacilityId");
+
+                    b.ToTable("Availability");
+                });
+
             modelBuilder.Entity("API.Entities.Facility", b =>
                 {
                     b.Property<int>("Id")
@@ -28,19 +51,11 @@ namespace API.Migrations
                     b.Property<float>("Cost")
                         .HasColumnType("REAL");
 
-                    b.PrimitiveCollection<string>("DayRange")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("TimeRange")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -124,6 +139,9 @@ namespace API.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("Default")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -184,6 +202,13 @@ namespace API.Migrations
                     b.ToTable("MeetingRoomMergeRooms", (string)null);
                 });
 
+            modelBuilder.Entity("API.Entities.Availability", b =>
+                {
+                    b.HasOne("API.Entities.Facility", null)
+                        .WithMany("Availability")
+                        .HasForeignKey("FacilityId");
+                });
+
             modelBuilder.Entity("API.Entities.MergeRooms", b =>
                 {
                     b.HasOne("API.Entities.MeetingRoom", "Parent")
@@ -223,6 +248,11 @@ namespace API.Migrations
                         .HasForeignKey("MergeRoomsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("API.Entities.Facility", b =>
+                {
+                    b.Navigation("Availability");
                 });
 
             modelBuilder.Entity("API.Entities.MeetingRoom", b =>

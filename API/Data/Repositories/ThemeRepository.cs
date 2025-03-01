@@ -18,6 +18,8 @@ public interface IThemeRepository
     Task<IEnumerable<ThemeDto>> GetThemesAsDtoAsync();
     Task<Theme?> GetThemeByIdAsync(int id);
     Task<Theme?> GetThemeByNameAsync(string name);
+
+    Task<ThemeDto> GetActivatedTheme();
 }
 
 public class ThemeRepository(DataContext context, IMapper mapper): IThemeRepository
@@ -56,5 +58,19 @@ public class ThemeRepository(DataContext context, IMapper mapper): IThemeReposit
         return await context.Themes
             .Where(t => t.Name == name)
             .FirstOrDefaultAsync();
+    }
+    public async Task<ThemeDto> GetActivatedTheme()
+    {
+        var theme = await context.Themes
+            .Where(t => t.Default)
+            .ProjectTo<ThemeDto>(mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync();
+        if (theme != null)
+        {
+            return theme;
+        }
+        
+        var defaultTheme = await context.Themes.FirstOrDefaultAsync(t => t.Name == "Default");
+        return mapper.Map<ThemeDto>(defaultTheme);
     }
 }

@@ -4,6 +4,7 @@ using API.Data;
 using API.Entities;
 using API.Entities.Enums;
 using API.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace API.Services;
@@ -29,10 +30,15 @@ public interface IThemeService
     /// <param name="userName">The user uploading the theme</param>
     /// <returns>The newly created theme</returns>
     Task<Theme> ThemeFromFile(string path, string userName);
+    /// <summary>
+    /// Updates the default theme
+    /// </summary>
+    /// <param name="themeId"></param>
+    Task SetDefaultTheme(int themeId);
 }
 
 public class ThemeService(IUnitOfWork unitOfWork, IDirectoryService directoryService,
-    ILogger<ThemeService> logger): IThemeService
+    ILogger<ThemeService> logger, DataContext context): IThemeService
 {
     public async Task<string> GetThemeContent(int themeId)
     {
@@ -59,16 +65,29 @@ public class ThemeService(IUnitOfWork unitOfWork, IDirectoryService directorySer
             return false;
         }
 
+        if (theme.ThemeProvider == Provider.System)
+        {
+            throw new AgoraException("cant-delete-system-theme");
+        }
+
+        if (theme.Default)
+        {
+            throw new AgoraException("cant-delete-default-theme");
+        }
+
         logger.LogInformation("Deleting theme {ThemeName}", theme.Name);
         var path = directoryService.FileSystem.Path.Join(directoryService.ThemeDirectory, theme.FileName);
-        if (string.IsNullOrWhiteSpace(path) || !directoryService.Exists(path))
+        if (string.IsNullOrWhiteSpace(path) || !directoryService.FileSystem.File.Exists(path))
         {
+            logger.LogDebug("File at {Path} does not exist, not removing", path);
             unitOfWork.ThemeRepository.Remove(theme);
+            await unitOfWork.CommitAsync();
             return true;
         }
 
         try
         {
+            logger.LogDebug("Deleting file at {Path}", path);
             directoryService.FileSystem.File.Delete(path);
         }
         catch (Exception e)
@@ -77,12 +96,13 @@ public class ThemeService(IUnitOfWork unitOfWork, IDirectoryService directorySer
         }
 
         unitOfWork.ThemeRepository.Remove(theme);
+        await unitOfWork.CommitAsync();
         return true;
     }
 
     public async Task<Theme> ThemeFromFile(string path, string userName)
     {
-        if (!directoryService.Exists(path))
+        if (!directoryService.FileSystem.File.Exists(path))
         {
             logger.LogError("Cannot create new theme as file ({FilePath}) doesn't exist", path);
             throw new AgoraException("themes.errors.file-not-found");
@@ -109,5 +129,20 @@ public class ThemeService(IUnitOfWork unitOfWork, IDirectoryService directorySer
         
         logger.LogInformation("Created a new theme {ThemeName} by {UserName}", theme.Name, userName);
         return theme;
+    }
+    public async Task SetDefaultTheme(int themeId)
+    {
+        var theme = await unitOfWork.ThemeRepository.GetThemeByIdAsync(themeId);
+        if (theme == null)
+        {
+            throw new AgoraException("theme-doesnt-exist");
+        }
+
+        var themes = await context.Themes.ToListAsync();
+        themes.ForEach(t => t.Default = false);
+        theme.Default = true;
+        unitOfWork.ThemeRepository.Update(theme);
+        
+        await unitOfWork.CommitAsync();
     }
 }
