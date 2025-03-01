@@ -19,6 +19,14 @@
       *transloco="let t; prefix:'management.configuration.facilities.table'"
     >
 
+      <ng-template #caption>
+
+        <div class="caption">
+          <p-button (onClick)="gotoWizard()" [label]="t('actions.new')" icon="pi pi-plus" />
+        </div>
+
+      </ng-template>
+
       <ng-template #header>
         <tr>
           <th pSortableColumn="displayName">{{ t('title') }} <p-sortIcon field="displayName" /> </th>

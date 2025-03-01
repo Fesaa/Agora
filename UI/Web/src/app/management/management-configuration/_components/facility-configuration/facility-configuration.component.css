@@ -1,3 +1,10 @@
+
+.caption {
+  display: flex;
+  flex-grow: 1;
+  justify-content: end;
+}
+
 .facilities-config-container {
   width: 100%;
   margin-bottom: var(--spacing) !important;
