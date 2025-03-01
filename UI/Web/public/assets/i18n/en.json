@@ -167,6 +167,14 @@
             "delete": "Delete",
             "new": "New"
           }
+        },
+        "wizard": {
+          "header": "General",
+          "explanation": {
+            "legend": "Information",
+            "p1": "Facilities are used to indicate what a meeting room has to offer outside of just being a meeting room. More detailed info can be found",
+            "link": "in our documentation"
+          }
         }
       }
     }

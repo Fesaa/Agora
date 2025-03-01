@@ -4,6 +4,11 @@ import {FacilityService} from '../../../_services/facility.service';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {ToastService} from '../../../_services/toast-service';
 import {Steps} from 'primeng/steps';
+import {FacilityWizardGeneralComponent} from './_components/facility-wizard-general/facility-wizard-general.component';
+import {
+  FacilityWizardAvailabilityComponent
+} from './_components/facility-wizard-availability/facility-wizard-availability.component';
+import {FacilityWizardSaveComponent} from './_components/facility-wizard-save/facility-wizard-save.component';
 
 export enum FacilityWizardID {
   General = 'General',
@@ -15,7 +20,10 @@ export enum FacilityWizardID {
 @Component({
   selector: 'app-facility-wizard',
   imports: [
-    Steps
+    Steps,
+    FacilityWizardGeneralComponent,
+    FacilityWizardAvailabilityComponent,
+    FacilityWizardSaveComponent
   ],
   templateUrl: './facility-wizard.component.html',
   styleUrl: './facility-wizard.component.css'
@@ -24,10 +32,11 @@ export class FacilityWizardComponent implements OnInit{
 
   facility: Facility | undefined;
   index: number = 0;
+  // TODO: Transloco
   sections: {id: FacilityWizardID, label: string}[] = [
-    {id: FacilityWizardID.General, label: 'general'},
-    {id: FacilityWizardID.Availability, label: 'availability'},
-    {id: FacilityWizardID.Save, label: 'save'},
+    {id: FacilityWizardID.General, label: 'General'},
+    {id: FacilityWizardID.Availability, label: 'Availability'},
+    {id: FacilityWizardID.Save, label: 'Save'},
   ]
 
   private readonly defaultFacility: Facility = {
@@ -108,4 +117,5 @@ export class FacilityWizardComponent implements OnInit{
     this.router.navigate([], extras)
   }
 
+  protected readonly FacilityWizardID = FacilityWizardID;
 }
