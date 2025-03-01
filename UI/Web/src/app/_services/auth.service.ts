@@ -24,6 +24,7 @@ export class AuthService {
           showDebugInformation: true,
           sessionChecksEnabled: true,
           useSilentRefresh: true,
+          silentRefreshRedirectUri: window.location.origin + '/callback'
         });
         this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
           this.oauthService.setupAutomaticSilentRefresh()
