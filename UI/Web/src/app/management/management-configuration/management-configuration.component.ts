@@ -6,12 +6,13 @@ import {Ripple} from 'primeng/ripple';
 import {Card} from 'primeng/card';
 import {ThemeConfigurationComponent} from './_components/theme-configuration/theme-configuration.component';
 import {FacilityConfigurationComponent} from './_components/facility-configuration/facility-configuration.component';
+import {ActivatedRoute, Router} from '@angular/router';
 
 enum ConfigurationId {
-  Rooms,
-  Facilities,
-  BrandingThemes,
-  BrandingLogo,
+  Rooms = "Rooms",
+  Facilities = "Facilities",
+  BrandingThemes = "BrandingThemes",
+  BrandingLogo = "BrandingLogo",
 }
 
 @Component({
@@ -33,12 +34,15 @@ export class ManagementConfigurationComponent implements OnInit {
 
 
   constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
   ) {
   }
 
   protected setSelectedCommand(id: ConfigurationId | undefined): () => void {
     return () => {
       this.selected = id;
+      this.router.navigate([], {fragment: id})
     }
   }
 
@@ -79,6 +83,14 @@ export class ManagementConfigurationComponent implements OnInit {
         ]
       }
     ]
+
+    this.activatedRoute.fragment.subscribe(fragment => {
+      if (fragment) {
+        if (Object.values(ConfigurationId).find(id => id === fragment)) {
+          this.selected = fragment as ConfigurationId;
+        }
+      }
+    })
   }
 
 
