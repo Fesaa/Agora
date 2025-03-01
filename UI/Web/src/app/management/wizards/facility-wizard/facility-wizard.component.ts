@@ -68,6 +68,7 @@ export class FacilityWizardComponent implements OnInit{
       this.facilityService.get(facilityId).subscribe({
         next: (facility) => {
           this.facility = facility;
+          this.loadStage();
         },
         error: (error) => {
           console.error(error);
@@ -75,15 +76,17 @@ export class FacilityWizardComponent implements OnInit{
           this.router.navigateByUrl("/management/configuration#facilities")
         }
       })
+    })
+  }
 
-      this.route.fragment.subscribe(fragment => {
-        const section = this.sections.filter(section => section.id == fragment)
-        if (section && section.length > 0) {
-          this.navigateToPage(this.sections.indexOf(section[0]))
-        } else {
-          this.navigateToPage(0)
-        }
-      })
+  private loadStage() {
+    this.route.fragment.subscribe(fragment => {
+      const section = this.sections.filter(section => section.id == fragment)
+      if (section && section.length > 0) {
+        this.navigateToPage(this.sections.indexOf(section[0]))
+      } else {
+        this.navigateToPage(0)
+      }
     })
   }
 
@@ -98,7 +101,7 @@ export class FacilityWizardComponent implements OnInit{
 
     if (this.facility && this.facility.id !== 0) {
       extras.queryParams = {
-        pageId: this.facility.id
+        facilityId: this.facility.id
       }
     }
 
