@@ -31,6 +31,10 @@
     "authority": "authority",
     "provider": "provider"
   },
+  "callback": {
+    "title": "You've been logged in successfully",
+    "submit": "Return to action!"
+  },
 
   "example": "This is an example translations",
   "foo": {

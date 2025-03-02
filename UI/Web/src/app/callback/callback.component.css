@@ -1,0 +1,12 @@
+.return-to-action {
+  padding-top: 25vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-holder {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
