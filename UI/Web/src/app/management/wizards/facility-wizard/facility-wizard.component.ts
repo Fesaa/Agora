@@ -90,22 +90,23 @@ export class FacilityWizardComponent implements OnInit{
 
   private loadStage() {
     this.route.fragment.subscribe(fragment => {
-      const section = this.sections.filter(section => section.id == fragment)
-      if (section && section.length > 0) {
-        this.navigateToPage(this.sections.indexOf(section[0]))
+      const section = this.sections.find(section => section.id == fragment)
+      if (section) {
+        this.navigateToPage(this.sections.indexOf(section), true)
       } else {
-        this.navigateToPage(0)
+        this.navigateToPage(0, true)
       }
     })
   }
 
-  navigateToPage(index: number) {
+  navigateToPage(index: number, skipLocation: boolean = false) {
     this.index = index;
 
     const sectionId = this.sections[this.index].id;
 
     const extras: NavigationExtras = {
-      fragment: sectionId
+      fragment: sectionId,
+      skipLocationChange: skipLocation,
     };
 
     if (this.facility && this.facility.id !== 0) {
