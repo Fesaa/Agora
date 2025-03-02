@@ -10,7 +10,7 @@ export type Facility = {
 
 export type Availability = {
   id: number;
-  dayOfWeek: DayOfWeek;
+  dayOfWeek: DayOfWeek[];
   timeRange: string;
 }
 
@@ -23,3 +23,35 @@ export enum DayOfWeek {
   Friday = 5,
   Saturday = 6,
 }
+
+// TODO: Transloco
+export const AllWeekDays = [
+  {
+    label: "Monday",
+    value: DayOfWeek.Monday,
+  },
+  {
+    label: "Tuesday",
+    value: DayOfWeek.Tuesday,
+  },
+  {
+    label: "Wednesday",
+    value: DayOfWeek.Wednesday,
+  },
+  {
+    label: "Thursday",
+    value: DayOfWeek.Thursday,
+  },
+  {
+    label: "Friday",
+    value: DayOfWeek.Friday,
+  },
+  {
+    label: "Saturday",
+    value: DayOfWeek.Saturday,
+  },
+  {
+    label: "Saturday",
+    value: DayOfWeek.Saturday,
+  }
+]

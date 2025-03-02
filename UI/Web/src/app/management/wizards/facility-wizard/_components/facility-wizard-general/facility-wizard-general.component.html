@@ -1,5 +1,5 @@
 
-<p-card [header]="t('header')" *transloco="let t;prefix:'management.configuration.facilities.wizard'">
+<p-card [header]="t('header')" *transloco="let t;prefix:'management.configuration.facilities.wizard.general'">
 
   <p-fieldset [legend]="t('explanation.legend')">
     <p>
@@ -9,8 +9,32 @@
     </p>
   </p-fieldset>
 
-  <div>
-    
+  <div class="form-container">
+    <div class="form-field">
+      <label for="name">{{ t('displayName') }}</label>
+      <input type="text" id="name" pInputText [(ngModel)]="facility.displayName">
+    </div>
+
+    <div class="form-field">
+      <label for="description">{{ t('description') }}</label>
+      <textarea id="description" pTextarea [(ngModel)]="facility.description" rows="5" cols="30"></textarea>
+    </div>
+
+    <div class="form-group">
+      <div class="form-group-field">
+        <label for="notifications">{{ t('alertManagement.title') }}</label>
+        <p-checkbox id="notifications" binary="true" [(ngModel)]="facility.alertManagement"  />
+      </div>
+
+      <div class="form-group-field">
+        <label for="price">{{ t('cost') }}</label>
+        <p-inputNumber id="price" [(ngModel)]="facility.cost" [allowEmpty]="true" [showButtons]="true" [min]="0" [step]="0.1" />
+      </div>
+    </div>
+  </div>
+
+  <div class="navigation-btn">
+    <p-button (onClick)="next.emit()" >{{t('next')}}</p-button>
   </div>
 
 </p-card>

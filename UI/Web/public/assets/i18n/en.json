@@ -173,11 +173,32 @@
           }
         },
         "wizard": {
-          "header": "General",
-          "explanation": {
-            "legend": "Information",
-            "p1": "Facilities are used to indicate what a meeting room has to offer outside of just being a meeting room. More detailed info can be found",
-            "link": "in our documentation"
+          "general": {
+            "header": "General",
+            "explanation": {
+              "legend": "Information",
+              "p1": "Facilities are used to indicate what a meeting room has to offer outside of just being a meeting room. More detailed info can be found",
+              "link": "in our documentation"
+            },
+            "next": "Next",
+            "displayName": "Name",
+            "description": "Description",
+            "alertManagement": {
+              "title": "Alert management on use"
+            },
+            "cost": "Price"
+          },
+          "availability": {
+            "header": "Availability",
+            "explanation": {
+              "legend": "Information",
+              "p1": "Configure on which days, and during which hours this facility can be used. "
+            },
+            "next": "Next",
+            "prev": "Previous",
+            "new": "New availability line",
+            "days": "Active days",
+            "range": "Active hours"
           }
         }
       }

@@ -1,1 +1,45 @@
-<p>facility-wizard-availability works!</p>
+
+<p-card [header]="t('header')" *transloco="let t;prefix:'management.configuration.facilities.wizard.availability'">
+
+  <p-fieldset [legend]="t('explanation.legend')">
+    <p>
+      {{ t('explanation.p1') }}
+
+      <br> <br>
+    </p>
+  </p-fieldset>
+
+  @for (availability of facility.availability; track $index) {
+    <p-card>
+
+      <div class="form-container">
+
+        <div class="form-field">
+          <label for="days">{{t('days')}}</label>
+          <p-multiSelect id="days" [options]="AllWeekDays" [ngModel]="availability.dayOfWeek" />
+        </div>
+
+        <div class="form-field">
+          <label for="range">{{t('range')}}</label>
+          <!-- Is a bit laggy -->
+          <p-slider id="range" min="0" max="23" [ngModel]="[8, 17]" [range]="true" (onChange)="updateString($index, $event.values![0], $event.values![1])" />
+        </div>
+
+
+
+
+      </div>
+
+    </p-card>
+  }
+
+  <div class="new-btn">
+    <p-button (onClick)="addNewAvailability()" >{{t('new')}}</p-button>
+  </div>
+
+  <div class="navigation-btn">
+    <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
+    <p-button (onClick)="next.emit()" >{{t('next')}}</p-button>
+  </div>
+
+</p-card>
