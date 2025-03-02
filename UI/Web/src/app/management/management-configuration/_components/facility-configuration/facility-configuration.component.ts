@@ -7,6 +7,7 @@ import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
 import {TitleCasePipe} from '@angular/common';
 import {Router} from '@angular/router';
+import {Skeleton} from 'primeng/skeleton';
 
 @Component({
   selector: 'app-facility-configuration',
@@ -15,7 +16,8 @@ import {Router} from '@angular/router';
     Card,
     TableModule,
     Button,
-    TitleCasePipe
+    TitleCasePipe,
+    Skeleton
   ],
   templateUrl: './facility-configuration.component.html',
   styleUrl: './facility-configuration.component.css'
@@ -23,6 +25,7 @@ import {Router} from '@angular/router';
 export class FacilityConfigurationComponent implements OnInit{
 
   facilities: Facility[] = [];
+  loading: boolean = true;
 
   size = 10;
 
@@ -35,6 +38,7 @@ export class FacilityConfigurationComponent implements OnInit{
   ngOnInit(): void {
     this.facilityService.all().subscribe(facilities => {
       this.facilities = facilities;
+      this.loading = false;
     })
   }
 

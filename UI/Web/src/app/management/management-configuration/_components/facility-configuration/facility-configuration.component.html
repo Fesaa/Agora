@@ -9,12 +9,14 @@
   </div>
 
   @if (facilities.length > 0) {
+    <p-card>
     <p-table
       #facilitiesTable
       [value]="facilities"
       [(rows)]="size"
       [paginator]="facilities.length > size || size != 10"
       [rowsPerPageOptions]="[5, 10, 20]"
+      [loading]="loading"
       stripedRows
       *transloco="let t; prefix:'management.configuration.facilities.table'"
     >
@@ -48,12 +50,19 @@
 
       </ng-template>
 
+      <ng-template #loadingbody>
+        <p-skeleton />
+      </ng-template>
+
+      <ng-template #emptymessage>
+        <p-card [header]="t('empty.header')">
+          <div>
+            <p-button (onClick)="gotoWizard()">{{t('empty.new') | titlecase}}</p-button>
+          </div>
+        </p-card>
+      </ng-template>
+
     </p-table>
-  } @else {
-    <p-card [header]="t('empty.header')">
-      <div>
-        <p-button (onClick)="gotoWizard()">{{t('empty.new') | titlecase}}</p-button>
-      </div>
     </p-card>
   }
 
