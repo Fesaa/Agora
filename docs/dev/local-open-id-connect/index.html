@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.7.0">
 <title data-rh="true">Locally hosted OpenId Connect server | Agora</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://fesaa.github.io/Agora/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://fesaa.github.io/Agora/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://fesaa.github.io/Agora/docs/dev/local-open-id-connect"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Locally hosted OpenId Connect server | Agora"><meta data-rh="true" name="description" content="Agora requires you to set up an OpenId Connect provider,"><meta data-rh="true" property="og:description" content="Agora requires you to set up an OpenId Connect provider,"><link data-rh="true" rel="icon" href="/Agora/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://fesaa.github.io/Agora/docs/dev/local-open-id-connect"><link data-rh="true" rel="alternate" href="https://fesaa.github.io/Agora/docs/dev/local-open-id-connect" hreflang="en"><link data-rh="true" rel="alternate" href="https://fesaa.github.io/Agora/docs/dev/local-open-id-connect" hreflang="x-default"><link rel="stylesheet" href="/Agora/assets/css/styles.c34166a7.css">
-<script src="/Agora/assets/js/runtime~main.7351777c.js" defer="defer"></script>
+<script src="/Agora/assets/js/runtime~main.5675ff5a.js" defer="defer"></script>
 <script src="/Agora/assets/js/main.41cbe79e.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -28,7 +28,7 @@ this is also true for development as local account are not a thing.</p>
 <li>origin: <a href="http://localhost:4200" target="_blank" rel="noopener noreferrer">http://localhost:4200</a></li>
 </ul>
 </li>
-<li>Create api client</li>
+<li>Create api client (id must be <code>agora-api</code>)</li>
 <li>Create client scope<!-- -->
 <ul>
 <li>name doesn&#x27;t matter, I use <code>agora-api-audience</code></li>
@@ -50,10 +50,10 @@ this is also true for development as local account are not a thing.</p>
 <li>Set default</li>
 </ul>
 </li>
-<li>Choose <code>KeyCloak</code> as provider, and set url to <code>http://localhost:8080/realm/dev-realm</code> on first setup screen</li>
+<li>Choose <code>KeyCloak</code> as provider, and set url to <code>http://localhost:8080/realms/dev-realm</code> on first setup screen</li>
 <li>Roles for authorization<!-- -->
 <ul>
-<li>In agora-api -&gt; roles</li>
+<li>In <code>agora-api</code> client -&gt; roles</li>
 <li>Add wanted roles -&gt; See <a href="/Agora/docs/guides/roles-and-permissions">Roles and permissions</a></li>
 <li>To your user, add the role</li>
 </ul>
