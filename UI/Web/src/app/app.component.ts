@@ -38,7 +38,9 @@ export class AppComponent implements OnInit {
 
     this.themeService.activatedTheme().subscribe({
       next: theme => {
-        this.themeService.setTheme(theme.name)
+        if (theme) {
+          this.themeService.setTheme(theme.name);
+        }
       },
       error: err => {
         console.log(err);

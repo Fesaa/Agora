@@ -1,5 +1,10 @@
+<div class="return-to-action" *transloco="let t; prefix: 'callback'">
 
+  <p-card>
+    <p class="title">{{t('title')}}</p>
+    <div class="button-holder">
+      <p-button (click)="returnToAction()" [label]="t('submit', { scope: '' })"  />
+    </div>
+  </p-card>
 
-<button (click)="router.navigateByUrl('/user/dashboard')">
-  Goto Dashboard
-</button>
+</div>

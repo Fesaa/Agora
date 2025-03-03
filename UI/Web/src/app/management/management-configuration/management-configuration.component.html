@@ -40,7 +40,9 @@
 
     @defer (when selected == ConfigurationId.Facilities; prefetch on idle) {
       @if (selected == ConfigurationId.Facilities) {
-        <span>Facilities</span>
+        <div style="width: 100%">
+          <app-facility-configuration />
+        </div>
       }
     }
 

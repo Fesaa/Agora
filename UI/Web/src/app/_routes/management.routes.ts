@@ -3,6 +3,7 @@ import {ManagementDashboardComponent} from '../management/management-dashboard/m
 import {
   ManagementConfigurationComponent
 } from '../management/management-configuration/management-configuration.component';
+import {FacilityWizardComponent} from '../management/wizards/facility-wizard/facility-wizard.component';
 
 export const routes: Routes = [
   {
@@ -12,5 +13,14 @@ export const routes: Routes = [
   {
     path: 'configuration',
     component: ManagementConfigurationComponent,
-  }
+  },
+  {
+    path: 'wizard',
+    children: [
+      {
+        path: 'facility',
+        component: FacilityWizardComponent,
+      }
+    ]
+  },
 ]

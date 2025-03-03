@@ -1,0 +1,70 @@
+
+<div *transloco="let t; prefix:'management.configuration.facilities'">
+  <div class="facilities-config-container">
+    <p-card [header]="t('header')">
+
+      <p>{{t('description.p1')}}</p>
+      <p>{{t('description.p2')}}</p>
+    </p-card>
+  </div>
+
+  @if (facilities.length > 0) {
+    <p-card>
+    <p-table
+      #facilitiesTable
+      [value]="facilities"
+      [(rows)]="size"
+      [paginator]="facilities.length > size || size != 10"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [loading]="loading"
+      stripedRows
+      *transloco="let t; prefix:'management.configuration.facilities.table'"
+    >
+
+      <ng-template #caption>
+
+        <div class="caption">
+          <p-button (onClick)="gotoWizard()" [label]="t('actions.new')" icon="pi pi-plus" />
+        </div>
+
+      </ng-template>
+
+      <ng-template #header>
+        <tr>
+          <th pSortableColumn="displayName">{{ t('title') }} <p-sortIcon field="displayName" /> </th>
+          <th style="width: 35%">{{ t('actions.label') }}</th>
+        </tr>
+      </ng-template>
+
+      <ng-template #body let-facility>
+        <tr>
+          <th>{{facility.displayName}}</th>
+          <th class="actions">
+
+            <p-button (onClick)="gotoWizard(facility.id)">{{t('actions.edit')}}</p-button>
+
+            <p-button (onClick)="delete(facility.id)" severity="danger">{{t('actions.delete')}}</p-button>
+
+          </th>
+        </tr>
+
+      </ng-template>
+
+      <ng-template #loadingbody>
+        <p-skeleton />
+      </ng-template>
+
+      <ng-template #emptymessage>
+        <p-card [header]="t('empty.header')">
+          <div>
+            <p-button (onClick)="gotoWizard()">{{t('empty.new') | titlecase}}</p-button>
+          </div>
+        </p-card>
+      </ng-template>
+
+    </p-table>
+    </p-card>
+  }
+
+</div>
+

@@ -12,16 +12,20 @@ export class FacilityService {
 
   constructor(private httpClient: HttpClient) { }
 
+  get(id: number) {
+    return this.httpClient.get<Facility>(`${this.baseUrl}${id}`);
+  }
+
   all() {
-    return this.httpClient.get(this.baseUrl + "all");
+    return this.httpClient.get<Facility[]>(this.baseUrl + "all");
   }
 
   create(facility: Facility) {
-    return this.httpClient.post(this.baseUrl + "create", facility);
+    return this.httpClient.post<Facility>(this.baseUrl + "create", facility);
   }
 
   update(facility: Facility) {
-    return this.httpClient.put(this.baseUrl + "update", facility);
+    return this.httpClient.post<Facility>(this.baseUrl + "update", facility);
   }
 
   delete(id: number) {
