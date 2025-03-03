@@ -9,29 +9,53 @@
     </p>
   </p-fieldset>
 
-  @for (availability of facility.availability; track $index) {
-    <p-card>
+  <div class="lines">
+    @for (availability of facility.availability; track $index) {
+      <p-fieldset [toggleable]="true">
+        <div class="form-container">
 
-      <div class="form-container">
+          <div class="form-field">
+            <label >{{t('days')}}</label>
 
-        <div class="form-field">
-          <label for="days">{{t('days')}}</label>
-          <p-multiSelect id="days" [options]="AllWeekDays" [ngModel]="availability.dayOfWeek" />
+            <div class="day-selection">
+              @for (day of AllWeekDays; track day) {
+                <div class="day-selection-item" (click)="updateDayChecked(availability, day.value)">
+                  <input type="checkbox"
+                         [id]="$index + '_weekday_' + day"
+                         [value]="day"
+                         [checked]="hasDayChecked(availability, day.value)"
+                  >
+                  <label *transloco="let t;prefix:'shared'"
+                         [for]="$index + '_weekday_' + day"
+                  >
+                    {{t(day.label)}}
+                  </label>
+                </div>
+              }
+            </div>
+
+          </div>
+
+          <div class="form-field">
+            <label for="range">{{t('range')}}
+
+              @if (availability.timeRange.length > 0) {
+                - ({{availability.timeRange}})
+              }
+
+            </label>
+            <!-- Is a bit laggy -->
+            <p-slider id="range" min="0" max="23" [ngModel]="[8, 17]" [range]="true" (onChange)="updateString(availability, $event.values![0], $event.values![1])" />
+          </div>
         </div>
 
-        <div class="form-field">
-          <label for="range">{{t('range')}}</label>
-          <!-- Is a bit laggy -->
-          <p-slider id="range" min="0" max="23" [ngModel]="[8, 17]" [range]="true" (onChange)="updateString($index, $event.values![0], $event.values![1])" />
+        <div class="new-btn">
+          <p-button (onClick)="remove($index)" severity="danger">{{t('remove')}}</p-button>
         </div>
 
-
-
-
-      </div>
-
-    </p-card>
-  }
+      </p-fieldset>
+    }
+  </div>
 
   <div class="new-btn">
     <p-button (onClick)="addNewAvailability()" >{{t('new')}}</p-button>
