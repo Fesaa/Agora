@@ -9,6 +9,7 @@ import {
   FacilityWizardAvailabilityComponent
 } from './_components/facility-wizard-availability/facility-wizard-availability.component';
 import {FacilityWizardSaveComponent} from './_components/facility-wizard-save/facility-wizard-save.component';
+import {Observable} from 'rxjs';
 
 export enum FacilityWizardID {
   General = 'General',
@@ -116,6 +117,29 @@ export class FacilityWizardComponent implements OnInit{
     }
 
     this.router.navigate([], extras)
+  }
+
+  save(): void {
+    if (!this.facility) {
+      this.toastService.errorLoco("shared.generic-error", {err: "No facility?"})
+      return;
+    }
+
+    let obs: Observable<Facility>
+    if (this.facility.id > 0) {
+      obs = this.facilityService.update(this.facility)
+    } else {
+      obs = this.facilityService.create(this.facility)
+    }
+
+    obs.subscribe({
+      next: (facility) => {
+        this.toastService.success("YEEY!")
+      },
+      error: (error) => {
+        this.toastService.errorLoco("shared.generic-error", {err: error.message});
+      }
+    })
   }
 
   protected readonly FacilityWizardID = FacilityWizardID;

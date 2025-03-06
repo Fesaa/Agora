@@ -207,6 +207,29 @@
             "remove": "Remove",
             "days": "Active days",
             "range": "Active hours"
+          },
+          "save": {
+            "header": "Save",
+            "preview": {
+              "header": "Preview",
+              "displayName": "Display name",
+              "description": "Description",
+              "alertManagement": "Alert management",
+              "no": "No",
+              "yes": "Yes",
+              "cost": "Cost",
+              "availability": {
+                "title": "Availability",
+                "dayOfWeek": "Week days",
+                "timeRange": "Time range"
+              },
+              "noavailability": {
+                "title": "No availabilities configured",
+                "warning": "Your facility will be considered available at all times if no availabilities have been configured."
+              }
+            },
+            "save": "Save",
+            "prev": "Back"
           }
         }
       }

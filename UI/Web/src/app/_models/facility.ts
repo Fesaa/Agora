@@ -24,8 +24,11 @@ export enum DayOfWeek {
   Saturday = 6,
 }
 
-// TODO: Transloco
 export const AllWeekDays = [
+  {
+    label: "sunday",
+    value: DayOfWeek.Sunday,
+  },
   {
     label: "monday",
     value: DayOfWeek.Monday,
@@ -49,9 +52,5 @@ export const AllWeekDays = [
   {
     label: "saturday",
     value: DayOfWeek.Saturday,
-  },
-  {
-    label: "sunday",
-    value: DayOfWeek.Sunday,
   }
 ]

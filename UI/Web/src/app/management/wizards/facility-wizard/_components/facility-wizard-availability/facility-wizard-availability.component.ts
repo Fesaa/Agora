@@ -35,13 +35,11 @@ export class FacilityWizardAvailabilityComponent {
   }
 
   updateDayChecked(availability: Availability, day: DayOfWeek) {
-    availability.dayOfWeek = availability.dayOfWeek.filter(d => {
-      if (d !== day) {
-        return true;
-      }
-
-      return !this.hasDayChecked(availability, day);
-    })
+    if (this.hasDayChecked(availability, day)) {
+      availability.dayOfWeek = availability.dayOfWeek.filter(d => d !== day)
+    } else {
+      availability.dayOfWeek.push(day);
+    }
   }
 
   updateString(availability: Availability, start: number, end: number) {

@@ -21,7 +21,7 @@
 
       @defer (when sections[index].id == FacilityWizardID.Save; prefetch on idle) {
         @if (sections[index].id == FacilityWizardID.Save) {
-          <app-facility-wizard-save [facility]="facility" (prev)="navigateToPage(1)" />
+          <app-facility-wizard-save [facility]="facility" (prev)="navigateToPage(1)" (save)="save()" />
         }
       }
 
