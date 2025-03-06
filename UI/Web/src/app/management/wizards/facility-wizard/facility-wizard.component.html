@@ -1,0 +1,31 @@
+<div class="facility-wizard">
+
+  <div class="steps">
+    <p-steps [activeIndex]="index" [model]="sections" />
+  </div>
+
+  @if (facility !== undefined) {
+    <div class="sections">
+
+      @defer (when sections[index].id == FacilityWizardID.General; prefetch on idle) {
+        @if (sections[index].id == FacilityWizardID.General) {
+          <app-facility-wizard-general [facility]="facility" (next)="navigateToPage(1)" />
+        }
+      }
+
+      @defer (when sections[index].id == FacilityWizardID.Availability; prefetch on idle) {
+        @if (sections[index].id == FacilityWizardID.Availability) {
+          <app-facility-wizard-availability [facility]="facility" (prev)="navigateToPage(0)" (next)="navigateToPage(2)" />
+        }
+      }
+
+      @defer (when sections[index].id == FacilityWizardID.Save; prefetch on idle) {
+        @if (sections[index].id == FacilityWizardID.Save) {
+          <app-facility-wizard-save [facility]="facility" (prev)="navigateToPage(1)" (save)="save()" />
+        }
+      }
+
+    </div>
+  }
+
+</div>

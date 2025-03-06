@@ -19,6 +19,9 @@ public class AutoMapperProfiles: Profile
 
         CreateMap<Theme, ThemeDto>();
         CreateMap<MeetingRoom, MeetingRoomDto>();
+        CreateMap<Facility, FaclitiyDto>();
+        CreateMap<Availability, AvailabilityDto>();
+        CreateMap<AvailabilityDto, Availability>();
 
     }
 }

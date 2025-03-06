@@ -1,0 +1,49 @@
+<p-card [header]="t('header')" *transloco="let t; prefix:'management.configuration.facilities.wizard.save'">
+  <p-card [header]="t('header')" *transloco="let t; prefix:'management.configuration.facilities.wizard.save.preview'">
+    <div class="preview-container">
+      <div class="preview-field">
+        <label>{{ t('displayName') }}</label>
+        <p>{{ facility.displayName }}</p>
+      </div>
+      <div class="preview-field">
+        <label>{{ t('description') }}</label>
+        <p>{{ facility.description }}</p>
+      </div>
+      <div class="preview-field">
+        <label>{{ t('alertManagement') }}</label>
+        <p>{{ facility.alertManagement ? t('yes') : t('no') }}</p>
+      </div>
+      <div class="preview-field">
+        <label>{{ t('cost') }}</label>
+        <p>{{ facility.cost }}</p>
+      </div>
+      <p-fieldset [legend]="t('title')" [toggleable]="true" [collapsed]="facility.availability.length > 0"
+                  *transloco="let t;prefix:'management.configuration.facilities.wizard.save.preview.'
+                  + (facility.availability.length > 0 ? '' : 'no')
+                  + 'availability'">
+        <div *ngFor="let availability of facility.availability; let i = index" class="availability-item">
+          <div class="preview-field">
+            <label>{{ t('dayOfWeek') }}</label>
+            <p *transloco="let t;">
+              @for (day of availability.dayOfWeek; track $index) {
+                {{t('shared.'+AllWeekDays[day].label)}}
+              }
+            </p>
+          </div>
+          <div class="preview-field">
+            <label>{{ t('timeRange') }}</label>
+            <p>{{ availability.timeRange }}</p>
+          </div>
+        </div>
+        <div *ngIf="facility.availability.length === 0">
+          <p>{{ t('warning') }}</p>
+        </div>
+      </p-fieldset>
+    </div>
+  </p-card>
+
+  <div class="navigation-btn">
+    <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
+    <p-button (onClick)="save.emit()" >{{t('save')}}</p-button>
+  </div>
+</p-card>

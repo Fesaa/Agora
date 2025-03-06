@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
@@ -25,12 +26,16 @@ public class FacilityService(ILogger<FacilityService> logger, IUnitOfWork unitOf
         {
             DisplayName = facilityDto.DisplayName,
             Description = facilityDto.Description,
-            Availability = mapper.Map<List<Availability>>(facilityDto.Availability),
+            Availability = facilityDto.Availability.Select(mapper.Map<Availability>).ToList(),
             Cost = facilityDto.Cost,
             AlertManagement = facilityDto.AlertManagement,
         };
 
         unitOfWork.FacilityRepository.Add(f);
+        if (unitOfWork.HasChanges())
+        {
+            await unitOfWork.CommitAsync();
+        }
         return f;
     }
     public async Task<Facility> UpdateAsync(FaclitiyDto facilityDto)
@@ -46,11 +51,17 @@ public class FacilityService(ILogger<FacilityService> logger, IUnitOfWork unitOf
         
         // TODO: Remove from upcoming meetings that use this during unavailable hours/days
         // And send notification if so
-        f.Availability = mapper.Map<List<Availability>>(facilityDto.Availability);
+        f.Availability = facilityDto.Availability.Select(mapper.Map<Availability>).ToList();
         
         f.Cost = facilityDto.Cost;
         f.AlertManagement = facilityDto.AlertManagement;
         unitOfWork.FacilityRepository.Update(f);
+
+        if (unitOfWork.HasChanges())
+        {
+            await unitOfWork.CommitAsync();
+        }
+        
         return f;
     }
     public async Task DeleteAsync(int id)
