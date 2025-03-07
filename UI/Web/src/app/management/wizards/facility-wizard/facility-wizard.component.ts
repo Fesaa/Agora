@@ -46,6 +46,7 @@ export class FacilityWizardComponent implements OnInit{
     description: '',
     availability: [],
     alertManagement: false,
+    active: true,
     cost: 0,
   }
 

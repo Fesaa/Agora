@@ -176,7 +176,8 @@
             "label": "Actions",
             "edit": "Edit",
             "delete": "Delete",
-            "new": "New"
+            "new": "New",
+            "active": "Active"
           }
         },
         "wizard": {

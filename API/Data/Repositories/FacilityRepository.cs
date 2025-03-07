@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
@@ -10,7 +11,7 @@ namespace API.Data.Repositories;
 public interface IFacilityRepository
 {
     Task<List<Facility>> All();
-    Task<List<FaclitiyDto>> AllDtos();
+    Task<List<FaclitiyDto>> AllDtos(bool activeOnly);
     Task<Facility?> GetById(int id);
     
     void Add(Facility facility);
@@ -26,10 +27,10 @@ public class FacilityRepository(DataContext context, IMapper mapper): IFacilityR
         return await context.Facilities
             .ToListAsync();
     }
-    public async Task<List<FaclitiyDto>> AllDtos()
+    public async Task<List<FaclitiyDto>> AllDtos(bool activeOnly)
     {
         return await mapper
-            .ProjectTo<FaclitiyDto>(context.Facilities)
+            .ProjectTo<FaclitiyDto>(context.Facilities.Where(f => !activeOnly || f.Active))
             .ToListAsync();
     }
     public async Task<Facility?> GetById(int id)

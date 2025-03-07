@@ -14,6 +14,9 @@ public interface IFacilityService
 {
     Task<Facility> CreateAsync(FaclitiyDto facilityDto);
     Task<Facility> UpdateAsync(FaclitiyDto facilityDto);
+    Task ActiveAsync(int id);
+    // TODO: Change to Tuple with the specific meetings? Idk. Meetings aren't implemented yet. SO big TODO here.
+    Task<IList<MeetingRoom>> DeActivateAsync(int id);
     Task DeleteAsync(int id);
 }
 
@@ -63,6 +66,43 @@ public class FacilityService(ILogger<FacilityService> logger, IUnitOfWork unitOf
         }
         
         return f;
+    }
+    public async Task ActiveAsync(int id)
+    {
+        var f = await unitOfWork.FacilityRepository.GetById(id);
+        if (f == null)
+        {
+            throw new AgoraException("facility-not-found");
+        }
+        
+        f.Active = true;
+        unitOfWork.FacilityRepository.Update(f);
+        await unitOfWork.CommitAsync();
+    }
+    public async Task<IList<MeetingRoom>> DeActivateAsync(int id)
+    {
+        var f = await unitOfWork.FacilityRepository.GetById(id);
+        if (f == null)
+        {
+            throw new AgoraException("facility-not-found");
+        }
+        
+        f.Active = false;
+        unitOfWork.FacilityRepository.Update(f);
+
+        var impacted = new List<MeetingRoom>();
+        foreach (var room in f.MeetingRooms)
+        {
+            room.Facilities.Remove(f);
+            // TODO: Check if there are upcoming meetings
+            // if (room.HasUpcomingMeeting())
+            // {
+            //     impacted.Add(room);
+            // }
+        }
+        
+        await unitOfWork.CommitAsync();
+        return impacted;
     }
     public async Task DeleteAsync(int id)
     {

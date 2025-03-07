@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Facility} from '../_models/facility';
+import {MeetingRoom} from '../_models/room';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,13 @@ export class FacilityService {
 
   delete(id: number) {
     return this.httpClient.delete(this.baseUrl + "/" + id);
+  }
+
+  activate(id: number) {
+    return this.httpClient.post(this.baseUrl + "activate/" + id, {});
+  }
+
+  deactivate(id: number) {
+    return this.httpClient.post<MeetingRoom[]>(this.baseUrl + "deactivate/" + id, {});
   }
 }
