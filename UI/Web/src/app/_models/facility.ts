@@ -5,6 +5,7 @@ export type Facility = {
   description: string;
   alertManagement: boolean;
   cost: number;
+  active: boolean;
   availability: Availability[];
 };
 

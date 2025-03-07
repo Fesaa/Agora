@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
+using API.Entities;
 using API.Extensions;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +15,9 @@ public class FacilitiesController(ILogger<FacilitiesController> logger, IUnitOfW
 {
 
     [HttpGet("all")]
-    public async Task<ActionResult<List<FaclitiyDto>>> GetAll()
+    public async Task<ActionResult<List<FaclitiyDto>>> GetAll([FromQuery] bool activeOnly)
     {
-        return Ok(await unitOfWork.FacilityRepository.AllDtos());
+        return Ok(await unitOfWork.FacilityRepository.AllDtos(activeOnly));
     }
 
     [HttpGet("{id}")]
@@ -47,6 +48,19 @@ public class FacilitiesController(ILogger<FacilitiesController> logger, IUnitOfW
         logger.LogDebug("{UserName} is trying to deleting facility {Id}", User.GetName(), id);
         await facilityService.DeleteAsync(id);
         return Ok();
+    }
+
+    [HttpPost("activate/{id}")]
+    public async Task<IActionResult> Activate(int id)
+    {
+        await facilityService.ActiveAsync(id);
+        return Ok();
+    }
+
+    [HttpPost("deactivate/{id}")]
+    public async Task<ActionResult<IList<MeetingRoom>>> Deactivate(int id)
+    {
+        return Ok(await facilityService.DeActivateAsync(id));
     }
     
 }
