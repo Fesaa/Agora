@@ -1,1 +1,53 @@
-<p>management-dashboard works!</p>
+<p-splitter [style]="{ height: '90vh', margin: '20px' }" [panelSizes]="[25, 75]" [minSizes]="[10, 0]">
+  <ng-template #panel>
+    <!-- TODO: Upcoming meetings -->
+    <div class="panel">
+      <span class="panel-header">Upcoming meetings</span>
+    </div>
+  </ng-template>
+  <ng-template #panel>
+    <p-splitter layout="vertical" [panelSizes]="[50, 50]">
+      <ng-template #panel>
+
+        <div class="panel">
+          <span class="panel-header">Most used facilities</span>
+
+          <!-- TODO: Graph? PieChart? Something else? -->
+
+        </div>
+
+      </ng-template>
+      <ng-template #panel>
+        <p-splitter [panelSizes]="[70, 30]">
+
+          <ng-template #panel>
+
+            <span class="panel-header">Most used rooms</span>
+
+            <!-- TODO: Graph? PieChart? Something else? -->
+
+          </ng-template>
+
+          <ng-template #panel>
+            <div class="panel">
+              <span class="panel-header">Quick Actions</span>
+
+              <div class="quick-actions">
+
+                <p-button [routerLink]="'/management/configuration'" variant="outlined" severity="success">Configure</p-button>
+
+                <p-button [routerLink]="'/management/wizard/facility'" variant="outlined" severity="info">New Meeting Room</p-button>
+
+                <p-button [routerLink]="" variant="outlined" severity="info">New Facility</p-button>
+
+                <p-button [routerLink]="" variant="outlined" severity="info">New Meeting</p-button>
+
+              </div>
+
+            </div>
+          </ng-template>
+        </p-splitter>
+      </ng-template>
+    </p-splitter>
+  </ng-template>
+</p-splitter>
