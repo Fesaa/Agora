@@ -1,0 +1,64 @@
+
+<div *transloco="let t; prefix:'management.configuration.rooms'">
+  <div class="rooms-config-container">
+    <p-card [header]="t('header')">
+
+      <p>{{t('description.p1')}}</p>
+      <p>{{t('description.p2')}}</p>
+      <p>
+        {{t('description.docs')}}
+        <a [href]="ROOMS" target="_blank">{{t('description.link')}}</a>
+        {{t('description.end')}}
+      </p>
+    </p-card>
+  </div>
+
+  <p-card>
+      <p-table
+        #roomsTable
+        [value]="meetingRooms"
+        [(rows)]="size"
+        [paginator]="meetingRooms.length > size || size != 10"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        [loading]="loading"
+        stripedRows
+        *transloco="let t; prefix:'management.configuration.rooms.table'"
+      >
+
+        <ng-template #caption>
+
+          <div class="caption">
+            <p-button (onClick)="gotoWizard()" [label]="t('actions.new')" icon="pi pi-plus" />
+          </div>
+
+        </ng-template>
+
+        <ng-template #header>
+          <tr>
+            <th pSortableColumn="displayName">{{ t('title') }} <p-sortIcon field="displayName" /> </th>
+            <th style="width: 35%">{{ t('actions.label') }}</th>
+          </tr>
+        </ng-template>
+
+        <ng-template #body let-room>
+          <tr>
+            <th>{{room.displayName}}</th>
+            <th class="actions">
+
+              <p-button (onClick)="gotoWizard(room.id)">{{t('actions.edit')}}</p-button>
+
+              <p-button (onClick)="delete(room.id)" severity="danger">{{t('actions.delete')}}</p-button>
+
+            </th>
+          </tr>
+
+        </ng-template>
+
+        <ng-template #loadingbody>
+          <p-skeleton />
+        </ng-template>
+      </p-table>
+    </p-card>
+
+</div>
+

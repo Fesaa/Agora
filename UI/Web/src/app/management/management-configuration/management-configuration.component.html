@@ -34,7 +34,7 @@
 
     @defer (when selected == ConfigurationId.Rooms; prefetch on idle) {
       @if (selected == ConfigurationId.Rooms) {
-        <span>Rooms</span>
+        <app-room-configuration />
       }
     }
 

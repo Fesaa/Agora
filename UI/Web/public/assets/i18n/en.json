@@ -160,15 +160,34 @@
           }
         }
       },
+      "rooms": {
+        "header": "Meeting Rooms",
+        "description": {
+          "p1": "Manage your existing meeting rooms or add new ones here.",
+          "p2": "At the core of a meeting is the meeting room. Agora allows you to define as many meeting rooms as you want, as well as create rooms that combine others.",
+          "docs": "More information in our",
+          "link": "documentation",
+          "end": "."
+        },
+        "table": {
+          "title": "Title",
+          "actions": {
+            "label": "Actions",
+            "edit": "Edit",
+            "delete": "Delete",
+            "new": "New"
+          },
+          "empty": {
+            "header": "No rooms configured",
+            "new": "{{shared.new}}"
+          }
+        }
+      },
       "facilities": {
         "header": "Facilities",
         "description": {
           "p1": "Manage your existing facilities or add new ones here.",
           "p2": "Agora allows you to add facilities, there can be anything (optionally) extra that is available in all or some meeting rooms. When creating a new meeting the user can choose to select which they want to make use of."
-        },
-        "empty": {
-          "header": "No facilities configured",
-          "new": "{{shared.new}}"
         },
         "table": {
           "title": "Title",
