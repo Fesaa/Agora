@@ -27,6 +27,11 @@ public class Facility
     /// Optional additional cost, defaults to 0
     /// </summary>
     public float Cost { get; set; } = 0f;
+    
+    /// <summary>
+    /// If the facility can currently be selected/used
+    /// </summary>
+    public bool Active { get; set; } = true;
 
     public List<Availability> Availability { get; set; } = [];
 

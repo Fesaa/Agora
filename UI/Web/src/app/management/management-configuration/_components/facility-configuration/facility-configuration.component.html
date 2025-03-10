@@ -41,9 +41,14 @@
           <th>{{facility.displayName}}</th>
           <th class="actions">
 
-            <p-button (onClick)="gotoWizard(facility.id)">{{t('actions.edit')}}</p-button>
+            <p-button variant="text" (onClick)="gotoWizard(facility.id)">{{t('actions.edit')}}</p-button>
 
-            <p-button (onClick)="delete(facility.id)" severity="danger">{{t('actions.delete')}}</p-button>
+            <p-button variant="text" (onClick)="delete(facility.id)" severity="danger">{{t('actions.delete')}}</p-button>
+
+            <div class="action-toggle">
+              <p-toggleswitch tooltipPosition="bottom" [pTooltip]="t('actions.active')"
+                              [(ngModel)]="facility.active" (onChange)="updateActive(facility, $event.checked)" />
+            </div>
 
           </th>
         </tr>
