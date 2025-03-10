@@ -1,0 +1,28 @@
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: var(--spacing);
+}
+
+.panel-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: calc(2*var(--spacing));
+  font-size: var(--title-font-size);
+}
+
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: var(--spacing);
+}
+
+.quick-actions > p-button {
+  margin-top: calc(5*var(--spacing));
+}
