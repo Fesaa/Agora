@@ -135,7 +135,8 @@ export class FacilityWizardComponent implements OnInit{
 
     obs.subscribe({
       next: (facility) => {
-        this.toastService.success("YEEY!")
+        this.toastService.success("Saved facility");
+        this.router.navigateByUrl("/management/configuration#facilities")
       },
       error: (error) => {
         this.toastService.errorLoco("shared.generic-error", {err: error.message});

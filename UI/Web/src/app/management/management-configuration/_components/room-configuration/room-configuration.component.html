@@ -45,9 +45,9 @@
             <th>{{room.displayName}}</th>
             <th class="actions">
 
-              <p-button (onClick)="gotoWizard(room.id)">{{t('actions.edit')}}</p-button>
+              <p-button variant="text" (onClick)="gotoWizard(room.id)">{{t('actions.edit')}}</p-button>
 
-              <p-button (onClick)="delete(room.id)" severity="danger">{{t('actions.delete')}}</p-button>
+              <p-button variant="text" (onClick)="delete(room.id)" severity="danger">{{t('actions.delete')}}</p-button>
 
             </th>
           </tr>
