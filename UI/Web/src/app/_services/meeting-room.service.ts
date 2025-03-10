@@ -17,14 +17,18 @@ export class MeetingRoomService {
   }
 
   create(meetingRoom: MeetingRoom) {
-    return this.httpClient.post(this.baseUrl + "/create", meetingRoom);
+    return this.httpClient.post(this.baseUrl + "create", meetingRoom);
   }
 
   update(meetingRoom: MeetingRoom) {
-    return this.httpClient.put(this.baseUrl + "/update", meetingRoom);
+    return this.httpClient.put(this.baseUrl + "update", meetingRoom);
   }
 
   delete(id: number) {
-    return this.httpClient.delete(this.baseUrl + "/" + id);
+    return this.httpClient.delete(this.baseUrl  + id);
+  }
+
+  get(id: number) {
+    return this.httpClient.get<MeetingRoom>(this.baseUrl + id);
   }
 }
