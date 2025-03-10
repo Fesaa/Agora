@@ -5,12 +5,13 @@ export type Facility = {
   description: string;
   alertManagement: boolean;
   cost: number;
+  active: boolean;
   availability: Availability[];
 };
 
 export type Availability = {
   id: number;
-  dayOfWeek: DayOfWeek;
+  dayOfWeek: DayOfWeek[];
   timeRange: string;
 }
 
@@ -23,3 +24,34 @@ export enum DayOfWeek {
   Friday = 5,
   Saturday = 6,
 }
+
+export const AllWeekDays = [
+  {
+    label: "sunday",
+    value: DayOfWeek.Sunday,
+  },
+  {
+    label: "monday",
+    value: DayOfWeek.Monday,
+  },
+  {
+    label: "tuesday",
+    value: DayOfWeek.Tuesday,
+  },
+  {
+    label: "wednesday",
+    value: DayOfWeek.Wednesday,
+  },
+  {
+    label: "thursday",
+    value: DayOfWeek.Thursday,
+  },
+  {
+    label: "friday",
+    value: DayOfWeek.Friday,
+  },
+  {
+    label: "saturday",
+    value: DayOfWeek.Saturday,
+  }
+]

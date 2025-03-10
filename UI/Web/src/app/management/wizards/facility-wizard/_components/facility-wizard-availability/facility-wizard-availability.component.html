@@ -1,0 +1,69 @@
+
+<p-card [header]="t('header')" *transloco="let t;prefix:'management.configuration.facilities.wizard.availability'">
+
+  <p-fieldset [legend]="t('explanation.legend')">
+    <p>
+      {{ t('explanation.p1') }}
+
+      <br> <br>
+    </p>
+  </p-fieldset>
+
+  <div class="lines">
+    @for (availability of facility.availability; track $index) {
+      <p-fieldset [toggleable]="true">
+        <div class="form-container">
+
+          <div class="form-field">
+            <label >{{t('days')}}</label>
+
+            <div class="day-selection">
+              @for (day of AllWeekDays; track day) {
+                <div class="day-selection-item" (click)="updateDayChecked(availability, day.value)">
+                  <input type="checkbox"
+                         [id]="$index + '_weekday_' + day"
+                         [value]="day"
+                         [checked]="hasDayChecked(availability, day.value)"
+                  >
+                  <label *transloco="let t;prefix:'shared'"
+                         [for]="$index + '_weekday_' + day"
+                  >
+                    {{t(day.label)}}
+                  </label>
+                </div>
+              }
+            </div>
+
+          </div>
+
+          <div class="form-field">
+            <label for="range">{{t('range')}}
+
+              @if (availability.timeRange.length > 0) {
+                - ({{availability.timeRange}})
+              }
+
+            </label>
+            <!-- Is a bit laggy -->
+            <p-slider id="range" min="0" max="23" [ngModel]="[8, 17]" [range]="true" (onChange)="updateString(availability, $event.values![0], $event.values![1])" />
+          </div>
+        </div>
+
+        <div class="new-btn">
+          <p-button (onClick)="remove($index)" severity="danger">{{t('remove')}}</p-button>
+        </div>
+
+      </p-fieldset>
+    }
+  </div>
+
+  <div class="new-btn">
+    <p-button (onClick)="addNewAvailability()" >{{t('new')}}</p-button>
+  </div>
+
+  <div class="navigation-btn">
+    <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
+    <p-button (onClick)="next.emit()" >{{t('next')}}</p-button>
+  </div>
+
+</p-card>

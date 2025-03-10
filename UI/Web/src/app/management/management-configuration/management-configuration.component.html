@@ -34,13 +34,15 @@
 
     @defer (when selected == ConfigurationId.Rooms; prefetch on idle) {
       @if (selected == ConfigurationId.Rooms) {
-        <span>Rooms</span>
+        <app-room-configuration />
       }
     }
 
     @defer (when selected == ConfigurationId.Facilities; prefetch on idle) {
       @if (selected == ConfigurationId.Facilities) {
-        <span>Facilities</span>
+        <div style="width: 100%">
+          <app-facility-configuration />
+        </div>
       }
     }
 

@@ -1,17 +1,19 @@
 import {Component, OnInit} from '@angular/core';
-import {MenuItem, MenuItemCommandEvent} from 'primeng/api';
-import {TranslocoDirective, TranslocoService} from '@jsverse/transloco';
+import {MenuItem} from 'primeng/api';
+import {TranslocoDirective} from '@jsverse/transloco';
 import {Menu} from 'primeng/menu';
 import {Ripple} from 'primeng/ripple';
-import {NgIf} from '@angular/common';
 import {Card} from 'primeng/card';
 import {ThemeConfigurationComponent} from './_components/theme-configuration/theme-configuration.component';
+import {FacilityConfigurationComponent} from './_components/facility-configuration/facility-configuration.component';
+import {ActivatedRoute, Router} from '@angular/router';
+import {RoomConfigurationComponent} from './_components/room-configuration/room-configuration.component';
 
 enum ConfigurationId {
-  Rooms,
-  Facilities,
-  BrandingThemes,
-  BrandingLogo,
+  Rooms = "Rooms",
+  Facilities = "Facilities",
+  BrandingThemes = "BrandingThemes",
+  BrandingLogo = "BrandingLogo",
 }
 
 @Component({
@@ -20,9 +22,10 @@ enum ConfigurationId {
     Menu,
     TranslocoDirective,
     Ripple,
-    NgIf,
     Card,
-    ThemeConfigurationComponent
+    ThemeConfigurationComponent,
+    FacilityConfigurationComponent,
+    RoomConfigurationComponent
   ],
   templateUrl: './management-configuration.component.html',
   styleUrl: './management-configuration.component.css'
@@ -33,13 +36,15 @@ export class ManagementConfigurationComponent implements OnInit {
 
 
   constructor(
-    private loco: TranslocoService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
   ) {
   }
 
   protected setSelectedCommand(id: ConfigurationId | undefined): () => void {
     return () => {
       this.selected = id;
+      this.router.navigate([], {fragment: id})
     }
   }
 
@@ -80,6 +85,14 @@ export class ManagementConfigurationComponent implements OnInit {
         ]
       }
     ]
+
+    this.activatedRoute.fragment.subscribe(fragment => {
+      if (fragment) {
+        if (Object.values(ConfigurationId).find(id => id === fragment)) {
+          this.selected = fragment as ConfigurationId;
+        }
+      }
+    })
   }
 
 

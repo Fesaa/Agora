@@ -1,0 +1,39 @@
+.navigation-btn {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: calc(5 * var(--spacing));
+}
+
+.new-btn {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  justify-content: end;
+  padding-top: calc(5 * var(--spacing));
+}
+
+.day-selection {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.day-selection-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.lines > p-fieldset {
+  margin-top: calc(5 * var(--spacing));
+  width: 100%;
+}
