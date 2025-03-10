@@ -5,10 +5,10 @@ import {Card} from 'primeng/card';
 import {TranslocoDirective, TranslocoService} from '@jsverse/transloco';
 import {Tag} from 'primeng/tag';
 import {ProviderPipe} from '../../../../_pipes/provider.pipe';
-import {NgForOf, NgIf, TitleCasePipe} from '@angular/common';
+import {TitleCasePipe} from '@angular/common';
 import {Provider} from '../../../../_models/provider';
 import {ToastService} from '../../../../_services/toast-service';
-import {FileUpload, FileUploadEvent, FileUploadHandlerEvent} from 'primeng/fileupload';
+import {FileUpload, FileUploadHandlerEvent} from 'primeng/fileupload';
 import {environment} from '../../../../../environments/environment';
 import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 

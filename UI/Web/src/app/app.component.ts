@@ -3,7 +3,6 @@ import {Router, RouterOutlet} from '@angular/router';
 import {AuthService} from './_services/auth.service';
 import {OpenIdConnectService} from './_services/open-id-connect.service';
 import {Title} from '@angular/platform-browser';
-import {MessageService} from 'primeng/api';
 import {ThemeService} from './_services/theme.service';
 import {Toast} from 'primeng/toast';
 

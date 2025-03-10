@@ -5,17 +5,13 @@ import {Splitter} from 'primeng/splitter';
 import {Button} from 'primeng/button';
 import {RouterLink} from '@angular/router';
 import {Facility} from '../../_models/facility';
-import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-management-dashboard',
   imports: [
     Splitter,
     Button,
-    RouterLink,
-    CdkVirtualScrollViewport,
-    CdkVirtualForOf,
-    CdkFixedSizeVirtualScroll
+    RouterLink
   ],
   templateUrl: './management-dashboard.component.html',
   styleUrl: './management-dashboard.component.css'

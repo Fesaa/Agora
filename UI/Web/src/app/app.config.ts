@@ -1,10 +1,10 @@
-import { ApplicationConfig, provideZoneChangeDetection, isDevMode } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {ApplicationConfig, isDevMode, provideZoneChangeDetection} from '@angular/core';
+import {provideRouter} from '@angular/router';
 
-import { routes } from './app.routes';
+import {routes} from './app.routes';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
-import { TranslocoService } from './_services/transloco-loader';
-import { provideTransloco } from '@jsverse/transloco';
+import {TranslocoService} from './_services/transloco-loader';
+import {provideTransloco} from '@jsverse/transloco';
 import {provideOAuthClient} from 'angular-oauth2-oidc';
 import {providePrimeNG} from 'primeng/config';
 import Aura from '@primeng/themes/aura';

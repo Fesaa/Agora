@@ -40,5 +40,13 @@ public class RoomController(ILogger<RoomController> logger, IRoomService roomSer
         await roomService.Delete(id);
         return Ok();
     }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<MeetingRoomDto>> GetMeetingRoom(int id)
+    {
+        var room = await unitOfWork.RoomRepository.GetMeetingRoom(id);
+        if (room == null) return NotFound();
+        return Ok(mapper.Map<MeetingRoomDto>(room));
+    }
     
 }

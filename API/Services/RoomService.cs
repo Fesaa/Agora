@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
@@ -36,11 +37,25 @@ public class RoomService(ILogger<RoomService> logger, IUnitOfWork unitOfWork, IM
             throw new AgoraException("name-already-used");
         }
 
-        room = await ToMeetingRoom(meetingRoomDto);
+        room = new MeetingRoom()
+        {
+            Id = meetingRoomDto.Id,
+            DisplayName = meetingRoomDto.DisplayName,
+            Location = meetingRoomDto.Location,
+            Capacity = meetingRoomDto.Capacity,
+            Description = string.IsNullOrEmpty(meetingRoomDto.Description) ? string.Empty : meetingRoomDto.Description,
+            MergeAble = meetingRoomDto.MergeAble,
+            MayExceedCapacity = meetingRoomDto.MayExceedCapacity,
+        };
+        await ValidateFacilities(room);
 
         logger.LogDebug("Creating a new room {Name} on {Location}", room.DisplayName, room.Location);
         unitOfWork.RoomRepository.Add(room);
-        await unitOfWork.CommitAsync();
+
+        if (unitOfWork.HasChanges())
+        {
+            await unitOfWork.CommitAsync();
+        }
 
         return room;
     }
@@ -70,11 +85,29 @@ public class RoomService(ILogger<RoomService> logger, IUnitOfWork unitOfWork, IM
             meetingRoomDto.MergeRooms.Clear();
         }
 
-        var newRoom = await ToMeetingRoom(meetingRoomDto);
-        unitOfWork.RoomRepository.Update(newRoom);
-        await unitOfWork.CommitAsync();
         
-        return newRoom;
+        room.DisplayName = meetingRoomDto.DisplayName;
+        room.Location = meetingRoomDto.Location;
+        room.Capacity = meetingRoomDto.Capacity;
+        room.Description = meetingRoomDto.Description;
+        room.MergeAble = meetingRoomDto.MergeAble;
+        room.MayExceedCapacity = meetingRoomDto.MayExceedCapacity;
+        
+        var ids = meetingRoomDto.Facilities.Select(f => f.Id);
+        var facilities = dataContext.Facilities.Where(f => ids.Contains(f.Id));
+        room.Facilities.Clear();
+        room.Facilities.AddRange(facilities);
+
+        await ValidateFacilities(room);
+        
+        unitOfWork.RoomRepository.Update(room);
+
+        if (unitOfWork.HasChanges())
+        {
+            await unitOfWork.CommitAsync();
+        }
+        
+        return room;
     }
     public Task<MergeRooms> UpdateMergeRoom(MergeRoomDto mergeRoomDto)
     {
@@ -89,21 +122,8 @@ public class RoomService(ILogger<RoomService> logger, IUnitOfWork unitOfWork, IM
         throw new System.NotImplementedException();
     }
 
-    private async Task<MeetingRoom> ToMeetingRoom(MeetingRoomDto meetingRoomDto)
+    private async Task ValidateFacilities(MeetingRoom meetingRoom)
     {
-        var room = new MeetingRoom()
-        {
-            Id = meetingRoomDto.Id,
-            DisplayName = meetingRoomDto.DisplayName,
-            Location = meetingRoomDto.Location,
-            Capacity = meetingRoomDto.Capacity,
-            Description = string.IsNullOrEmpty(meetingRoomDto.Description) ? string.Empty : meetingRoomDto.Description,
-            MergeAble = meetingRoomDto.MergeAble,
-            MayExceedCapacity = meetingRoomDto.MayExceedCapacity,
-        };
-        
-        // TODO: Check Facilities
-        
-        return room;
+        // TODO: Validate we're not removing any that are still in use. bad naming have to rework. No time for now. Meetings don't exist yet anyway
     }
 }

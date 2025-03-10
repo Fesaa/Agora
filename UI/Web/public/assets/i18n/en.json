@@ -181,6 +181,17 @@
             "header": "No rooms configured",
             "new": "{{shared.new}}"
           }
+        },
+        "wizard": {
+          "facilities": {
+            "header": "Link facilities",
+            "explanation": {
+              "legend": "Information",
+              "p1": "Select which facilities can be used in this room. When selected, all times are applied."
+            },
+            "prev": "Previous",
+            "next": "Next"
+          }
         }
       },
       "facilities": {
