@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {OAuthService} from 'angular-oauth2-oidc';
-import {environment} from '../../environments/environment';
 import {OpenIdConnectService} from './open-id-connect.service';
 
 @Injectable({

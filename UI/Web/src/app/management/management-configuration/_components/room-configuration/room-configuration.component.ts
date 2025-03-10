@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {MeetingRoomService} from '../../../../_services/meeting-room.service';
 import {MeetingRoom} from '../../../../_models/room';
@@ -6,7 +6,6 @@ import {Card} from 'primeng/card';
 import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
 import {Skeleton} from 'primeng/skeleton';
-import {TitleCasePipe} from '@angular/common';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {ROOMS} from '../../../../_constants/links';
 
@@ -17,7 +16,6 @@ import {ROOMS} from '../../../../_constants/links';
     TableModule,
     Button,
     Skeleton,
-    TitleCasePipe,
     TranslocoDirective
   ],
   templateUrl: './room-configuration.component.html',

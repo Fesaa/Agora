@@ -1,13 +1,11 @@
-import { Component } from '@angular/core';
-import { StepsModule } from 'primeng/steps';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextarea } from 'primeng/inputtextarea';
-import { CheckboxModule } from 'primeng/checkbox';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { MeetingRoomService } from '../../../_services/meeting-room.service';
-
-
+import {Component} from '@angular/core';
+import {StepsModule} from 'primeng/steps';
+import {InputTextModule} from 'primeng/inputtext';
+import {InputTextarea} from 'primeng/inputtextarea';
+import {CheckboxModule} from 'primeng/checkbox';
+import {FormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {MeetingRoomService} from '../../../_services/meeting-room.service';
 
 
 @Component({
