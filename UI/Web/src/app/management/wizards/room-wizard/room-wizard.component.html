@@ -9,31 +9,31 @@
         </div>
         <div class="p-col-12 p-md-6">
           <label for="description">Description</label>
-          <textarea id="description" pInputTextarea [(ngModel)]="roomData.description"></textarea>
+          <textarea id="description" [(ngModel)]="roomData.description"></textarea>
         </div>
       </div>
-  
+
     <div class="form-group">
       <label for="location">Location</label>
       <input id="location" pInputText [(ngModel)]="roomData.location" />
     </div>
   </div>
-  
+
   <div *ngIf="currentStep === 1">
     <h3>Step 2: Capacity and Features</h3>
     <div class="form-group">
       <label for="capacity">Capacity</label>
       <input type="number" id="capacity" pInputText [(ngModel)]="roomData.capacity" />
     </div>
-  
+
     <div class="form-group">
       <label for="mayExceedCapacity">May Exceed Capacity</label>
-      <p-checkbox id="mayExceedCapacity" [(ngModel)]="roomData.mayExceedCapacity"></p-checkbox>
+      <p-checkbox id="mayExceedCapacity" binary="true" [(ngModel)]="roomData.mayExceedCapacity"></p-checkbox>
     </div>
-  
+
     <div class="form-group">
       <label for="mergeAble">Mergeable</label>
-      <p-checkbox id="mergeAble" [(ngModel)]="roomData.mergeAble"></p-checkbox>
+      <p-checkbox id="mergeAble" binary="true" [(ngModel)]="roomData.mergeAble"></p-checkbox>
     </div>
   </div>
 
@@ -43,7 +43,7 @@
     <label for="facilities">Facilities (comma-separated)</label>
     <input id="facilities" [(ngModel)]="roomData.facilities" />
   </div>
-  
+
   <div *ngIf="currentStep === 3">
     <!-- Step 4: Summary -->
     <h3>Step 4: Summary</h3>
@@ -51,7 +51,7 @@
     <button (click)="submitRoom()" *ngIf="currentStep === steps.length - 1">Submit</button>
 
   </div>
-  
+
 
 <button (click)="prevStep()" [disabled]="currentStep === 0">Back</button>
 <button (click)="nextStep()" [disabled]="currentStep === steps.length - 1">Next</button>
