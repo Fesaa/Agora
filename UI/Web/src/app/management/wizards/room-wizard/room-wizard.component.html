@@ -37,12 +37,11 @@
     </div>
   </div>
 
-  <div *ngIf="currentStep === 2">
-    <!-- Step 3: Facilities -->
-    <h3>Step 3: Facilities</h3>
-    <label for="facilities">Facilities (comma-separated)</label>
-    <input id="facilities" [(ngModel)]="roomData.facilities" />
-  </div>
+  @defer (when currentStep === 2; prefetch on idle) {
+    @if (currentStep === 2) {
+      <app-room-wizard-facility [(room)]="roomData" (prev)="prevStep()" (next)="nextStep()" />
+    }
+  }
 
   <div *ngIf="currentStep === 3">
     <!-- Step 4: Summary -->

@@ -21,7 +21,7 @@ export class MeetingRoomService {
   }
 
   update(meetingRoom: MeetingRoom) {
-    return this.httpClient.put(this.baseUrl + "update", meetingRoom);
+    return this.httpClient.post(this.baseUrl + "update", meetingRoom);
   }
 
   delete(id: number) {

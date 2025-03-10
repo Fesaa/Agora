@@ -30,6 +30,7 @@ public class RoomRepository(DataContext context, IMapper mapper): IRoomRepositor
     public async Task<MeetingRoom?> GetMeetingRoom(int id)
     {
         return await context.MeetingRooms
+            .Include(m => m.Facilities)
             .Where(mr => mr.Id == id)
             .FirstOrDefaultAsync();
     }

@@ -9,11 +9,13 @@ import {MeetingRoomService} from '../../../_services/meeting-room.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastService} from '../../../_services/toast-service';
 import {MeetingRoom} from '../../../_models/room';
+import {RoomWizardFacilityComponent} from './_components/room-wizard-facility/room-wizard-facility.component';
+import {Observable} from 'rxjs';
 
 
 @Component({
   selector: 'app-room-wizard',
-  imports: [StepsModule, InputTextModule, FormsModule, CommonModule, CheckboxModule, InputTextarea],
+  imports: [StepsModule, InputTextModule, FormsModule, CommonModule, CheckboxModule, InputTextarea, RoomWizardFacilityComponent],
   templateUrl: './room-wizard.component.html',
   styleUrls: ['./room-wizard.component.css']
 })
@@ -90,14 +92,23 @@ export class RoomWizardComponent implements OnInit {
   }
 
   submitRoom() {
-    this.meetingRoomService.create(this.roomData).subscribe({
+    let obs: Observable<any>
+    if (this.roomData.id > 0) {
+      obs = this.meetingRoomService.update(this.roomData)
+    } else {
+      obs = this.meetingRoomService.create(this.roomData);
+    }
+
+
+    obs.subscribe({
       next: (response) => {
         console.log('Room created successfully:', response);
-        // Handle success (e.g., navigate away, show a message, reset the form)
+        this.toastService.success("Room created successfully");
+        this.router.navigateByUrl("/management/configuration#rooms");
       },
       error: (error) => {
         console.error('Error creating room:', error);
-        // Handle errors (e.g., show an error message)
+        this.toastService.errorLoco("shared.generic-error", {}, {err: error.message});
       }
     });
   }

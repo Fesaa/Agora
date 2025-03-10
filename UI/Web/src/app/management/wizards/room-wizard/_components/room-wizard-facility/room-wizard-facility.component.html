@@ -1,0 +1,24 @@
+
+
+<p-card [header]="t(('header'))" *transloco="let t;prefix:'management.configuration.rooms.wizard.facilities'">
+  <p-fieldset [legend]="t('explanation.legend')">
+    <p>
+      {{ t('explanation.p1') }}
+    </p>
+  </p-fieldset>
+
+  <cdk-virtual-scroll-viewport itemSize="25" style="height: 300px" class="facility-preview-holder">
+    <div *cdkVirtualFor="let f of facilities">
+      <div class="facility-preview">
+        <span>{{f.displayName}}</span>
+        <p-checkbox variant="filled" binary="true" [(ngModel)]="activeMap[f.id]" (onChange)="onCheckBoxChange(f, $event.checked)" />
+      </div>
+    </div>
+  </cdk-virtual-scroll-viewport>
+
+  <div class="navigation-btn">
+    <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
+    <p-button (onClick)="next.emit()" >{{t('next')}}</p-button>
+  </div>
+
+</p-card>
