@@ -7,6 +7,7 @@ import {Card} from 'primeng/card';
 import {ThemeConfigurationComponent} from './_components/theme-configuration/theme-configuration.component';
 import {FacilityConfigurationComponent} from './_components/facility-configuration/facility-configuration.component';
 import {ActivatedRoute, Router} from '@angular/router';
+import {RoomConfigurationComponent} from './_components/room-configuration/room-configuration.component';
 
 enum ConfigurationId {
   Rooms = "Rooms",
@@ -23,7 +24,8 @@ enum ConfigurationId {
     Ripple,
     Card,
     ThemeConfigurationComponent,
-    FacilityConfigurationComponent
+    FacilityConfigurationComponent,
+    RoomConfigurationComponent
   ],
   templateUrl: './management-configuration.component.html',
   styleUrl: './management-configuration.component.css'

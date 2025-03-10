@@ -13,7 +13,7 @@ export class MeetingRoomService {
   constructor(private httpClient: HttpClient) { }
 
   all() {
-    return this.httpClient.get<MeetingRoom[]>(this.baseUrl + "/all-rooms");
+    return this.httpClient.get<MeetingRoom[]>(this.baseUrl + "all-rooms");
   }
 
   create(meetingRoom: MeetingRoom) {
