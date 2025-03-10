@@ -5,14 +5,14 @@ import { InputTextarea } from 'primeng/inputtextarea';
 import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MeetingRoomService } from '../_services/meeting-room.service';
+import { MeetingRoomService } from '../../../_services/meeting-room.service';
 
 
 
 
 @Component({
   selector: 'app-room-wizard',
-  imports: [StepsModule, InputTextModule, FormsModule,CommonModule, CheckboxModule],
+  imports: [StepsModule, InputTextModule, FormsModule, CommonModule, CheckboxModule, InputTextarea],
   templateUrl: './room-wizard.component.html',
   styleUrls: ['./room-wizard.component.css']
 })
@@ -65,5 +65,5 @@ export class RoomWizardComponent {
       }
     });
   }
-  
+
 }

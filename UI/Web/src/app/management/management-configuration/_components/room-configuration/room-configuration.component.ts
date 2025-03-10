@@ -46,7 +46,7 @@ export class RoomConfigurationComponent {
   delete(id: number) {}
 
   gotoWizard(id?: number) {
-    this.router.navigateByUrl('management/wizard/rooms' + (id ? `?roomId=${id}` : ''));
+    this.router.navigateByUrl('management/wizard/room' + (id ? `?roomId=${id}` : ''));
   }
 
   protected readonly ROOMS = ROOMS;
