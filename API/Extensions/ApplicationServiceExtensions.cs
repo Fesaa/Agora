@@ -39,6 +39,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<IThemeService, ThemeService>();
         services.AddScoped<IRoomService, RoomService>();
         services.AddScoped<IFacilityService, FacilityService>();
+        services.AddScoped<IMeetingService, MeetingService>();
         
         services.AddSqlite();
 
