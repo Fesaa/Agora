@@ -32,4 +32,5 @@ public class DataContext: DbContext
     public DbSet<MergeRooms> MergeRooms { get; set; } = null!;
     public DbSet<Facility> Facilities { get; set; } = null!;
     public DbSet<Meeting> Meetings { get; set; } = null!;
+    public DbSet<UserEmail> UserEmails { get; set; } = null!;
 }

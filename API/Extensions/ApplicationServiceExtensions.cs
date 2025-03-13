@@ -43,7 +43,42 @@ public static class ApplicationServiceExtensions
         
         services.AddSqlite();
 
-        Task.Run(async () => await services.AddAuthenticationAsync(environment)).Wait();
+        Task.Run(async () =>
+        {
+            await services.AddAuthenticationAsync(environment);
+            await services.AddCalenderSyncAsync();
+        }).Wait();
+    }
+
+    private static async Task AddCalenderSyncAsync(this IServiceCollection services)
+    {
+        var provider = services.BuildServiceProvider();
+        var context = provider.GetRequiredService<DataContext>();
+        var unitOfWork = provider.GetRequiredService<IUnitOfWork>();
+        var logger = provider.GetRequiredService<ILogger<IServiceCollection>>();
+        var settingsRepository = unitOfWork.SettingsRepository;
+
+        var canConnect = await context.Database.CanConnectAsync();
+
+        if (!canConnect)
+        {
+            logger.LogCritical("Unable to connect to the database, falling back to DefaultCalenderSyncService");
+            services.AddScoped<ICalenderSyncService, DefaultCalenderSyncService>();
+            return;
+        }
+        
+        var setting = await settingsRepository.GetSettingsDtoAsync();
+        switch (setting.CalenderSyncProvider)
+        {
+            case CalenderSyncProvider.None:
+                logger.LogDebug("Using DefaultCalenderSyncService");
+                services.AddScoped<ICalenderSyncService, DefaultCalenderSyncService>();
+                break;
+            default:
+                logger.LogCritical("No valid CalenderSyncProvider found, falling back to DefaultCalenderSyncService");
+                services.AddScoped<ICalenderSyncService, DefaultCalenderSyncService>();
+                break;
+        }
     }
 
     private static async Task AddAuthenticationAsync(this IServiceCollection services, IWebHostEnvironment environment)

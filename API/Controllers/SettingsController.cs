@@ -39,6 +39,13 @@ public class SettingsController(ILogger<SettingsController> logger, IUnitOfWork 
                         setting.Value = settingDto.LoggingLevel;
                     }
                     break;
+                case ServerSettingKey.CalenderSyncProvider:
+                    var sValue = settingDto.CalenderSyncProvider.ToString();
+                    if (setting.Value != sValue)
+                    {
+                        setting.Value = sValue;
+                    }
+                    break;
             }
         }
 

@@ -17,4 +17,8 @@ public enum ServerSettingKey
     /// </summary>
     /// <remarks>This is used to register the correct RoleClaimTransformer</remarks>
     OpenIdConnectProviders = 4,
+    /// <summary>
+    /// Which CalenderProvider your users can connect with
+    /// </summary>
+    CalenderSyncProvider = 5,
 }

@@ -5,7 +5,11 @@ namespace API.Entities;
 
 public class Meeting
 {
-    public required int Id { get; set; }
+    public int Id { get; set; }
+    
+    public required string Title { get; set; }
+    
+    public string Description { get; set; } = String.Empty;
 
     /// <summary>
     /// ID to communicate with Microsoft / Google calendar 

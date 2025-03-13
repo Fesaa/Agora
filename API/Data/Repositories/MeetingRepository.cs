@@ -82,6 +82,20 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
         return q => q.Where(m => m.Room.Id == roomId);
     }
 
+    /// <summary>
+    /// Filters on the room id, or rooms where one of its children has the id
+    /// </summary>
+    /// <param name="roomId"></param>
+    /// <returns></returns>
+    public static MeetingFilterOption InRoomOrMergedRoom(int roomId)
+    {
+        return q => 
+            q.Where(m => m.Room.Id == roomId || 
+                         m.Room.ParentMergeRooms
+                             .Any(r => r.MeetingRooms.Select(mm => mm.Id)
+                                 .Contains(roomId)));
+    }
+
     public static MeetingFilterOption InAnyRoom(IEnumerable<int> roomIds)
     {
         return q => q.Where(m => roomIds.Contains(m.Room.Id));
