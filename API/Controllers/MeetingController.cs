@@ -22,6 +22,20 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
         return Ok();
     }
 
+    [HttpPost("update")]
+    public async Task<ActionResult> UpdateMeeting(MeetingDto meetingDto)
+    {
+        await meetingService.UpdateMeeting(meetingDto);
+        return Ok();
+    }
+
+    [HttpDelete]
+    public async Task<ActionResult> DeleteMeeting(int id)
+    {
+        await meetingService.DeleteMeeting(id);
+        return Ok();
+    }
+
     [HttpGet("today")]
     public async Task<ActionResult<IEnumerable<MeetingDto>>> GetTodaysMeetings()
     {

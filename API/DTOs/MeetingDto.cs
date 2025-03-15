@@ -7,6 +7,8 @@ public class MeetingDto
 {
     public int Id { get; set; }
     
+    public required string CreatorId { get; set; }
+    
     public required string Title { get; set; }
     
     public string Description { get; set; } = String.Empty;
@@ -17,7 +19,7 @@ public class MeetingDto
     
     public DateTime EndTime { get; set; }
     
-    public MeetingRoomDto MeetingRoom { get; set; }
+    public MeetingRoomDto? MeetingRoom { get; set; }
     
     public IList<string> Attendees { get; set; }
 }

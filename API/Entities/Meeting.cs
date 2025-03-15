@@ -7,6 +7,8 @@ public class Meeting
 {
     public int Id { get; set; }
     
+    public required string CreatorId { get; set; }
+    
     public required string Title { get; set; }
     
     public string Description { get; set; } = String.Empty;
