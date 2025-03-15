@@ -17,6 +17,7 @@ public interface IMeetingRepository
     void Update(Meeting meeting);
     void Remove(Meeting meeting);
     Task<IEnumerable<MeetingDto>> GetMeetingDtos(params MeetingFilterOption[] options);
+    Task<IEnumerable<Meeting>> GetMeetings(params MeetingFilterOption[] options);
     Task<Meeting?> GetMeetingById(int id);
 }
 
@@ -46,6 +47,18 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
         }
         
         return await mapper.ProjectTo<MeetingDto>(q).ToListAsync();
+    }
+    public async Task<IEnumerable<Meeting>> GetMeetings(params MeetingFilterOption[] options)
+    {
+        var q = context.Meetings.AsQueryable()
+            .AsNoTracking();
+
+        foreach (var option in options)
+        {
+            q = option(q);
+        }
+
+        return await q.ToListAsync();
     }
     public async Task<Meeting?> GetMeetingById(int id)
     {

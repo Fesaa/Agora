@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.Constants;
 using API.Data;
 using API.DTOs;
 using API.Entities;
@@ -43,10 +44,13 @@ public class FacilitiesController(ILogger<FacilitiesController> logger, IUnitOfW
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<FaclitiyDto>> Delete(int id)
+    public async Task<ActionResult<FaclitiyDto>> Delete(int id, [FromQuery] bool force = false)
     {
+        force &= User.IsInRole(PolicyConstants.AdminRole);
+
         logger.LogDebug("{UserName} is trying to deleting facility {Id}", User.GetName(), id);
-        await facilityService.DeleteAsync(id);
+
+        await facilityService.DeleteAsync(id, force);
         return Ok();
     }
 
