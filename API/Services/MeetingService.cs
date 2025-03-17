@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -75,10 +76,7 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
         
         meeting.ExternalId = await calenderSyncService.AddMeetingFromUser(meeting);
         unitOfWork.MeetingRepository.Add(meeting);
-        if (unitOfWork.HasChanges())
-        {
-            await unitOfWork.CommitAsync();
-        }
+        await unitOfWork.CommitAsync();
     }
     public async Task UpdateMeeting(MeetingDto meetingDto)
     {
@@ -113,16 +111,20 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
         var toDeleteFor = meeting.Attendees.
             Where(a => !meetingDto.Attendees.Contains(a)).
             ToList();
-        
+
+        meeting.Attendees = await SanitizedAttendees(meetingDto.Attendees);
+        if (meeting.Attendees.Count == 0 && meetingDto.Attendees.Any())
+        {
+            logger.LogWarning("Meeting {Id} on {Date} in {Room} has no valid attendees. Hoped for {AttendeesCount}!",
+                meeting.Id, meeting.StartTime.Date, meeting.Room.DisplayName, meetingDto.Attendees.Count);
+        }
+
         // TODO: Try catch? How do we want to handle failures to external API's?
         await calenderSyncService.DeleteMeetingForUsers(meeting.ExternalId, toDeleteFor);
         await calenderSyncService.UpdateMeetingFromUser(meeting);
         
         unitOfWork.MeetingRepository.Update(meeting);
-        if (unitOfWork.HasChanges())
-        {
-            await unitOfWork.CommitAsync();
-        }
+        await unitOfWork.CommitAsync();
     }
     public async Task DeleteMeeting(int meetingId)
     {
@@ -132,23 +134,23 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
             throw new AgoraException("meeting-not-found");
         }
 
+        // TODO: Should we allow deleting past meetings?
+
         var allUsers = meeting.Attendees;
         allUsers.Add(meeting.CreatorId);
         await calenderSyncService.DeleteMeetingForUsers(meeting.ExternalId, allUsers);
         
         unitOfWork.MeetingRepository.Remove(meeting);
-        if (unitOfWork.HasChanges())
-        {
-            await unitOfWork.CommitAsync();
-        }
+        await unitOfWork.CommitAsync();
     }
 
     // TODO: Allow non company users to be invited, save email for them and external id for others?
     private async Task<IList<string>> SanitizedAttendees(IList<string> attendees)
     {
-        return await context.UserEmails
+        return attendees;
+        /*return await context.UserEmails
             .Where(e => attendees.Contains(e.ExternalId))
             .Select(e => e.ExternalId)
-            .ToListAsync();
+            .ToListAsync();*/
     }
 }
