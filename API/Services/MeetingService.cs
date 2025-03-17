@@ -78,6 +78,8 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
             UsedFacilities = facilities,
         };
 
+        // TODO: Alert management if required (facilities)
+
         if (meeting.Attendees.Count == 0 && meetingDto.Attendees.Any())
         {
             logger.LogWarning("Meeting by {UserId} on {Date} in {Room} has no valid attendees. Hoped for {AttendeesCount}!",
@@ -141,6 +143,7 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
         }
 
         meeting.UsedFacilities = facilities;
+        // TODO: Alert management if required (facilities)
 
         // Sync external calenders & save to local database
         // TODO: Try catch? How do we want to handle failures to external API's?

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.Constants;
 using API.Data;
 using API.DTOs;
 using API.Services;
@@ -35,9 +36,10 @@ public class RoomController(ILogger<RoomController> logger, IRoomService roomSer
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, bool force = false)
     {
-        await roomService.Delete(id);
+        force &= User.IsInRole(PolicyConstants.AdminRole);
+        await roomService.Delete(id, force);
         return Ok();
     }
 

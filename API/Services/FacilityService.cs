@@ -124,11 +124,10 @@ public class FacilityService(ILogger<FacilityService> logger, IUnitOfWork unitOf
             // TODO: Use other exception?
             throw new AgoraException("facility-still-in-use");
         }
+
+        // TODO delete from meeting, notify users
         
         unitOfWork.FacilityRepository.Delete(f);
-        if (unitOfWork.HasChanges())
-        {
-            await unitOfWork.CommitAsync();
-        }
+        await unitOfWork.CommitAsync();
     }
 }
