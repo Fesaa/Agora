@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
+using API.Data.Repositories;
 using API.DTOs;
 using API.Entities;
 using API.Exceptions;
@@ -17,7 +19,7 @@ public interface IFacilityService
     Task ActiveAsync(int id);
     // TODO: Change to Tuple with the specific meetings? Idk. Meetings aren't implemented yet. SO big TODO here.
     Task<IList<MeetingRoom>> DeActivateAsync(int id);
-    Task DeleteAsync(int id);
+    Task DeleteAsync(int id, bool force = false);
 }
 
 public class FacilityService(ILogger<FacilityService> logger, IUnitOfWork unitOfWork, IMapper mapper): IFacilityService
@@ -104,14 +106,28 @@ public class FacilityService(ILogger<FacilityService> logger, IUnitOfWork unitOf
         await unitOfWork.CommitAsync();
         return impacted;
     }
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id, bool force = false)
     {
         var f = await unitOfWork.FacilityRepository.GetById(id);
         if (f == null)
         {
             throw new AgoraException("facility-not-found");
         }
+
+        var meetings = await unitOfWork.MeetingRepository.GetMeetings(
+            MeetingRepository.InAnyRoom(f.MeetingRooms.Select(r => r.Id)),
+            MeetingRepository.EndAfter(DateTime.UtcNow),
+            MeetingRepository.IsUsing(id));
+
+        if (meetings.Any() && !force)
+        {
+            // TODO: Use other exception?
+            throw new AgoraException("facility-still-in-use");
+        }
+
+        // TODO delete from meeting, notify users
         
         unitOfWork.FacilityRepository.Delete(f);
+        await unitOfWork.CommitAsync();
     }
 }

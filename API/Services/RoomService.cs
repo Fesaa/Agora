@@ -1,6 +1,8 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
+using API.Data.Repositories;
 using API.DTOs;
 using API.Entities;
 using API.Exceptions;
@@ -17,7 +19,7 @@ public interface IRoomService
     
     Task<MeetingRoom> Update(MeetingRoomDto meetingRoomDto);
     Task<MergeRooms> UpdateMergeRoom(MergeRoomDto mergeRoomDto);
-    Task Delete(int id);
+    Task Delete(int id, bool force = false);
     Task DeleteMergeRoom(int id);
 }
 
@@ -113,9 +115,28 @@ public class RoomService(ILogger<RoomService> logger, IUnitOfWork unitOfWork, IM
     {
         throw new System.NotImplementedException();
     }
-    public Task Delete(int id)
+    public async Task Delete(int id, bool force = false)
     {
-        throw new System.NotImplementedException();
+        var room = await unitOfWork.RoomRepository.GetMeetingRoom(id);
+        if (room == null)
+        {
+            throw new AgoraException("room-not-found");
+        }
+
+        var meetings = await unitOfWork.MeetingRepository.GetMeetings(
+            MeetingRepository.InRoom(room.Id),
+            MeetingRepository.EndAfter(DateTime.UtcNow));
+
+        if (meetings.Any() && !force)
+        {
+            // TODO: Use other exception?
+            throw new AgoraException("room-still-in-use");
+        }
+
+        // TODO: Delete meetings? Move them? Notify users? Setting option for behaviour here?
+
+        unitOfWork.RoomRepository.Remove(room);
+        await unitOfWork.CommitAsync();
     }
     public Task DeleteMergeRoom(int id)
     {

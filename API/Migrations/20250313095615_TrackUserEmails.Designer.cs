@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250313095615_TrackUserEmails")]
+    partial class TrackUserEmails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
@@ -64,12 +67,7 @@ namespace API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("MeetingId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("MeetingId");
 
                     b.ToTable("Facilities");
                 });
@@ -81,10 +79,6 @@ namespace API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.PrimitiveCollection<string>("Attendees")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatorId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -275,13 +269,6 @@ namespace API.Migrations
                         .HasForeignKey("FacilityId");
                 });
 
-            modelBuilder.Entity("API.Entities.Facility", b =>
-                {
-                    b.HasOne("API.Entities.Meeting", null)
-                        .WithMany("UsedFacilities")
-                        .HasForeignKey("MeetingId");
-                });
-
             modelBuilder.Entity("API.Entities.Meeting", b =>
                 {
                     b.HasOne("API.Entities.MeetingRoom", "Room")
@@ -337,11 +324,6 @@ namespace API.Migrations
             modelBuilder.Entity("API.Entities.Facility", b =>
                 {
                     b.Navigation("Availability");
-                });
-
-            modelBuilder.Entity("API.Entities.Meeting", b =>
-                {
-                    b.Navigation("UsedFacilities");
                 });
 
             modelBuilder.Entity("API.Entities.MeetingRoom", b =>
