@@ -37,4 +37,9 @@ public class Meeting
     /// The IDs provided by OpenIdConnect for each attendee
     /// </summary>
     public IList<string> Attendees { get; set; } = [];
+    
+    /// <summary>
+    /// The facilities which the meeting will be using
+    /// </summary>
+    public IList<Facility> UsedFacilities { get; set; } = [];
 }

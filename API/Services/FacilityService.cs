@@ -116,7 +116,8 @@ public class FacilityService(ILogger<FacilityService> logger, IUnitOfWork unitOf
 
         var meetings = await unitOfWork.MeetingRepository.GetMeetings(
             MeetingRepository.InAnyRoom(f.MeetingRooms.Select(r => r.Id)),
-            MeetingRepository.EndAfter(DateTime.UtcNow));
+            MeetingRepository.EndAfter(DateTime.UtcNow),
+            MeetingRepository.IsUsing(id));
 
         if (meetings.Any() && !force)
         {

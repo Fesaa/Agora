@@ -22,4 +22,6 @@ public class MeetingDto
     public MeetingRoomDto? MeetingRoom { get; set; }
     
     public IList<string> Attendees { get; set; }
+    
+    public IList<FaclitiyDto> Facilities { get; set; }
 }

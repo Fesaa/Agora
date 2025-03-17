@@ -57,7 +57,16 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
             throw new AgoraException("room-not-found");
         }
         
-        var meeting = new Meeting()
+        var facilities = await unitOfWork.FacilityRepository
+            .GetByIdsInRoom(meetingDto.Facilities.Select(f => f.Id).ToList(), room.Id, true);
+
+        if (facilities.Count != meetingDto.Facilities.Count)
+        {
+            logger.LogWarning("Meeting by {UserId} on {Date} in {Room} requested unknown facilities {amount} ",
+                userId, meetingDto.StartTime.Date, meetingDto.MeetingRoom.DisplayName, meetingDto.Facilities.Count - facilities.Count);
+        }
+
+        var meeting = new Meeting
         {
             CreatorId = userId,
             Room = room,
@@ -66,6 +75,7 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
             StartTime = meetingDto.StartTime.ToUniversalTime(),
             EndTime = meetingDto.EndTime.ToUniversalTime(),
             Attendees = await SanitizedAttendees(meetingDto.Attendees),
+            UsedFacilities = facilities,
         };
 
         if (meeting.Attendees.Count == 0 && meetingDto.Attendees.Any())
@@ -97,6 +107,7 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
         meeting.StartTime = meetingDto.StartTime.ToUniversalTime();
         meeting.EndTime = meetingDto.EndTime.ToUniversalTime();
 
+        // Only update the room if one is present, a meeting needs a room
         if (meetingDto.MeetingRoom != null && meeting.Room.Id != meetingDto.MeetingRoom.Id)
         {
             var room = await unitOfWork.RoomRepository.GetMeetingRoom(meetingDto.MeetingRoom.Id);
@@ -107,7 +118,8 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
             
             meeting.Room = room;
         }
-        
+
+        // Update attendees
         var toDeleteFor = meeting.Attendees.
             Where(a => !meetingDto.Attendees.Contains(a)).
             ToList();
@@ -119,8 +131,20 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
                 meeting.Id, meeting.StartTime.Date, meeting.Room.DisplayName, meetingDto.Attendees.Count);
         }
 
+        // Update facilities
+        var facilities = await unitOfWork.FacilityRepository
+            .GetByIdsInRoom(meetingDto.Facilities.Select(f => f.Id).ToList(), meeting.Room.Id, true);
+        if (facilities.Count != meetingDto.Facilities.Count)
+        {
+            logger.LogWarning("Meeting by {MeetingId} on {Date} in {Room} requested unknown facilities {amount} ",
+                meeting.Id, meetingDto.StartTime.Date, meeting.Room.DisplayName, meetingDto.Facilities.Count - facilities.Count);
+        }
+
+        meeting.UsedFacilities = facilities;
+
+        // Sync external calenders & save to local database
         // TODO: Try catch? How do we want to handle failures to external API's?
-        await calenderSyncService.DeleteMeetingForUsers(meeting.ExternalId, toDeleteFor);
+        await calenderSyncService.DeleteMeetingForUsers(meeting.ExternalId, toDeleteFor); // Is this needed?
         await calenderSyncService.UpdateMeetingFromUser(meeting);
         
         unitOfWork.MeetingRepository.Update(meeting);

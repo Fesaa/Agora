@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ public interface IFacilityRepository
     Task<List<Facility>> All();
     Task<List<FaclitiyDto>> AllDtos(bool activeOnly);
     Task<Facility?> GetById(int id);
+    Task<IList<Facility>> GetByIds(List<int> ids);
+    Task<IList<Facility>> GetByIdsInRoom(List<int> ids, int roomId, bool activeOnly = false);
     
     void Add(Facility facility);
     void Update(Facility facility);
@@ -37,6 +40,18 @@ public class FacilityRepository(DataContext context, IMapper mapper): IFacilityR
     {
         return await context.Facilities
             .FirstOrDefaultAsync(f => f.Id == id);
+    }
+    public async Task<IList<Facility>> GetByIds(List<int> ids)
+    {
+        return await context.Facilities.Where(f => ids.Contains(f.Id)).ToListAsync();
+    }
+    public async Task<IList<Facility>> GetByIdsInRoom(List<int> ids, int roomId, bool activeOnly = false)
+    {
+        return await context.Facilities
+            .Where(f => ids.Contains(f.Id))
+            .Where(f => f.MeetingRooms.Select(m => m.Id).Contains(roomId))
+            .Where(f => !activeOnly || f.Active)
+            .ToListAsync();
     }
     public void Add(Facility facility)
     {

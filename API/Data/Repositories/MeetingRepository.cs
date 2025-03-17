@@ -123,4 +123,9 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
     {
         return q => q.Where(m => m.Attendees.Contains(userId));
     }
+
+    public static MeetingFilterOption IsUsing(int facilityId)
+    {
+        return q => q.Where(m => m.UsedFacilities.Select(f => f.Id).Contains(facilityId));
+    }
 }
