@@ -29,7 +29,7 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
         return Ok();
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteMeeting(int id)
     {
         await meetingService.DeleteMeeting(id);
@@ -50,12 +50,24 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
         return Ok(meetings);
     }
 
+    // TODO: pagination?
     [HttpGet("upcoming")]
     public async Task<ActionResult<IEnumerable<MeetingDto>>> GetUpcomingMeetings()
     {
         var meetings = await unitOfWork.MeetingRepository.GetMeetingDtos(
             MeetingRepository.StartAfter(DateTime.UtcNow));
         return Ok(meetings);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<MeetingDto>> GetMeeting(int id)
+    {
+        var meeting = await unitOfWork.MeetingRepository.GetMeetingById(id);
+        if (meeting == null)
+        {
+            return NotFound();
+        }
+        return Ok(meeting);
     }
     
 }

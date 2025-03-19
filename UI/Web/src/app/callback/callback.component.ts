@@ -5,7 +5,7 @@ import {Button} from 'primeng/button';
 import {Card} from 'primeng/card';
 import {ReactiveFormsModule} from '@angular/forms';
 import {TranslocoDirective} from '@jsverse/transloco';
-import {SSO_PROVIDER} from '../_constants/links';
+import {AuthService} from '../_services/auth.service';
 
 @Component({
   selector: 'app-callback',
@@ -36,6 +36,4 @@ export class CallbackComponent implements OnInit {
   returnToAction() {
     this.router.navigateByUrl(this.pathName ?? "/user/dashboard");
   }
-
-  protected readonly SSO_PROVIDER = SSO_PROVIDER;
 }

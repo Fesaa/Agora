@@ -61,6 +61,10 @@ export class ToastService {
     })
   }
 
+  genericError(err: any, opts?: ToastMessageOptions) {
+    this.errorLoco("shared.generic-error", {}, {err: err}, opts);
+  }
+
   errorLoco(key: string, titleValues?: any, summaryValues?: any, opts?: ToastMessageOptions) {
     this.error(
       this.loco.translate(key+".title", titleValues),
