@@ -15,7 +15,7 @@ import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-room-wizard',
-  imports: [StepsModule, InputTextModule, FormsModule, CommonModule, CheckboxModule, InputTextarea, RoomWizardFacilityComponent],
+  imports: [StepsModule, InputTextModule, FormsModule, CommonModule, CheckboxModule, RoomWizardFacilityComponent],
   templateUrl: './room-wizard.component.html',
   styleUrls: ['./room-wizard.component.css']
 })

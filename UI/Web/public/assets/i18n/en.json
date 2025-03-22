@@ -85,6 +85,23 @@
     }
   },
 
+  "user": {
+    "wizard": {
+      "meeting": {
+        "general": {
+          "header": "General information",
+          "title": "Title*",
+          "desc": "Description",
+          "next": "Next",
+          "require-title": {
+            "title": "A meeting requires a title",
+            "summary": ""
+          }
+        }
+      }
+    }
+  },
+
   "management": {
     "configuration": {
       "menu": {
