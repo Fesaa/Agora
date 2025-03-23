@@ -169,7 +169,19 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
 
         var allUsers = meeting.Attendees;
         allUsers.Add(meeting.CreatorId);
-        await calenderSyncService.DeleteMeetingForUsers(meeting.ExternalId, allUsers);
+
+        try 
+        {
+
+          await calenderSyncService.DeleteMeetingForUsers(meeting.ExternalId, allUsers);
+        }
+        catch (Exception ex)
+        {
+        
+        logger.LogError(ex, "Failed to delete meeting from external calendar. MeetingId: {MeetingId}, ExternalId: {ExternalId}", meetingId, meeting.ExternalId);
+        // If the external calendar deletion fails, still proceed with deleting the local record?
+        
+        }
         
         unitOfWork.MeetingRepository.Remove(meeting);
         await unitOfWork.CommitAsync();

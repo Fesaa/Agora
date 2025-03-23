@@ -21,15 +21,6 @@ public class DefaultCalenderSyncService: ICalenderSyncService
 
     public async Task DeleteMeetingForUsers(string externalId, IEnumerable<string> userIds)
     {
-            try
-        {
-            Thread.Sleep(1); 
-        }
-        catch (Exception ex)
-        {
-            
-            Console.WriteLine($"An error occurred: {ex.Message}");
-            
-        }
+         Thread.Sleep(1);  
     }
 }
