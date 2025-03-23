@@ -1,1 +1,21 @@
-<p>meeting-wizard-attendees works!</p>
+
+<p-card [header]="t('header')" *transloco="let t;prefix:'user.wizard.meeting.attendees'">
+
+  <div class="form-container">
+
+    <div class="form-field">
+      <p-autoComplete
+        multiple fluid unique showClear dropdown (keydown.enter)="manualEnter()"
+        [(ngModel)]="meeting.attendees"
+        [suggestions]="suggestions"
+        (completeMethod)="autoComplete($event)" />
+    </div>
+
+  </div>
+
+  <div class="navigation-btn">
+    <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
+    <p-button (onClick)="next.emit()" >{{t('next')}}</p-button>
+  </div>
+
+</p-card>

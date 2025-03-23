@@ -33,7 +33,7 @@ export class MeetingWizardGeneralComponent {
   continue() {
     if (this.meeting.title.length === 0) {
       this.toastR.errorLoco("user.wizard.meeting.general.require-title");
-      return;
+      //return; // Disabled during testing
     }
 
     this.next.emit();

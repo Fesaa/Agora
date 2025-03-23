@@ -15,6 +15,7 @@ public interface IUnitOfWork
     IRoomRepository RoomRepository { get; }
     IFacilityRepository FacilityRepository { get; }
     IMeetingRepository MeetingRepository { get; }
+    IEmailsRepository EmailsRepository { get; }
     
     bool Commit();
     Task<bool> CommitAsync();
@@ -30,8 +31,8 @@ public class UnitOfWork(DataContext context, IMapper mapper, ILogger<UnitOfWork>
     public IThemeRepository ThemeRepository { get; } = new ThemeRepository(context, mapper);
     public IRoomRepository RoomRepository { get; } = new RoomRepository(context, mapper);
     public IFacilityRepository FacilityRepository { get; } = new FacilityRepository(context, mapper);
-
     public IMeetingRepository MeetingRepository { get; } = new MeetingRepository(context, mapper);
+    public IEmailsRepository EmailsRepository { get; } = new EmailsRepository(context, mapper);
 
     public bool Commit()
     {

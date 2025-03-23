@@ -97,6 +97,17 @@
             "title": "A meeting requires a title",
             "summary": ""
           }
+        },
+        "room": {
+          "header": "Pick your meeting room",
+          "next": "Next",
+          "prev": "Previous"
+        },
+        "attendees": {
+          "header": "Who is attending?",
+          "next": "Next",
+          "prev": "Previous",
+          "attendees-label": "Add attendees"
         }
       }
     }

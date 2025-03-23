@@ -1,1 +1,10 @@
-<p>meeting-wizard-room works!</p>
+
+<p-card [header]="t('header')" *transloco="let t;prefix:'user.wizard.meeting.room'">
+
+
+  <div class="navigation-btn">
+    <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
+    <p-button (onClick)="next.emit()" >{{t('next')}}</p-button>
+  </div>
+
+</p-card>

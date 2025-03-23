@@ -1,0 +1,8 @@
+
+.steps {
+  margin-bottom: calc(5 * var(--spacing));
+}
+
+.sections {
+  padding: var(--spacing);
+}

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.Data.Repositories;
 using API.DTOs;
+using API.Entities;
 using API.Extensions;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -69,5 +70,14 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
         }
         return Ok(meeting);
     }
+
+    [HttpGet("attendees")]
+    public async Task<ActionResult<IEnumerable<UserEmailDto>>> GetAttendees([FromQuery] string mustContain)
+    {
+        var emails = await unitOfWork.EmailsRepository
+            .GetEmailsAsync(EmailsRepository.Contains(mustContain));
+        return Ok(emails);
+    }
+    
     
 }
