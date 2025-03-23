@@ -1,6 +1,17 @@
 
 <p-card [header]="t('header')" *transloco="let t;prefix:'user.wizard.meeting.room'">
 
+  <div class="form-container">
+
+    <div class="form-field">
+
+      <label for="date">{{t('date-label')}}</label>
+      <p-datePicker id="date" showIcon />
+
+
+    </div>
+
+  </div>
 
   <div class="navigation-btn">
     <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
