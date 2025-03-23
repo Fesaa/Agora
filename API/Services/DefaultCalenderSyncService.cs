@@ -18,8 +18,18 @@ public class DefaultCalenderSyncService: ICalenderSyncService
     {
         Thread.Sleep(1);
     }
+
     public async Task DeleteMeetingForUsers(string externalId, IEnumerable<string> userIds)
     {
-        Thread.Sleep(1);
+            try
+        {
+            Thread.Sleep(1); 
+        }
+        catch (Exception ex)
+        {
+            
+            Console.WriteLine($"An error occurred: {ex.Message}");
+            
+        }
     }
 }
