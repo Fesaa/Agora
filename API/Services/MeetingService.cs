@@ -161,7 +161,11 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
             throw new AgoraException("meeting-not-found");
         }
 
-        // TODO: Should we allow deleting past meetings?
+        if (meeting.EndTime < DateTime.UtcNow)
+        {
+            throw new AgoraException("past-meetings-cannot-be-deleted");
+        }
+
 
         var allUsers = meeting.Attendees;
         allUsers.Add(meeting.CreatorId);
