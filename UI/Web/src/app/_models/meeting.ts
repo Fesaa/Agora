@@ -13,3 +13,8 @@ export type Meeting = {
   attendees: string[],
   facilities: Facility[],
 }
+
+export type MeetingSlots = {
+  start: Date,
+  end: Date,
+}

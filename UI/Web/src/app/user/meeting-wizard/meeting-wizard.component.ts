@@ -55,8 +55,8 @@ export class MeetingWizardComponent implements OnInit{
     description: '',
     creatorId: '',
     externalId: '',
-    startTime: new Date(),
-    endTime: new Date(),
+    startTime: null!,
+    endTime: null!,
     meetingRoom: {
       id: 0,
       displayName: '',
@@ -84,6 +84,7 @@ export class MeetingWizardComponent implements OnInit{
       const meetingIdParam = params['meetingId'];
       if (!meetingIdParam) {
         this.meeting = this.defaultMeeting;
+        this.loadStage() // Only during testing
         return;
       }
 
@@ -117,7 +118,7 @@ export class MeetingWizardComponent implements OnInit{
     }
 
     if (this.meeting.id === 0) {
-      this.navigateToPage(0, true);
+      //this.navigateToPage(0, true); // Disabled during testing
     }
 
     this.route.fragment.subscribe(fragment => {

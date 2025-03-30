@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {Meeting} from '../_models/meeting';
+import {Meeting, MeetingSlots} from '../_models/meeting';
 import {UserEmail} from '../_models/user-email';
 
 @Injectable({
@@ -39,5 +39,9 @@ export class MeetingService {
 
   attendees(s: string) {
     return this.httpClient.get<UserEmail[]>(`${this.baseUrl}Meeting/attendees?mustContain=${s}`)
+  }
+
+  slots(roomId: number, date: Date) {
+    return this.httpClient.get<MeetingSlots[]>(this.baseUrl + `Meeting/slots/${roomId}?unixTime=${date.getTime()/1000}`);
   }
 }

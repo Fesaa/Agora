@@ -78,6 +78,18 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
             .GetEmailsAsync(EmailsRepository.Contains(mustContain));
         return Ok(emails);
     }
-    
+
+    [HttpGet("slots/{meetingId}")]
+    public async Task<ActionResult<IEnumerable<MeetingSlot>>> GetSlots(int meetingId, [FromQuery] long unixTime)
+    {
+        if (unixTime == null)
+        {
+            return BadRequest();
+        }
+
+        var date = unixTime.ToDateTimeFromUnix(); // incorrect
+        // TZ info gets lost, and we're back a day. 
+        return Ok(await meetingService.AvailableSlotsForOn(meetingId, date));
+    }
     
 }

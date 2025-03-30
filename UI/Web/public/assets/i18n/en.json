@@ -101,7 +101,22 @@
         "room": {
           "header": "Pick your meeting room",
           "next": "Next",
-          "prev": "Previous"
+          "prev": "Previous",
+          "date-label": "Pick the date",
+          "duration-label": "Pick a duration",
+          "custom-duration": "Or set a custom time (XhYm)",
+          "durations": {
+            "quarter": "15m",
+            "half-hour": "30m",
+            "hour": "1h",
+            "hour-and-half": "1h30m",
+            "two-hours": "2h",
+            "custom": "Custom"
+          },
+          "time-required": {
+            "title": "Cannot advance",
+            "summary": "Your meeting needs a time slot"
+          }
         },
         "attendees": {
           "header": "Who is attending?",

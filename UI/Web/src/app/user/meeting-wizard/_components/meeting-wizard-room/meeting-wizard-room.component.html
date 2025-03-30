@@ -4,18 +4,40 @@
   <div class="form-container">
 
     <div class="form-field">
-
       <label for="date">{{t('date-label')}}</label>
-      <p-datePicker id="date" showIcon />
-
-
+      <p-datePicker id="date" showIcon readonlyInput [minDate]="today"
+                    dateFormat="yy / mm / dd" [firstDayOfWeek]="1" selectOtherMonths
+                    showOtherMonths (onSelect)="handleDatePick($event)"
+                    [style]="{ width: '100%' }"
+      />
     </div>
+
+    <div class="form-field">
+      <label for="duration">{{t('duration-label')}}</label>
+      <p-select id="duration" [style]="{ width: '100%' }" [options]="meetingDurations" [(ngModel)]="selectedMeetingDuration" />
+    </div>
+
+    @if (selectedMeetingDuration === MeetingDuration.CUSTOM) {
+      <div class="form-field">
+        <label for="custom-duration">{{t('custom-duration')}}</label>
+        <!-- TODO: Fix this invalid/dirty stuff pls... -->
+        <input id="custom-duration" pInputText [(ngModel)]="customLength"
+               [ngClass]="{'ng-dirty': !isCustomTimeValid(), 'ng-invalid': !isCustomTimeValid()}">
+      </div>
+    }
+
+    <!-- TODO: Redesign this. POC -->
+    @if (startTimes.length > 0) {
+      <p-listbox [options]="startTimes" optionLabel="label" [style]="{ width: '300px' }"
+                 (onClick)="handleTimePick($event.option.value)"
+      />
+    }
 
   </div>
 
   <div class="navigation-btn">
     <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
-    <p-button (onClick)="next.emit()" >{{t('next')}}</p-button>
+    <p-button (onClick)="nextSection()" >{{t('next')}}</p-button>
   </div>
 
 </p-card>

@@ -7,7 +7,6 @@ using API.Data.Repositories;
 using API.DTOs;
 using API.Entities;
 using API.Exceptions;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace API.Services;
@@ -18,6 +17,7 @@ public interface IMeetingService
     Task CreateMeeting(string userId, MeetingDto meetingDto);
     Task UpdateMeeting(MeetingDto meetingDto);
     Task DeleteMeeting(int meetingId);
+    Task<IEnumerable<MeetingSlot>> AvailableSlotsForOn(int roomId, DateTime date);
 }
 
 public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWork,
@@ -169,6 +169,50 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
         
         unitOfWork.MeetingRepository.Remove(meeting);
         await unitOfWork.CommitAsync();
+    }
+    public async Task<IEnumerable<MeetingSlot>> AvailableSlotsForOn(int roomId, DateTime date)
+    {
+        // TODO: Implement proper slotting
+        /*var meetings = await unitOfWork.MeetingRepository.GetMeetings(
+            MeetingRepository.InRoomOrMergedRoom(roomId),
+            MeetingRepository.OnDate(date));
+        
+        var slots = new List<MeetingSlot>();
+        
+        foreach (var meeting in meetings)
+        {
+            var last = slots.LastOrDefault()?.End ?? date.Date;
+            
+            slots.Add(new MeetingSlot()
+            {
+                Start = last,
+                End = meeting.StartTime,
+            });
+        }
+        
+        // And rest of the day
+        var lastSlotEnding = slots.LastOrDefault()?.End ?? date.Date;
+        if (lastSlotEnding < date.AddDays(1).Date)
+        {
+            slots.Add(new MeetingSlot()
+            {
+                Start = lastSlotEnding,
+                End = date.AddDays(1).Date,
+            });
+        }
+        
+        
+        return slots;*/
+        // Return the entire day for now
+        logger.LogInformation("Trying for RoomId {RoomId} on {Date}", roomId, date);
+        return
+        [
+            new MeetingSlot()
+            {
+              Start = date.Date,
+              End = date.AddDays(1).Date,
+            },
+        ];
     }
 
     // TODO: Allow non company users to be invited, save email for them and external id for others?
