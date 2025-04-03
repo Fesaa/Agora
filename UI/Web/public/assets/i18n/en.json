@@ -131,7 +131,14 @@
         "facility": {
           "header": "Facilities",
           "next": "Next",
-          "prev": "Prev"
+          "prev": "Prev",
+          "no-facilities": "The selected room has no facilities available at the selected time "
+        },
+        "save": {
+          "header": "Save",
+          "next": "Next",
+          "prev": "Prev",
+          "save": "Save"
         }
       }
     }

@@ -14,6 +14,10 @@
     </div>
   </cdk-virtual-scroll-viewport>
 
+  @if (facilities.length == 0) {
+    {{t('no-facilities')}}
+  }
+
   <div class="navigation-btn">
     <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
     <p-button (onClick)="next.emit()" >{{t('next')}}</p-button>

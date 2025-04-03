@@ -1,0 +1,7 @@
+.navigation-btn {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: calc(5 * var(--spacing));
+}
