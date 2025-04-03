@@ -27,6 +27,12 @@ public class FacilitiesController(ILogger<FacilitiesController> logger, IUnitOfW
         return Ok(await unitOfWork.FacilityRepository.GetById(id));
     }
 
+    [HttpGet("room/{roomId}")]
+    public async Task<ActionResult<List<FaclitiyDto>>> GetForRoom(int roomId)
+    {
+        return Ok(await unitOfWork.FacilityRepository.GetByRoom(roomId, true));
+    }
+
     [HttpPost("create")]
     public async Task<ActionResult<FaclitiyDto>> Create(FaclitiyDto dto)
     {

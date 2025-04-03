@@ -1,0 +1,25 @@
+
+<p-card [header]="t('header')" *transloco="let t;prefix:'user.wizard.meeting.general'">
+
+  <div class="form-container">
+
+    <div class="form-field">
+      <label for="title">{{t('title')}}</label>
+      <input type="text" id="title" [(ngModel)]="meeting.title" pInputText>
+    </div>
+
+    <div class="form-field">
+      <label for="desc">{{t('desc')}}</label>
+      <textarea id="desc" [(ngModel)]="meeting.description" pTextarea></textarea>
+    </div>
+
+    <div class="form-field">
+    </div>
+
+  </div>
+
+  <div class="navigation-btn">
+    <p-button (onClick)="continue()" >{{t('next')}}</p-button>
+  </div>
+
+</p-card>

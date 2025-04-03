@@ -1,0 +1,44 @@
+<div class="meeting-wizard">
+
+  <div class="steps">
+    <p-steps [activeIndex]="index" [model]="sections" />
+  </div>
+
+  @if (meeting !== undefined) {
+
+    <div class="sections">
+
+      @defer (when sections[index].id === MeetingWizardId.General; prefetch on idle) {
+        @if (sections[index].id === MeetingWizardId.General) {
+          <app-meeting-wizard-general [meeting]="meeting" (next)="navigateToPage(1)" />
+        }
+      }
+
+      @defer (when sections[index].id === MeetingWizardId.Room; prefetch on idle) {
+        @if (sections[index].id === MeetingWizardId.Room) {
+          <app-meeting-wizard-room [meeting]="meeting" (prev)="navigateToPage(0)" (next)="navigateToPage(2)" />
+        }
+      }
+
+      @defer (when sections[index].id === MeetingWizardId.Attendees; prefetch on idle) {
+        @if (sections[index].id === MeetingWizardId.Attendees) {
+          <app-meeting-wizard-attendees [meeting]="meeting" (prev)="navigateToPage(1)" (next)="navigateToPage(3)" />
+        }
+      }
+
+      @defer (when sections[index].id === MeetingWizardId.Facility; prefetch on idle) {
+        @if (sections[index].id === MeetingWizardId.Facility) {
+          <app-meeting-wizard-facility [meeting]="meeting" (prev)="navigateToPage(2)" (next)="navigateToPage(4)" />
+        }
+      }
+
+      @defer (when sections[index].id === MeetingWizardId.Save; prefetch on idle) {
+        @if (sections[index].id === MeetingWizardId.Save) {
+          <app-meeting-wizard-save [meeting]="meeting" (prev)="navigateToPage(3)" />
+        }
+      }
+
+    </div>
+  }
+
+</div>

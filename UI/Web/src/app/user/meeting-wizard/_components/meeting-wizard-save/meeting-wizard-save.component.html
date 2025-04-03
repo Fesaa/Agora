@@ -1,0 +1,19 @@
+
+<p-card [header]="t('header')" *transloco="let t;prefix:'user.wizard.meeting.save'">
+
+  <div>
+    <h2>{{ meeting.title }}</h2>
+    <p><strong>Description:</strong> {{ meeting.description }}</p>
+    <p><strong>Start Time:</strong> {{ meeting.startTime | utcToLocalTime:'short' }}</p>
+    <p><strong>End Time:</strong> {{ meeting.endTime | utcToLocalTime:'short' }}</p>
+    <p><strong>Meeting Room:</strong> {{ meeting.meetingRoom?.displayName }}</p>
+    <p><strong>Attendees:</strong> {{ meeting.attendees.join(', ') }}</p>
+    <p><strong>Facilities:</strong> {{ getFacilityDisplayNames(meeting.facilities) }}</p>
+  </div>
+
+  <div class="navigation-btn">
+    <p-button (onClick)="prev.emit()" >{{t('next')}}</p-button>
+    <p-button (onClick)="save()">{{t('save')}}</p-button>
+  </div>
+
+</p-card>

@@ -16,6 +16,7 @@ public interface IFacilityRepository
     Task<Facility?> GetById(int id);
     Task<IList<Facility>> GetByIds(List<int> ids);
     Task<IList<Facility>> GetByIdsInRoom(List<int> ids, int roomId, bool activeOnly = false);
+    Task<IList<FaclitiyDto>> GetByRoom(int roomId, bool activeOnly = false);
     
     void Add(Facility facility);
     void Update(Facility facility);
@@ -51,6 +52,16 @@ public class FacilityRepository(DataContext context, IMapper mapper): IFacilityR
             .Where(f => ids.Contains(f.Id))
             .Where(f => f.MeetingRooms.Select(m => m.Id).Contains(roomId))
             .Where(f => !activeOnly || f.Active)
+            .ToListAsync();
+    }
+    public async Task<IList<FaclitiyDto>> GetByRoom(int roomId, bool activeOnly = false)
+    {
+        return await mapper
+            .ProjectTo<FaclitiyDto>(
+                context.Facilities
+                    .Where(f => f.MeetingRooms.Select(m => m.Id).Contains(roomId))
+                    .Where(f => !activeOnly || f.Active)
+                )
             .ToListAsync();
     }
     public void Add(Facility facility)

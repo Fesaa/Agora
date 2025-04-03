@@ -65,6 +65,11 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
         return await context.Meetings.FirstOrDefaultAsync(m => m.Id == id);
     }
 
+    public static MeetingFilterOption OnDate(DateTime date)
+    {
+        return q => q.Where(m => m.StartTime.Date == date.Date);
+    }
+
     public static MeetingFilterOption StartAfter(DateTime before)
     {
         return q => q.Where(m => m.StartTime >= before);

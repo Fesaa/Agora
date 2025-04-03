@@ -17,6 +17,10 @@ export class FacilityService {
     return this.httpClient.get<Facility>(`${this.baseUrl}${id}`);
   }
 
+  getForRoom(id: number) {
+    return this.httpClient.get<Facility[]>(`${this.baseUrl}room/${id}`);
+  }
+
   all() {
     return this.httpClient.get<Facility[]>(this.baseUrl + "all");
   }

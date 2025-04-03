@@ -53,14 +53,13 @@ export class FacilityWizardComponent implements OnInit{
   constructor(
     private facilityService: FacilityService,
     private route: ActivatedRoute,
-    private activatedRoute: ActivatedRoute,
     private toastService: ToastService,
     private router: Router,
   ) {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe((params) => {
+    this.route.queryParams.subscribe((params) => {
       const facilityIdParam = params['facilityId'];
       if (!facilityIdParam) {
         this.facility = this.defaultFacility;

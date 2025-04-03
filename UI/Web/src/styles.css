@@ -1,6 +1,7 @@
 @import "primeicons/primeicons.css";
 @import "./theme/themes/default.css";
 @import "./theme/forms.css";
+@import "./theme/shared.css";
 
 body {
   background-color: var(--background-color);

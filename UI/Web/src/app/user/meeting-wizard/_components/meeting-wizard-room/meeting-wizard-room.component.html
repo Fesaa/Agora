@@ -1,0 +1,60 @@
+
+<p-card [header]="t('header')" *transloco="let t;prefix:'user.wizard.meeting.room'">
+
+  <div class="form-container">
+
+    <div class="form-field">
+      <label for="date">{{t('date-label')}}</label>
+      <p-datePicker id="date" showIcon readonlyInput [minDate]="today"
+                    dateFormat="yy / mm / dd" [firstDayOfWeek]="1" selectOtherMonths
+                    showOtherMonths (onSelect)="handleDatePick($event)"
+                    [style]="{ width: '100%' }"
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="duration">{{t('duration-label')}}</label>
+      <p-select id="duration" [style]="{ width: '100%' }" [options]="meetingDurations" [(ngModel)]="selectedMeetingDuration" (onChange)="generateStartTimes()" />
+    </div>
+
+    @if (selectedMeetingDuration === MeetingDuration.CUSTOM) {
+      <div class="form-field">
+        <label for="custom-duration">{{t('custom-duration')}}</label>
+        <!-- TODO: Fix this invalid/dirty stuff pls... -->
+        <input id="custom-duration" pInputText [(ngModel)]="customLength"
+               [ngClass]="{'ng-dirty': !isCustomTimeValid(), 'ng-invalid': !isCustomTimeValid()}">
+      </div>
+    }
+
+    <p-splitter [style]="{ height: '300px' }">
+      <ng-template #panel>
+        <!-- TODO: Redesign this. POC -->
+        <cdk-virtual-scroll-viewport *ngIf="startTimes.length > 0" itemSize="50" style="height: 300px" class="expand">
+          <div *cdkVirtualFor="let startTime of startTimes" style="height: 50px"
+               (click)="handleTimePick(startTime.value)" class="scroller-item"
+               [ngClass]="{'selected': this.meeting.startTime?.getTime() === startTime.value.getTime()}">
+            {{startTime.label}}
+          </div>
+        </cdk-virtual-scroll-viewport>
+      </ng-template>
+
+      <ng-template #panel>
+        <!-- TODO: Redesign this. POC -->
+        <cdk-virtual-scroll-viewport *ngIf="rooms.length > 0" itemSize="50" style="height: 300px" class="expand">
+          <div *cdkVirtualFor="let room of rooms" style="height: 50px"
+               (click)="handleRoomPick(room.value)" class="scroller-item"
+               [ngClass]="{'selected': this.meeting.meetingRoom.id === room.value.id}">
+            {{room.label}}
+          </div>
+        </cdk-virtual-scroll-viewport>
+      </ng-template>
+    </p-splitter>
+
+  </div>
+
+  <div class="navigation-btn">
+    <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
+    <p-button (onClick)="nextSection()" >{{t('next')}}</p-button>
+  </div>
+
+</p-card>

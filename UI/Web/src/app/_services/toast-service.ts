@@ -56,9 +56,13 @@ export class ToastService {
     this.msgService.add({
       summary: title,
       detail: message,
-      severity: 'warning',
+      severity: 'warn',
       ...opts
     })
+  }
+
+  genericError(err: any, opts?: ToastMessageOptions) {
+    this.errorLoco("shared.generic-error", {}, {err: err}, opts);
   }
 
   errorLoco(key: string, titleValues?: any, summaryValues?: any, opts?: ToastMessageOptions) {

@@ -5,6 +5,8 @@ import {OpenIdConnectService} from './_services/open-id-connect.service';
 import {Title} from '@angular/platform-browser';
 import {ThemeService} from './_services/theme.service';
 import {Toast} from 'primeng/toast';
+import {PrimeNG} from 'primeng/config';
+import {TranslocoService} from '@jsverse/transloco';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +23,8 @@ export class AppComponent implements OnInit {
     private openIdService: OpenIdConnectService,
     private titleService: Title,
     private themeService: ThemeService,
+    private primeNG: PrimeNG,
+    private transLoco: TranslocoService
   ) {
   }
 
@@ -45,6 +49,11 @@ export class AppComponent implements OnInit {
         console.log(err);
       }
     })
+
+    const primeNGTrans = this.transLoco.getTranslation().get("primeng");
+    if (primeNGTrans) {
+      this.primeNG.setTranslation(primeNGTrans);
+    }
   }
 
 }

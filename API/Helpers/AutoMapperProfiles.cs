@@ -24,6 +24,7 @@ public class AutoMapperProfiles: Profile
         CreateMap<Availability, AvailabilityDto>();
         CreateMap<AvailabilityDto, Availability>();
         CreateMap<Meeting, MeetingDto>();
+        CreateMap<UserEmail, UserEmailDto>();
 
     }
 }

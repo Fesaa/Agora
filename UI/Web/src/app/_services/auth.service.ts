@@ -20,7 +20,7 @@ export class AuthService {
           redirectUri: window.location.origin + '/callback',
           responseType: 'code',
           scope: 'openid profile email offline_access',
-          showDebugInformation: true,
+          //showDebugInformation: true,
           sessionChecksEnabled: true,
           useSilentRefresh: true,
           silentRefreshRedirectUri: window.location.origin + '/callback'
