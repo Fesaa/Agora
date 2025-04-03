@@ -5,6 +5,7 @@ using API.Data;
 using API.Data.Repositories;
 using API.DTOs;
 using API.Entities;
+using API.Exceptions;
 using API.Extensions;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +14,20 @@ using Microsoft.Extensions.Logging;
 namespace API.Controllers;
 
 public class MeetingController(ILogger<MeetingController> logger, IMeetingService meetingService,
-    IUnitOfWork unitOfWork, IRoomService roomService): BaseApiController
+    IUnitOfWork unitOfWork, IRoomService roomService, ILocalizationService localizationService): BaseApiController
 {
 
     [HttpPost]
     public async Task<ActionResult> CreateMeeting(MeetingDto meetingDto)
     {
-        await meetingService.CreateMeeting(User.GetIdentifier(), meetingDto);
+        try
+        {
+            await meetingService.CreateMeeting(User.GetIdentifier(), meetingDto);
+        }
+        catch (AgoraException agoraException)
+        {
+            return BadRequest(await localizationService.Translate(agoraException.Message));
+        }
         return Ok();
     }
 
