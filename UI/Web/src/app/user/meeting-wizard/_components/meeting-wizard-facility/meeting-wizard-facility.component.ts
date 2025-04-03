@@ -7,7 +7,7 @@ import {Meeting} from '../../../../_models/meeting';
   templateUrl: './meeting-wizard-facitlity.component.html',
   styleUrl: './meeting-wizard-facitlity.component.css'
 })
-export class MeetingWizardFacitlityComponent {
+export class MeetingWizardFacilityComponent {
 
   @Input({required: true}) meeting!: Meeting;
   @Output() prev: EventEmitter<void> = new EventEmitter();

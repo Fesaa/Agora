@@ -10,8 +10,8 @@ import {
   MeetingWizardAttendeesComponent
 } from './_components/meeting-wizard-attendees/meeting-wizard-attendees.component';
 import {
-  MeetingWizardFacitlityComponent
-} from './_components/meeting-wizard-facitlity/meeting-wizard-facitlity.component';
+  MeetingWizardFacilityComponent
+} from './_components/meeting-wizard-facility/meeting-wizard-facility.component';
 import {MeetingWizardSaveComponent} from './_components/meeting-wizard-save/meeting-wizard-save.component';
 
 export enum MeetingWizardId {
@@ -30,7 +30,7 @@ export enum MeetingWizardId {
     MeetingWizardGeneralComponent,
     MeetingWizardRoomComponent,
     MeetingWizardAttendeesComponent,
-    MeetingWizardFacitlityComponent,
+    MeetingWizardFacilityComponent,
     MeetingWizardSaveComponent
   ],
   templateUrl: './meeting-wizard.component.html',
