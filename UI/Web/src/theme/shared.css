@@ -1,0 +1,5 @@
+
+.selected {
+  background-color: var(--secundairy-color);
+  color: var(--secondary-text-color);
+}

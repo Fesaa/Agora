@@ -116,6 +116,10 @@
           "time-required": {
             "title": "Cannot advance",
             "summary": "Your meeting needs a time slot"
+          },
+          "room-required": {
+            "title": "Cannot advance",
+            "summary": "Your meeting needs to happen in a room"
           }
         },
         "attendees": {

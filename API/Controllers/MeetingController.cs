@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace API.Controllers;
 
 public class MeetingController(ILogger<MeetingController> logger, IMeetingService meetingService,
-    IUnitOfWork unitOfWork): BaseApiController
+    IUnitOfWork unitOfWork, IRoomService roomService): BaseApiController
 {
 
     [HttpPost]
@@ -90,6 +90,19 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
         var date = unixTime.ToDateTimeFromUnix(); // incorrect
         // TZ info gets lost, and we're back a day. 
         return Ok(await meetingService.AvailableSlotsForOn(meetingId, date));
+    }
+
+    [HttpGet("rooms")]
+    public async Task<ActionResult<IEnumerable<MeetingRoomDto>>> GetRooms([FromQuery] long? startTime, [FromQuery] long? endTime)
+    {
+        if (startTime == null || endTime == null)
+        {
+            return Ok(await unitOfWork.RoomRepository.GetMeetingRooms());
+        }
+        
+        var startDate = startTime.Value.ToDateTimeFromUnix();
+        var endDate = endTime.Value.ToDateTimeFromUnix();
+        return Ok(await roomService.AvailableRoomsOn(startDate, endDate));
     }
     
 }

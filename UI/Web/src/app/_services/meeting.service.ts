@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Meeting, MeetingSlots} from '../_models/meeting';
 import {UserEmail} from '../_models/user-email';
+import {MeetingRoom} from '../_models/room';
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +44,11 @@ export class MeetingService {
 
   slots(roomId: number, date: Date) {
     return this.httpClient.get<MeetingSlots[]>(this.baseUrl + `Meeting/slots/${roomId}?unixTime=${date.getTime()/1000}`);
+  }
+
+  roomsOn(start: Date, end: Date) {
+    return this.httpClient.get<MeetingRoom[]>(this.baseUrl + `Meeting/rooms`);
+    // TODO: Pass start & end dates once backend has it working
+    //return this.httpClient.get<MeetingRoom[]>(this.baseUrl + `Meeting/rooms?start=${start.getTime()/1000}&end=${end.getTime()/1000}`);
   }
 }

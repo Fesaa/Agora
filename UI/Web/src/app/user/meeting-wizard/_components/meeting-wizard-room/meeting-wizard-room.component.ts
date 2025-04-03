@@ -9,9 +9,11 @@ import {ToastService} from '../../../../_services/toast-service';
 import {Select} from 'primeng/select';
 import {FormsModule} from '@angular/forms';
 import {InputText} from 'primeng/inputtext';
-import {NgClass} from '@angular/common';
+import {NgClass, NgIf} from '@angular/common';
 import {Listbox} from 'primeng/listbox';
-import {Scroller} from 'primeng/scroller';
+import {MeetingRoom} from '../../../../_models/room';
+import {Splitter} from 'primeng/splitter';
+import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 
 enum MeetingDuration {
   QUARTER,
@@ -35,8 +37,12 @@ const customLengthRegex = /(?:(\d+)h)?(?:(\d+)m)?/;
     FormsModule,
     InputText,
     NgClass,
-    Scroller,
-    Listbox
+    Listbox,
+    Splitter,
+    CdkVirtualScrollViewport,
+    NgIf,
+    CdkFixedSizeVirtualScroll,
+    CdkVirtualForOf
   ],
   templateUrl: './meeting-wizard-room.component.html',
   styleUrl: './meeting-wizard-room.component.css'
@@ -50,6 +56,7 @@ export class MeetingWizardRoomComponent implements OnInit{
   today = new Date();
   slots: MeetingSlots[] = []
   startTimes: {label: string, value: Date}[] = []
+  rooms: {label: string, value: MeetingRoom}[] = [];
 
   selectedMeetingDuration: MeetingDuration = MeetingDuration.HOUR;
   customLength: string = '';
@@ -108,6 +115,25 @@ export class MeetingWizardRoomComponent implements OnInit{
 
     this.meeting.startTime = date;
     this.meeting.endTime = new Date(endTime);
+
+    this.meetingService.roomsOn(this.meeting.startTime, this.meeting.endTime).subscribe({
+      next: rooms => {
+        this.rooms = rooms.map(room => {
+          return {
+            label: room.displayName,
+            value: room,
+          };
+        });
+      },
+      error: err => {
+        console.error(err);
+        this.toastR.genericError(err.error.message)
+      }
+    })
+  }
+
+  handleRoomPick(room: MeetingRoom) {
+    this.meeting.meetingRoom = room;
   }
 
   handleDatePick(date: Date) {
@@ -189,9 +215,13 @@ export class MeetingWizardRoomComponent implements OnInit{
   }
 
   nextSection() {
-    console.log(this.meeting);
     if (this.meeting.startTime === null || this.meeting.endTime === null) {
       this.toastR.warningLoco("user.wizard.meeting.room.time-required")
+      return;
+    }
+
+    if (this.meeting.meetingRoom.id === 0) {
+      this.toastR.warningLoco("user.wizard.meeting.room.room-required")
       return;
     }
 
