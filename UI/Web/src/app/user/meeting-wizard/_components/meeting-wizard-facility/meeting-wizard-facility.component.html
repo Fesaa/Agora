@@ -1,1 +1,22 @@
-<p>meeting-wizard-facitlity works!</p>
+
+<p-card [header]="t('header')" *transloco="let t;prefix:'user.wizard.meeting.facility'">
+
+  <cdk-virtual-scroll-viewport *ngIf="facilities.length > 0" itemSize="50" style="height: 300px" class="expand">
+    <div *cdkVirtualFor="let facility of facilities" style="height: 50px"
+         class="scroller-item facility-item" (click)="handleFacilityClick(facility)"
+         [ngClass]="{'selected': meeting.facilities.includes(facility)}"
+         [pTooltip]="facility.description"
+    >
+
+      <div >{{ facility.displayName }}</div>
+      <div *ngIf="facility.alertManagement" class="alert-icon">⚠️ Alert Management Enabled</div>
+
+    </div>
+  </cdk-virtual-scroll-viewport>
+
+  <div class="navigation-btn">
+    <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
+    <p-button (onClick)="next.emit()" >{{t('next')}}</p-button>
+  </div>
+
+</p-card>

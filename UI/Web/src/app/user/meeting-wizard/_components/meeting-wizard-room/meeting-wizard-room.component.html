@@ -43,7 +43,7 @@
         <cdk-virtual-scroll-viewport *ngIf="rooms.length > 0" itemSize="50" style="height: 300px" class="expand">
           <div *cdkVirtualFor="let room of rooms" style="height: 50px"
                (click)="handleRoomPick(room.value)" class="scroller-item"
-               [ngClass]="{'selected': this.meeting.meetingRoom?.id === room.value.id}">
+               [ngClass]="{'selected': this.meeting.meetingRoom.id === room.value.id}">
             {{room.label}}
           </div>
         </cdk-virtual-scroll-viewport>

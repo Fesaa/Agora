@@ -37,7 +37,6 @@ const customLengthRegex = /(?:(\d+)h)?(?:(\d+)m)?/;
     FormsModule,
     InputText,
     NgClass,
-    Listbox,
     Splitter,
     CdkVirtualScrollViewport,
     NgIf,

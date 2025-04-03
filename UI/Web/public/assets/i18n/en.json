@@ -127,6 +127,11 @@
           "next": "Next",
           "prev": "Previous",
           "attendees-label": "Add attendees"
+        },
+        "facility": {
+          "header": "Facilities",
+          "next": "Next",
+          "prev": "Prev"
         }
       }
     }

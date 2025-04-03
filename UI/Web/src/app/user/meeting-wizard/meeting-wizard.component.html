@@ -28,7 +28,7 @@
 
       @defer (when sections[index].id === MeetingWizardId.Facility; prefetch on idle) {
         @if (sections[index].id === MeetingWizardId.Facility) {
-          <app-meeting-wizard-facitlity [meeting]="meeting" (prev)="navigateToPage(2)" (next)="navigateToPage(4)" />
+          <app-meeting-wizard-facility [meeting]="meeting" (prev)="navigateToPage(2)" (next)="navigateToPage(4)" />
         }
       }
 
