@@ -5,7 +5,6 @@ import {TranslocoDirective} from '@jsverse/transloco';
 import {FormsModule} from '@angular/forms';
 import {InputText} from 'primeng/inputtext';
 import {Textarea} from 'primeng/textarea';
-import {DatePicker} from 'primeng/datepicker';
 import {Button} from 'primeng/button';
 import {ToastService} from '../../../../_services/toast-service';
 

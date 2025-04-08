@@ -9,9 +9,7 @@ import {MeetingWizardRoomComponent} from './_components/meeting-wizard-room/meet
 import {
   MeetingWizardAttendeesComponent
 } from './_components/meeting-wizard-attendees/meeting-wizard-attendees.component';
-import {
-  MeetingWizardFacilityComponent
-} from './_components/meeting-wizard-facility/meeting-wizard-facility.component';
+import {MeetingWizardFacilityComponent} from './_components/meeting-wizard-facility/meeting-wizard-facility.component';
 import {MeetingWizardSaveComponent} from './_components/meeting-wizard-save/meeting-wizard-save.component';
 
 export enum MeetingWizardId {
