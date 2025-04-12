@@ -131,7 +131,7 @@ export class MeetingWizardRoomComponent implements OnInit{
   }
 
   handleRoomPick(room: MeetingRoom) {
-    this.meeting.meetingRoom = room;
+    this.meeting.room = room;
   }
 
   handleDatePick(date: Date) {
@@ -218,7 +218,7 @@ export class MeetingWizardRoomComponent implements OnInit{
       return;
     }
 
-    if (this.meeting.meetingRoom.id === 0) {
+    if (this.meeting.room.id === 0) {
       this.toastR.warningLoco("user.wizard.meeting.room.room-required")
       return;
     }

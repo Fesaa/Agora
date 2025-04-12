@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using API.Data;
 using API.Data.Repositories;
 using API.DTOs;
-using API.Entities;
 using API.Exceptions;
 using API.Extensions;
 using API.Services;
@@ -64,7 +63,9 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
     public async Task<ActionResult<IEnumerable<MeetingDto>>> GetUpcomingMeetings()
     {
         var meetings = await unitOfWork.MeetingRepository.GetMeetingDtos(
-            MeetingRepository.StartAfter(DateTime.UtcNow));
+            MeetingRepository.StartAfter(DateTime.UtcNow),
+            MeetingRepository.WithRoom()
+            );
         return Ok(meetings);
     }
 

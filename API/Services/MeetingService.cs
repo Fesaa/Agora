@@ -26,14 +26,14 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
 
     public async Task<bool> IsAvailable(MeetingDto meetingDto)
     {
-        if (meetingDto.MeetingRoom == null)
+        if (meetingDto.Room == null)
         {
             throw new AgoraException("meeting-needs-room");
         }
         
         // TODO: Someone else has to check if this is correct!
         var overlapping = await unitOfWork.MeetingRepository.GetMeetingDtos(
-            MeetingRepository.InRoomOrMergedRoom(meetingDto.MeetingRoom.Id),
+            MeetingRepository.InRoomOrMergedRoom(meetingDto.Room.Id),
             MeetingRepository.StartBefore(meetingDto.EndTime.ToUniversalTime()),
             MeetingRepository.EndAfter(meetingDto.StartTime.ToUniversalTime()));
         
@@ -41,7 +41,7 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
     }
     public async Task CreateMeeting(string userId, MeetingDto meetingDto)
     {
-        if (meetingDto.MeetingRoom == null)
+        if (meetingDto.Room == null)
         {
             throw new AgoraException("meeting-needs-room");
         }
@@ -51,7 +51,7 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
             throw new AgoraException("meeting-overlap");
         }
         
-        var room = await unitOfWork.RoomRepository.GetMeetingRoom(meetingDto.MeetingRoom.Id);
+        var room = await unitOfWork.RoomRepository.GetMeetingRoom(meetingDto.Room.Id);
         if (room == null)
         {
             throw new AgoraException("room-not-found");
@@ -63,7 +63,7 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
         if (facilities.Count != meetingDto.Facilities.Count)
         {
             logger.LogWarning("Meeting by {UserId} on {Date} in {Room} requested unknown facilities {amount} ",
-                userId, meetingDto.StartTime.Date, meetingDto.MeetingRoom.DisplayName, meetingDto.Facilities.Count - facilities.Count);
+                userId, meetingDto.StartTime.Date, meetingDto.Room.DisplayName, meetingDto.Facilities.Count - facilities.Count);
         }
 
         var meeting = new Meeting
@@ -110,9 +110,9 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
         meeting.EndTime = meetingDto.EndTime.ToUniversalTime();
 
         // Only update the room if one is present, a meeting needs a room
-        if (meetingDto.MeetingRoom != null && meeting.Room.Id != meetingDto.MeetingRoom.Id)
+        if (meetingDto.Room != null && meeting.Room.Id != meetingDto.Room.Id)
         {
-            var room = await unitOfWork.RoomRepository.GetMeetingRoom(meetingDto.MeetingRoom.Id);
+            var room = await unitOfWork.RoomRepository.GetMeetingRoom(meetingDto.Room.Id);
             if (room == null)
             {
                 throw new AgoraException("room-not-found");

@@ -1,46 +1,65 @@
-<p-splitter [style]="{ height: '90vh', margin: '20px' }" [panelSizes]="[25, 75]" [minSizes]="[10, 0]">
+<p-splitter [style]="{ height: '90vh', margin: '20px' }" [panelSizes]="[25, 75]" [minSizes]="[10, 0]"
+            *transloco="let t;prefix:'management.dashboard'"
+>
   <ng-template #panel>
     <!-- TODO: Upcoming meetings -->
-    <div class="panel">
-      <span class="panel-header">Upcoming meetings</span>
+    <div class="panel" *transloco="let t;prefix:'management.dashboard.meetings'">
+      <span class="panel-header">{{t('title')}}</span>
+
+      @if (upcomingMeetings.length > 0) {
+        <cdk-virtual-scroll-viewport itemSize="125" style="height: 750px">
+          <div *cdkVirtualFor="let meeting of upcomingMeetings" class="meeting" style="height: 125px">
+            <div class="title">
+              <p>{{meeting.title}}</p>
+              <p>{{meeting.room.displayName}}</p>
+            </div>
+
+            <div class="time">
+              {{ meeting.startTime | utcToLocalTime:'short' }} to {{ meeting.endTime | utcToLocalTime:'short' }}
+            </div>
+
+          </div>
+        </cdk-virtual-scroll-viewport>
+      } @else {
+        <span>{{t('empty')}}</span>
+      }
+
     </div>
   </ng-template>
   <ng-template #panel>
     <p-splitter layout="vertical" [panelSizes]="[50, 50]">
       <ng-template #panel>
-
-        <div class="panel">
-          <span class="panel-header">Most used facilities</span>
+        <div class="panel" *transloco="let t;prefix:'management.dashboard.facilities'">
+          <span class="panel-header">{{t('title')}}</span>
 
           <!-- TODO: Graph? PieChart? Something else? -->
 
         </div>
-
       </ng-template>
       <ng-template #panel>
         <p-splitter [panelSizes]="[70, 30]">
 
           <ng-template #panel>
+            <div class="panel" *transloco="let t;prefix:'management.dashboard.rooms'">
+              <span class="panel-header">{{t('title')}}</span>
 
-            <span class="panel-header">Most used rooms</span>
-
-            <!-- TODO: Graph? PieChart? Something else? -->
-
+              <!-- TODO: Graph? PieChart? Something else? -->
+            </div>
           </ng-template>
 
           <ng-template #panel>
-            <div class="panel">
-              <span class="panel-header">Quick Actions</span>
+            <div class="panel" *transloco="let t;prefix:'management.dashboard.actions'">
+              <span class="panel-header">{{t('title')}}</span>
 
               <div class="quick-actions">
 
-                <p-button [routerLink]="'/management/configuration'" variant="outlined" severity="success">Configure</p-button>
+                <p-button [routerLink]="'/management/configuration'" variant="outlined" severity="success">{{t('configure')}}</p-button>
 
-                <p-button [routerLink]="'/management/wizard/facility'" variant="outlined" severity="info">New Meeting Room</p-button>
+                <p-button [routerLink]="'/management/wizard/facility'" variant="outlined" severity="info">{{t('room')}}</p-button>
 
-                <p-button [routerLink]="" variant="outlined" severity="info">New Facility</p-button>
+                <p-button [routerLink]="" variant="outlined" severity="info">{{t('facility')}}</p-button>
 
-                <p-button [routerLink]="" variant="outlined" severity="info">New Meeting</p-button>
+                <p-button [routerLink]="" variant="outlined" severity="info">{{t(('meeting'))}}</p-button>
 
               </div>
 

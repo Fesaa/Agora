@@ -55,7 +55,7 @@ export class MeetingWizardComponent implements OnInit{
     externalId: '',
     startTime: null!,
     endTime: null!,
-    meetingRoom: {
+    room: {
       id: 0,
       displayName: '',
       description: '',

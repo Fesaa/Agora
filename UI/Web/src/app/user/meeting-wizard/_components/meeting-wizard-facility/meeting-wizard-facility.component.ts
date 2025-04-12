@@ -43,7 +43,7 @@ export class MeetingWizardFacilityComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.facilityService.getForRoom(this.meeting.meetingRoom.id + 1).subscribe({
+    this.facilityService.getForRoom(this.meeting.room.id + 1).subscribe({
       next: (facilities) => {
         this.facilities = facilities;
       },

@@ -35,7 +35,7 @@ export class MeetingService {
   }
 
   upcoming() {
-    return this.httpClient.get(`${this.baseUrl}Meeting/upcoming`)
+    return this.httpClient.get<Meeting[]>(`${this.baseUrl}Meeting/upcoming`)
   }
 
   attendees(s: string) {

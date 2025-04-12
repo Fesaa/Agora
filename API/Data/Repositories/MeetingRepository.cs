@@ -9,15 +9,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Data.Repositories;
 
-public delegate IQueryable<Meeting> MeetingFilterOption(IQueryable<Meeting> query);
+public delegate IQueryable<Meeting> MeetingQueryOption(IQueryable<Meeting> query);
 
 public interface IMeetingRepository
 {
     void Add(Meeting meeting);
     void Update(Meeting meeting);
     void Remove(Meeting meeting);
-    Task<IEnumerable<MeetingDto>> GetMeetingDtos(params MeetingFilterOption[] options);
-    Task<IEnumerable<Meeting>> GetMeetings(params MeetingFilterOption[] options);
+    Task<IEnumerable<MeetingDto>> GetMeetingDtos(params MeetingQueryOption[] options);
+    Task<IEnumerable<Meeting>> GetMeetings(params MeetingQueryOption[] options);
     Task<Meeting?> GetMeetingById(int id);
 }
 
@@ -36,7 +36,7 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
     {
         context.Meetings.Remove(meeting);
     }
-    public async Task<IEnumerable<MeetingDto>> GetMeetingDtos(params MeetingFilterOption[] options)
+    public async Task<IEnumerable<MeetingDto>> GetMeetingDtos(params MeetingQueryOption[] options)
     {
         var q = context.Meetings.AsQueryable()
             .AsNoTracking();
@@ -48,7 +48,7 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
         
         return await mapper.ProjectTo<MeetingDto>(q).ToListAsync();
     }
-    public async Task<IEnumerable<Meeting>> GetMeetings(params MeetingFilterOption[] options)
+    public async Task<IEnumerable<Meeting>> GetMeetings(params MeetingQueryOption[] options)
     {
         var q = context.Meetings.AsQueryable()
             .AsNoTracking();
@@ -65,42 +65,42 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
         return await context.Meetings.FirstOrDefaultAsync(m => m.Id == id);
     }
 
-    public static MeetingFilterOption OnDate(DateTime date)
+    public static MeetingQueryOption OnDate(DateTime date)
     {
         return q => q.Where(m => m.StartTime.Date == date.Date);
     }
 
-    public static MeetingFilterOption StartAfter(DateTime before)
+    public static MeetingQueryOption StartAfter(DateTime before)
     {
         return q => q.Where(m => m.StartTime >= before);
     }
 
-    public static MeetingFilterOption StartBefore(DateTime after)
+    public static MeetingQueryOption StartBefore(DateTime after)
     {
         return q => q.Where(m => m.StartTime <= after);
     }
 
-    public static MeetingFilterOption EndAfter(DateTime after)
+    public static MeetingQueryOption EndAfter(DateTime after)
     {
         return q => q.Where(m => m.EndTime >= after);
     }
 
-    public static MeetingFilterOption EndBefore(DateTime before)
+    public static MeetingQueryOption EndBefore(DateTime before)
     {
         return q => q.Where(m => m.EndTime <= before);
     }
 
-    public static MeetingFilterOption StartBetween(DateTime before, DateTime after)
+    public static MeetingQueryOption StartBetween(DateTime before, DateTime after)
     {
         return q => q.Where(m => m.StartTime >= before && m.StartTime <= after);
     }
 
-    public static MeetingFilterOption EndBetween(DateTime before, DateTime after)
+    public static MeetingQueryOption EndBetween(DateTime before, DateTime after)
     {
         return q => q.Where(m => m.EndTime >= before && m.EndTime <= after);
     }
 
-    public static MeetingFilterOption InRoom(int roomId)
+    public static MeetingQueryOption InRoom(int roomId)
     {
         return q => q.Where(m => m.Room.Id == roomId);
     }
@@ -110,7 +110,7 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
     /// </summary>
     /// <param name="roomId"></param>
     /// <returns></returns>
-    public static MeetingFilterOption InRoomOrMergedRoom(int roomId)
+    public static MeetingQueryOption InRoomOrMergedRoom(int roomId)
     {
         return q => 
             q.Where(m => m.Room.Id == roomId || 
@@ -119,18 +119,23 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
                                  .Contains(roomId)));
     }
 
-    public static MeetingFilterOption InAnyRoom(IEnumerable<int> roomIds)
+    public static MeetingQueryOption InAnyRoom(IEnumerable<int> roomIds)
     {
         return q => q.Where(m => roomIds.Contains(m.Room.Id));
     }
     
-    public static MeetingFilterOption IsAttending(string userId)
+    public static MeetingQueryOption IsAttending(string userId)
     {
         return q => q.Where(m => m.Attendees.Contains(userId));
     }
 
-    public static MeetingFilterOption IsUsing(int facilityId)
+    public static MeetingQueryOption IsUsing(int facilityId)
     {
         return q => q.Where(m => m.UsedFacilities.Select(f => f.Id).Contains(facilityId));
+    }
+
+    public static MeetingQueryOption WithRoom()
+    {
+        return q => q.Include(m => m.Room);
     }
 }
