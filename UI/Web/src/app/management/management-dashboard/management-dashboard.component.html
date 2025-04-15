@@ -9,8 +9,14 @@
       @if (upcomingMeetings.length > 0) {
         <cdk-virtual-scroll-viewport itemSize="125" style="height: 750px">
           <div *cdkVirtualFor="let meeting of upcomingMeetings" class="meeting" style="height: 125px">
-            <div class="title">
-              <p>{{meeting.title}}</p>
+            <div class="meeting-title">
+              <p (click)="navigateToMeeting(meeting)"
+                 [pTooltip]="t('edit')"
+                 tooltipPosition="bottom"
+
+              >
+                {{meeting.title}}
+              </p>
               <p>{{meeting.room.displayName}}</p>
             </div>
 

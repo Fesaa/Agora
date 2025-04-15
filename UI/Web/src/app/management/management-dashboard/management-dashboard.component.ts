@@ -3,7 +3,7 @@ import {MeetingRoomService} from '../../_services/meeting-room.service';
 import {FacilityService} from '../../_services/facility.service';
 import {Splitter} from 'primeng/splitter';
 import {Button} from 'primeng/button';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {Facility} from '../../_models/facility';
 import {Meeting} from '../../_models/meeting';
 import {MeetingService} from '../../_services/meeting.service';
@@ -13,6 +13,7 @@ import {TranslocoDirective} from '@jsverse/transloco';
 import {StatsService} from '../../_services/stats.service';
 import {StatsRecord} from '../../_models/stats';
 import {PieChartModule} from '@swimlane/ngx-charts';
+import {Tooltip} from 'primeng/tooltip';
 
 @Component({
   selector: 'app-management-dashboard',
@@ -25,7 +26,8 @@ import {PieChartModule} from '@swimlane/ngx-charts';
     CdkFixedSizeVirtualScroll,
     CdkVirtualForOf,
     TranslocoDirective,
-    PieChartModule
+    PieChartModule,
+    Tooltip
   ],
   templateUrl: './management-dashboard.component.html',
   styleUrl: './management-dashboard.component.css'
@@ -43,6 +45,7 @@ export class ManagementDashboardComponent implements OnInit {
     private roomService: MeetingRoomService,
     private meetingService: MeetingService,
     private statsService: StatsService,
+    private router: Router,
   ) {
   }
 
@@ -59,6 +62,10 @@ export class ManagementDashboardComponent implements OnInit {
     this.meetingService.upcoming().subscribe(m => {
       this.upcomingMeetings = m;
     });
+  }
+
+  navigateToMeeting(m: Meeting) {
+    this.router.navigateByUrl(`/user/wizard/meeting?meetingId=${m.id}`);
   }
 
 }

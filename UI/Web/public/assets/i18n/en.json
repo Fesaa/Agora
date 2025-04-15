@@ -327,7 +327,8 @@
     "dashboard": {
       "meetings": {
         "title": "Upcoming meetings",
-        "empty": "No meetings planned"
+        "empty": "No meetings planned",
+        "edit": "Edit"
       },
       "facilities": {
         "title": "Most used facilities"
