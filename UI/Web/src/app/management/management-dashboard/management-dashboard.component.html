@@ -31,9 +31,11 @@
       <ng-template #panel>
         <div class="panel" *transloco="let t;prefix:'management.dashboard.facilities'">
           <span class="panel-header">{{t('title')}}</span>
-
-          <!-- TODO: Graph? PieChart? Something else? -->
-
+          <div>
+            @if (mostUsedFacilities.length > 0) {
+              <ngx-charts-advanced-pie-chart [results]="mostUsedFacilities" />
+            }
+          </div>
         </div>
       </ng-template>
       <ng-template #panel>
@@ -42,8 +44,11 @@
           <ng-template #panel>
             <div class="panel" *transloco="let t;prefix:'management.dashboard.rooms'">
               <span class="panel-header">{{t('title')}}</span>
-
-              <!-- TODO: Graph? PieChart? Something else? -->
+              <div>
+                @if (mostUsedRooms.length > 0) {
+                  <ngx-charts-advanced-pie-chart [results]="mostUsedRooms" />
+                }
+              </div>
             </div>
           </ng-template>
 
@@ -59,7 +64,7 @@
 
                 <p-button [routerLink]="" variant="outlined" severity="info">{{t('facility')}}</p-button>
 
-                <p-button [routerLink]="" variant="outlined" severity="info">{{t(('meeting'))}}</p-button>
+                <p-button [routerLink]="'/user/wizard/meeting'" [queryParams]="{return: 'true'}" variant="outlined" severity="info">{{t(('meeting'))}}</p-button>
 
               </div>
 

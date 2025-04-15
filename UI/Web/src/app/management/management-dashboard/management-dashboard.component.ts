@@ -10,6 +10,9 @@ import {MeetingService} from '../../_services/meeting.service';
 import {UtcToLocalTimePipe} from '../../_pipes/utc-to-local.pipe';
 import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {TranslocoDirective} from '@jsverse/transloco';
+import {StatsService} from '../../_services/stats.service';
+import {StatsRecord} from '../../_models/stats';
+import {PieChartModule} from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-management-dashboard',
@@ -21,14 +24,17 @@ import {TranslocoDirective} from '@jsverse/transloco';
     CdkVirtualScrollViewport,
     CdkFixedSizeVirtualScroll,
     CdkVirtualForOf,
-    TranslocoDirective
+    TranslocoDirective,
+    PieChartModule
   ],
   templateUrl: './management-dashboard.component.html',
   styleUrl: './management-dashboard.component.css'
 })
 export class ManagementDashboardComponent implements OnInit {
 
-  mostUsedFacilities: Facility[] = [];
+  mostUsedFacilities: StatsRecord[] = [];
+  mostUsedRooms: StatsRecord[] = [];
+
   upcomingMeetings: Meeting[] = [];
 
 
@@ -36,14 +42,19 @@ export class ManagementDashboardComponent implements OnInit {
     private facilityService: FacilityService,
     private roomService: MeetingRoomService,
     private meetingService: MeetingService,
+    private statsService: StatsService,
   ) {
   }
 
   ngOnInit(): void {
     // TODO: Change to MostUsed after endpoint is implemented
-    this.facilityService.all().subscribe(f => {
+    this.statsService.facilities().subscribe(f => {
       this.mostUsedFacilities = f;
     });
+
+    this.statsService.rooms().subscribe(r => {
+      this.mostUsedRooms = r;
+    })
 
     this.meetingService.upcoming().subscribe(m => {
       this.upcomingMeetings = m;
