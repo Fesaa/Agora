@@ -21,7 +21,7 @@ public interface IMeetingService
 }
 
 public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWork,
-    ICalenderSyncService calenderSyncService, DataContext context): IMeetingService
+    ICalenderSyncService calenderSyncService, DataContext context, INotificationService notificationService): IMeetingService
 {
 
     public async Task<bool> IsAvailable(MeetingDto meetingDto)
@@ -165,6 +165,9 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
         {
             throw new AgoraException("past-meetings-cannot-be-deleted");
         }
+
+         var notificationMessage = $"The meeting \"{meeting.Title}\" has been canceled.";
+         await _notificationService.NotifyAttendeesAsync(meeting.Attendees, notificationMessage);
 
 
         var allUsers = meeting.Attendees;
