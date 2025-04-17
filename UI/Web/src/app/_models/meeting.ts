@@ -9,7 +9,7 @@ export type Meeting = {
   externalId: string,
   startTime: Date,
   endTime: Date,
-  meetingRoom: MeetingRoom,
+  room: MeetingRoom,
   attendees: string[],
   facilities: Facility[],
 }

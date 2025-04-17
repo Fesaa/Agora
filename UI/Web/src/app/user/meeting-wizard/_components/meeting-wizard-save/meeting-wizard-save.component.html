@@ -6,7 +6,7 @@
     <p><strong>Description:</strong> {{ meeting.description }}</p>
     <p><strong>Start Time:</strong> {{ meeting.startTime | utcToLocalTime:'short' }}</p>
     <p><strong>End Time:</strong> {{ meeting.endTime | utcToLocalTime:'short' }}</p>
-    <p><strong>Meeting Room:</strong> {{ meeting.meetingRoom?.displayName }}</p>
+    <p><strong>Meeting Room:</strong> {{ meeting.room.displayName }}</p>
     <p><strong>Attendees:</strong> {{ meeting.attendees.join(', ') }}</p>
     <p><strong>Facilities:</strong> {{ getFacilityDisplayNames(meeting.facilities) }}</p>
   </div>

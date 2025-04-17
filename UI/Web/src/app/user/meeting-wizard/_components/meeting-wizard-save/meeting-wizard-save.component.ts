@@ -4,7 +4,6 @@ import {Button} from "primeng/button";
 import {Card} from "primeng/card";
 import {FormsModule} from "@angular/forms";
 import {TranslocoDirective} from "@jsverse/transloco";
-import {DatePipe} from '@angular/common';
 import {Facility} from '../../../../_models/facility';
 import {MeetingService} from '../../../../_services/meeting.service';
 import {ToastService} from '../../../../_services/toast-service';
@@ -18,7 +17,6 @@ import {UtcToLocalTimePipe} from "../../../../_pipes/utc-to-local.pipe";
     Card,
     FormsModule,
     TranslocoDirective,
-    DatePipe,
     UtcToLocalTimePipe
   ],
   templateUrl: './meeting-wizard-save.component.html',

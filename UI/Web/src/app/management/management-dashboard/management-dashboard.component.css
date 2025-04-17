@@ -26,3 +26,30 @@
 .quick-actions > p-button {
   margin-top: calc(5*var(--spacing));
 }
+
+.meeting {
+  display: flex;
+  flex-direction: column;
+  margin: var(--spacing);
+  padding: var(--spacing) calc(2 * var(--spacing));
+  background-color: #f9f9f9; /* A very light grey */
+  border: 1px solid #ddd; /* A thin, light grey border */
+  border-radius: 8px; /* Slightly rounded corners */
+}
+
+.meeting > .meeting-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: var(--subtitle-font-size);
+  margin-bottom: calc(2 * var(--spacing));
+  flex-grow: 1;
+}
+
+.meeting-title > p:first-child:hover {
+  cursor: pointer;
+}
+
+.meeting > .time {
+  color: #777; /* A slightly lighter text color for the time */
+}

@@ -6,8 +6,6 @@ import {ToastService} from '../../../../_services/toast-service';
 import {Button} from 'primeng/button';
 import {Card} from 'primeng/card';
 import {FormsModule} from '@angular/forms';
-import {InputText} from 'primeng/inputtext';
-import {Textarea} from 'primeng/textarea';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {NgClass, NgIf} from '@angular/common';
@@ -19,8 +17,6 @@ import {Tooltip} from 'primeng/tooltip';
     Button,
     Card,
     FormsModule,
-    InputText,
-    Textarea,
     TranslocoDirective,
     CdkFixedSizeVirtualScroll,
     CdkVirtualForOf,
@@ -47,7 +43,7 @@ export class MeetingWizardFacilityComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.facilityService.getForRoom(this.meeting.meetingRoom.id + 1).subscribe({
+    this.facilityService.getForRoom(this.meeting.room.id + 1).subscribe({
       next: (facilities) => {
         this.facilities = facilities;
       },

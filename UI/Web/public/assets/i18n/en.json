@@ -149,7 +149,14 @@
       "menu": {
         "home": {
           "label": "Home",
-          "title": "Configuration"
+          "title": "Configuration",
+          "description": "Agora can be fully configured from this page, select the items in the menu bar to start! Changes are saved automatically unless they're a multi step process, or there is an explicit save button present.",
+          "recommendations": {
+            "rooms": "You've got no rooms set up yet! Set some up",
+            "facilities": "You've got no facilities set up yet! Set some up",
+            "here": "here"
+          },
+          "dashboard": "Dashboard"
         },
         "meetings": {
           "label": "Meetings",
@@ -322,6 +329,26 @@
             "prev": "Back"
           }
         }
+      }
+    },
+    "dashboard": {
+      "meetings": {
+        "title": "Upcoming meetings",
+        "empty": "No meetings planned",
+        "edit": "Edit"
+      },
+      "facilities": {
+        "title": "Most used facilities"
+      },
+      "rooms": {
+        "title": "Most used rooms"
+      },
+      "actions": {
+        "title": "Quick Actions",
+        "configure": "Configure",
+        "room": "New Meeting Room",
+        "facility": "New Facility",
+        "meeting": "New Meeting"
       }
     }
   },

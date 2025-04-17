@@ -17,9 +17,10 @@
 
 
   --title-font-size: 2rem;
+  --subtitle-font-size: 1rem;
 
   --spacing: 0.25rem;
-  font-family: "Spectral", serif;
+    font-family: "Spectral", serif;
 }
 
 .title {

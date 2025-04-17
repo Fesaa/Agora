@@ -20,6 +20,7 @@
     "@angular/router": "^19.1.0",
     "@jsverse/transloco": "^7.5.1",
     "@primeng/themes": "^19.0.6",
+    "@swimlane/ngx-charts": "^22.0.0-alpha.1",
     "angular-oauth2-oidc": "^19.0.0",
     "luxon": "^3.6.1",
     "primeicons": "^7.0.0",

@@ -19,7 +19,7 @@ public class MeetingDto
     
     public DateTime EndTime { get; set; }
     
-    public MeetingRoomDto? MeetingRoom { get; set; }
+    public MeetingRoomDto? Room { get; set; }
     
     public IList<string> Attendees { get; set; }
     

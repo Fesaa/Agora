@@ -5,7 +5,6 @@ import {Button} from 'primeng/button';
 import {Card} from 'primeng/card';
 import {ReactiveFormsModule} from '@angular/forms';
 import {TranslocoDirective} from '@jsverse/transloco';
-import {AuthService} from '../_services/auth.service';
 
 @Component({
   selector: 'app-callback',

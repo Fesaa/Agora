@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Meeting, MeetingSlots} from '../_models/meeting';
@@ -35,7 +35,7 @@ export class MeetingService {
   }
 
   upcoming() {
-    return this.httpClient.get(`${this.baseUrl}Meeting/upcoming`)
+    return this.httpClient.get<Meeting[]>(`${this.baseUrl}Meeting/upcoming`)
   }
 
   attendees(s: string) {
