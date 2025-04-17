@@ -1,0 +1,6 @@
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: calc(10*var(--spacing));
+}

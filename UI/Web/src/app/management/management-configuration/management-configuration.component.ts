@@ -8,8 +8,9 @@ import {ThemeConfigurationComponent} from './_components/theme-configuration/the
 import {FacilityConfigurationComponent} from './_components/facility-configuration/facility-configuration.component';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RoomConfigurationComponent} from './_components/room-configuration/room-configuration.component';
+import {HelloComponent} from './_components/hello/hello.component';
 
-enum ConfigurationId {
+export enum ConfigurationId {
   Rooms = "Rooms",
   Facilities = "Facilities",
   BrandingThemes = "BrandingThemes",
@@ -25,7 +26,8 @@ enum ConfigurationId {
     Card,
     ThemeConfigurationComponent,
     FacilityConfigurationComponent,
-    RoomConfigurationComponent
+    RoomConfigurationComponent,
+    HelloComponent
   ],
   templateUrl: './management-configuration.component.html',
   styleUrl: './management-configuration.component.css'

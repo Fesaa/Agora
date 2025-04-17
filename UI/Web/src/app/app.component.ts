@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
       }
 
       this.router.navigateByUrl('/first-setup')
-    })
+    });
 
     this.themeService.activatedTheme().subscribe({
       next: theme => {
@@ -48,11 +48,15 @@ export class AppComponent implements OnInit {
       error: err => {
         console.log(err);
       }
-    })
+    });
 
     const primeNGTrans = this.transLoco.getTranslation().get("primeng");
     if (primeNGTrans) {
       this.primeNG.setTranslation(primeNGTrans);
+    }
+
+    if (this.authService.isAuthenticated) {
+      this.router.navigateByUrl('/user/dashboard')
     }
   }
 

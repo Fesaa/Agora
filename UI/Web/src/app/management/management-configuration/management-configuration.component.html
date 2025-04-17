@@ -28,7 +28,7 @@
 
     @defer (when selected == undefined; prefetch on idle) {
       @if (selected == undefined) {
-        <p-card *transloco="let t;" [header]="t('management.configuration.menu.home.title')">{{t('shared.lorum-ipsum')}}</p-card>
+        <app-hello (changeMenuTab)="setSelectedCommand($event)()" />
       }
     }
 
