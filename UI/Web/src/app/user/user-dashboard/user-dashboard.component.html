@@ -1,10 +1,25 @@
 
-<div *transloco="let t;">
-  Hello {{name}} !
-  {{t("example")}} - {{t("foo.bar")}}
-  {{ test }}
+<div class="dashboard" *transloco="let t; prefix: 'user.dashboard'">
+
+  <h1 class="title">{{t('greeting')}} {{name}}</h1>
+
+  <div class="quick-actions">
+
+    <p-button [routerLink]="'/user/wizard/meeting'">{{t('meeting')}}</p-button>
+
+    @if (admin) {
+      <p-button [routerLink]="'/management/dashboard'">{{t('admin')}}</p-button>
+    }
+
+  </div>
+
+
+  <div class="navigation-btn">
+    <p-button (onClick)="logout()" >{{t('logout')}}</p-button>
+  </div>
+
+
+
 </div>
 
-<button (click)="logout()">
-  Logout
-</button>
+

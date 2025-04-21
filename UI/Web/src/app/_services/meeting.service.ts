@@ -30,12 +30,12 @@ export class MeetingService {
     return this.httpClient.delete(`${this.baseUrl}Meeting/${id}`)
   }
 
-  today() {
-    return this.httpClient.get<Meeting[]>(`${this.baseUrl}Meeting/today`)
+  today(userOnly: boolean = false) {
+    return this.httpClient.get<Meeting[]>(`${this.baseUrl}Meeting/today?userOnly=${userOnly}`)
   }
 
-  upcoming() {
-    return this.httpClient.get<Meeting[]>(`${this.baseUrl}Meeting/upcoming`)
+  upcoming(userOnly: boolean = false, dayOffSet: number = 0) {
+    return this.httpClient.get<Meeting[]>(`${this.baseUrl}Meeting/upcoming?userOnly=${userOnly}&dayOffSet=${dayOffSet}`)
   }
 
   attendees(s: string) {

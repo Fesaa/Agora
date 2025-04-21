@@ -23,7 +23,6 @@ export enum ConfigurationId {
     Menu,
     TranslocoDirective,
     Ripple,
-    Card,
     ThemeConfigurationComponent,
     FacilityConfigurationComponent,
     RoomConfigurationComponent,

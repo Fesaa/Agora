@@ -45,27 +45,48 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
     }
 
     [HttpGet("today")]
-    public async Task<ActionResult<IEnumerable<MeetingDto>>> GetTodaysMeetings()
+    public async Task<ActionResult<IEnumerable<MeetingDto>>> GetTodaysMeetings([FromQuery] bool userOnly = false)
     {
         var now = DateTime.UtcNow;
         var midnightUtc = now.Date.AddDays(1).AddTicks(-1);
         var startUtc = midnightUtc.AddDays(-1);
-        
-        var meetings = await unitOfWork.MeetingRepository.GetMeetingDtos(
+
+        List<MeetingQueryOption> opts = [
             MeetingRepository.EndAfter(now),
             MeetingRepository.EndBefore(midnightUtc),
-            MeetingRepository.StartAfter(startUtc));
+            MeetingRepository.StartAfter(startUtc)
+        ];
+
+        if (userOnly)
+        {
+            opts.Add(MeetingRepository.IsAttending(User.GetIdentifier()));
+        }
+        
+        var meetings = await unitOfWork.MeetingRepository.GetMeetingDtos([.. opts]);
         return Ok(meetings);
     }
 
     // TODO: pagination?
     [HttpGet("upcoming")]
-    public async Task<ActionResult<IEnumerable<MeetingDto>>> GetUpcomingMeetings()
+    public async Task<ActionResult<IEnumerable<MeetingDto>>> GetUpcomingMeetings([FromQuery] bool userOnly = false, [FromQuery] int dayOffSet = 0)
     {
-        var meetings = await unitOfWork.MeetingRepository.GetMeetingDtos(
-            MeetingRepository.StartAfter(DateTime.UtcNow),
-            MeetingRepository.WithRoom()
-            );
+        var start = DateTime.UtcNow.Date;
+        if (dayOffSet > 0)
+        {
+            start = start.Date.AddDays(dayOffSet);
+        }
+        
+        List<MeetingQueryOption> opts = [
+            MeetingRepository.StartAfter(start),
+            MeetingRepository.WithRoom(),
+        ];
+
+        if (userOnly)
+        {
+            opts.Add(MeetingRepository.IsAttending(User.GetIdentifier()));
+        }
+
+        var meetings = await unitOfWork.MeetingRepository.GetMeetingDtos([.. opts]);
         return Ok(meetings);
     }
 

@@ -42,11 +42,6 @@
     "title": "You've been logged in successfully",
     "submit": "Return to action!"
   },
-
-  "example": "This is an example translations",
-  "foo": {
-    "bar": "This is a nested example"
-  },
   "first-setup": {
     "title": "Welcome to {{application.name}}!",
     "description": {
@@ -141,6 +136,12 @@
           "save": "Save"
         }
       }
+    },
+    "dashboard": {
+      "greeting": "Hello,",
+      "meeting": "Create meeting",
+      "admin": "Admin Dashboard",
+      "logout": "Logout"
     }
   },
 

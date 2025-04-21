@@ -1,0 +1,26 @@
+
+.dashboard {
+  margin: var(--spacing);
+}
+
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: var(--spacing);
+}
+
+.quick-actions > p-button {
+  margin-top: calc(5*var(--spacing));
+}
+
+
+.navigation-btn {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  justify-content: end;
+  padding-top: calc(5 * var(--spacing));
+}

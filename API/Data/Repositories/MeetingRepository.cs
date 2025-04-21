@@ -70,14 +70,14 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
         return q => q.Where(m => m.StartTime.Date == date.Date);
     }
 
-    public static MeetingQueryOption StartAfter(DateTime before)
+    public static MeetingQueryOption StartAfter(DateTime after)
     {
-        return q => q.Where(m => m.StartTime >= before);
+        return q => q.Where(m => m.StartTime >= after);
     }
 
-    public static MeetingQueryOption StartBefore(DateTime after)
+    public static MeetingQueryOption StartBefore(DateTime before)
     {
-        return q => q.Where(m => m.StartTime <= after);
+        return q => q.Where(m => m.StartTime <= before);
     }
 
     public static MeetingQueryOption EndAfter(DateTime after)
@@ -126,7 +126,7 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
     
     public static MeetingQueryOption IsAttending(string userId)
     {
-        return q => q.Where(m => m.Attendees.Contains(userId));
+        return q => q.Where(m => m.Attendees.Contains(userId) || m.CreatorId == userId);
     }
 
     public static MeetingQueryOption IsUsing(int facilityId)
