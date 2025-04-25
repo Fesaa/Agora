@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MeetingRoomService} from '../../../../_services/meeting-room.service';
 import {MeetingRoom} from '../../../../_models/room';
@@ -21,7 +21,7 @@ import {ROOMS} from '../../../../_constants/links';
   templateUrl: './room-configuration.component.html',
   styleUrl: './room-configuration.component.css'
 })
-export class RoomConfigurationComponent {
+export class RoomConfigurationComponent implements OnInit{
 
   meetingRooms: MeetingRoom[] = [];
   loading: boolean = true;
