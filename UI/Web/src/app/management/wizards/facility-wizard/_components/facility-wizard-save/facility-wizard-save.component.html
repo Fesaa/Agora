@@ -43,7 +43,7 @@
   </p-card>
 
   <div class="navigation-btn">
-    <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
-    <p-button (onClick)="save.emit()" >{{t('save')}}</p-button>
+    <app-agora-button type="secondary" (onClick)="prev.emit()">{{t('prev')}}</app-agora-button>
+    <app-agora-button type="primary" (onClick)="save.emit()">{{t('save')}}</app-agora-button>
   </div>
 </p-card>

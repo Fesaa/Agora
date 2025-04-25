@@ -282,6 +282,28 @@
           }
         },
         "wizard": {
+          "general": {
+            "header": "General Information",
+            "room_name": "Room Display Name",
+            "room_name_help": "Enter a name for the room",
+            "description": "Description",
+            "description_help": "Provide additional details about the room",
+            "location": "Location",
+            "location_help": "Enter the location of the room",
+            "next": "Next",
+            "back": "Back"
+          },
+          "capacity": {
+            "header": "Capacity and Features",
+            "capacity": "Capacity",
+            "capacity_help": "Enter the maximum number of people the room can accommodate",
+            "may_exceed": "May Exceed Capacity",
+            "may_exceed_help": "Allow bookings that exceed the room's capacity",
+            "mergeable": "Mergeable",
+            "mergeable_help": "This room can be merged with other rooms",
+            "next": "Next",
+            "back": "Back"
+          },
           "facilities": {
             "header": "Link facilities",
             "explanation": {
@@ -290,6 +312,21 @@
             },
             "prev": "Previous",
             "next": "Next"
+          },
+          "summary": {
+            "header": "Summary",
+            "room_name": "Room Name: ",
+            "description": "Description: ",
+            "no_description": "No description provided",
+            "location": "Location: ",
+            "no_location": "No location provided",
+            "capacity": "Capacity: ",
+            "may_exceed": "May Exceed Capacity: ",
+            "mergeable": "Mergeable: ",
+            "facilities": "Facilities: ",
+            "no_facilities": "No facilities selected",
+            "submit": "Submit",
+            "back": "Back"
           }
         }
       },

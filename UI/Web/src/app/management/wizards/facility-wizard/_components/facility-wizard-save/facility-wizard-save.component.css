@@ -1,16 +1,4 @@
-.preview-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.preview-field {
-  margin-bottom: 10px;
-}
-
-.preview-field label {
-  font-weight: bold;
-  margin-right: 5px;
-}
+@import '../../../shared/management-wizard.css';
 
 .availability-item {
   margin-bottom: 10px;
@@ -22,12 +10,4 @@
 
 .availability-item > div {
   margin-right: 10px;
-}
-
-.navigation-btn {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-top: calc(5 * var(--spacing));
 }

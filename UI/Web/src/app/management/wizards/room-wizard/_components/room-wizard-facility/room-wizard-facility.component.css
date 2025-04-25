@@ -1,4 +1,6 @@
 
+@import '../../../shared/management-wizard.css';
+
 .facility-preview {
   display: flex;
   flex-direction: row;
@@ -9,12 +11,4 @@
 
 .facility-preview-holder {
   margin-top: var(--spacing);
-}
-
-.navigation-btn {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-top: calc(5 * var(--spacing));
 }

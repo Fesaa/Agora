@@ -7,18 +7,22 @@
     </p>
   </p-fieldset>
 
-  <cdk-virtual-scroll-viewport itemSize="25" style="height: 300px" class="facility-preview-holder">
-    <div *cdkVirtualFor="let f of facilities">
-      <div class="facility-preview">
-        <span>{{f.displayName}}</span>
-        <p-checkbox variant="filled" binary="true" [(ngModel)]="activeMap[f.id]" (onChange)="onCheckBoxChange(f, $event.checked)" />
-      </div>
+  <div class="wizard-form-container">
+    <div class="wizard-form-field">
+      <cdk-virtual-scroll-viewport itemSize="25" style="height: 300px" class="facility-preview-holder wizard-selection-list">
+        <div *cdkVirtualFor="let f of facilities">
+          <div class="facility-preview wizard-list-item" [ngClass]="{'selected': activeMap[f.id]}">
+            <span>{{f.displayName}}</span>
+            <p-checkbox variant="filled" binary="true" [(ngModel)]="activeMap[f.id]" (onChange)="onCheckBoxChange(f, $event.checked)" />
+          </div>
+        </div>
+      </cdk-virtual-scroll-viewport>
     </div>
-  </cdk-virtual-scroll-viewport>
+  </div>
 
   <div class="navigation-btn">
-    <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
-    <p-button (onClick)="next.emit()" >{{t('next')}}</p-button>
+    <app-agora-button type="secondary" (onClick)="prev.emit()">{{t('prev')}}</app-agora-button>
+    <app-agora-button type="primary" (onClick)="next.emit()">{{t('next')}}</app-agora-button>
   </div>
 
 </p-card>

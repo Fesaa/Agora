@@ -1,27 +1,36 @@
+@import '../shared/management-wizard.css';
+
+.room-wizard {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  padding: calc(4 * var(--spacing));
+}
+
+.wizard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.steps {
+  margin-bottom: calc(5 * var(--spacing));
+  padding: calc(2 * var(--spacing)) 0;
+}
+
+.sections {
+  padding: calc(2 * var(--spacing));
+  background-color: #fff;
+  border-radius: calc(2 * var(--spacing));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 .form-group {
-    margin-bottom: 16px;
+  margin-bottom: calc(4 * var(--spacing));
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .room-wizard {
+    padding: calc(2 * var(--spacing));
   }
-  
-  form label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 8px;
-  }
-  
-  form input, form textarea {
-    width: 100%;
-    max-width: 500px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  form h3 {
-    margin-bottom: 24px;
-  }
-  
-  form button {
-    margin-top: 16px;
-    margin-right: 8px;
-  }
-  
+}

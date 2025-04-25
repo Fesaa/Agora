@@ -1,56 +1,107 @@
-<p-steps [model]="steps" [(activeIndex)]="currentStep" [readonly]="true"></p-steps>
+<div class="room-wizard" *transloco="let t; prefix: 'management.configuration.rooms.wizard'">
+  <div class="wizard-container">
+    <div class="steps">
+      <p-steps [model]="steps" [(activeIndex)]="currentStep" [readonly]="true"></p-steps>
+    </div>
 
-<div *ngIf="currentStep === 0">
-    <h3>Step 1: General Information</h3>
-    <div class="p-grid">
-        <div class="p-col-12 p-md-6">
-          <label for="displayName">Room Display Name</label>
-          <input id="displayName" pInputText [(ngModel)]="roomData.displayName" />
-        </div>
-        <div class="p-col-12 p-md-6">
-          <label for="description">Description</label>
-          <textarea id="description" [(ngModel)]="roomData.description"></textarea>
+    <div class="sections">
+      <div *ngIf="currentStep === 0">
+        <h3>{{t('general.header')}}</h3>
+        <div class="wizard-form-container">
+          <div class="wizard-form-field">
+            <label for="displayName">{{t('general.room_name')}}</label>
+            <input id="displayName" pInputText [(ngModel)]="roomData.displayName" />
+            <div class="wizard-help-text">{{t('general.room_name_help')}}</div>
+          </div>
+          <div class="wizard-form-field">
+            <label for="description">{{t('general.description')}}</label>
+            <textarea id="description" pTextarea [(ngModel)]="roomData.description" rows="5"></textarea>
+            <div class="wizard-help-text">{{t('general.description_help')}}</div>
+          </div>
+          <div class="wizard-form-field">
+            <label for="location">{{t('general.location')}}</label>
+            <input id="location" pInputText [(ngModel)]="roomData.location" />
+            <div class="wizard-help-text">{{t('general.location_help')}}</div>
+          </div>
         </div>
       </div>
 
-    <div class="form-group">
-      <label for="location">Location</label>
-      <input id="location" pInputText [(ngModel)]="roomData.location" />
+      <div *ngIf="currentStep === 1">
+        <h3>{{t('capacity.header')}}</h3>
+        <div class="wizard-form-container">
+          <div class="wizard-form-field">
+            <label for="capacity">{{t('capacity.capacity')}}</label>
+            <input type="number" id="capacity" pInputText [(ngModel)]="roomData.capacity" />
+            <div class="wizard-help-text">{{t('capacity.capacity_help')}}</div>
+          </div>
+
+          <div class="wizard-form-field">
+            <label for="mayExceedCapacity">{{t('capacity.may_exceed')}}</label>
+            <p-checkbox id="mayExceedCapacity" binary="true" [(ngModel)]="roomData.mayExceedCapacity"></p-checkbox>
+            <div class="wizard-help-text">{{t('capacity.may_exceed_help')}}</div>
+          </div>
+
+          <div class="wizard-form-field">
+            <label for="mergeAble">{{t('capacity.mergeable')}}</label>
+            <p-checkbox id="mergeAble" binary="true" [(ngModel)]="roomData.mergeAble"></p-checkbox>
+            <div class="wizard-help-text">{{t('capacity.mergeable_help')}}</div>
+          </div>
+        </div>
+      </div>
+
+      @defer (when currentStep === 2; prefetch on idle) {
+        @if (currentStep === 2) {
+          <app-room-wizard-facility [(room)]="roomData" (prev)="prevStep()" (next)="nextStep()" />
+        }
+      }
+
+      <div *ngIf="currentStep === 3">
+        <!-- Step 4: Summary -->
+        <h3>{{t('summary.header')}}</h3>
+        <div class="wizard-form-container">
+          <div class="wizard-summary">
+            <div class="wizard-summary-item">
+              <span class="wizard-summary-label">{{t('summary.room_name')}}</span>
+              <span class="wizard-summary-value">{{ roomData.displayName }}</span>
+            </div>
+            <div class="wizard-summary-item">
+              <span class="wizard-summary-label">{{t('summary.description')}}</span>
+              <span class="wizard-summary-value">{{ roomData.description || t('summary.no_description') }}</span>
+            </div>
+            <div class="wizard-summary-item">
+              <span class="wizard-summary-label">{{t('summary.location')}}</span>
+              <span class="wizard-summary-value">{{ roomData.location || t('summary.no_location') }}</span>
+            </div>
+            <div class="wizard-summary-item">
+              <span class="wizard-summary-label">{{t('summary.capacity')}}</span>
+              <span class="wizard-summary-value">{{ roomData.capacity }}</span>
+            </div>
+            <div class="wizard-summary-item">
+              <span class="wizard-summary-label">{{t('summary.may_exceed')}}</span>
+              <span class="wizard-summary-value">{{ roomData.mayExceedCapacity ? 'Yes' : 'No' }}</span>
+            </div>
+            <div class="wizard-summary-item">
+              <span class="wizard-summary-label">{{t('summary.mergeable')}}</span>
+              <span class="wizard-summary-value">{{ roomData.mergeAble ? 'Yes' : 'No' }}</span>
+            </div>
+            <div class="wizard-summary-item">
+              <span class="wizard-summary-label">{{t('summary.facilities')}}</span>
+              <span class="wizard-summary-value">
+                <span *ngIf="roomData.facilities.length === 0">{{t('summary.no_facilities')}}</span>
+                <span *ngFor="let facility of roomData.facilities; let i = index">
+                  {{ facility.displayName }}{{ i < roomData.facilities.length - 1 ? ', ' : '' }}
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="navigation-btn" *ngIf="currentStep !== 2">
+        <app-agora-button type="secondary" (onClick)="prevStep()" [disabled]="currentStep === 0">{{currentStep === 0 ? t('general.back') : currentStep === 1 ? t('capacity.back') : t('summary.back')}}</app-agora-button>
+        <app-agora-button *ngIf="currentStep < steps.length - 1" type="primary" (onClick)="nextStep()" [disabled]="currentStep === steps.length - 1">{{currentStep === 0 ? t('general.next') : t('capacity.next')}}</app-agora-button>
+        <app-agora-button *ngIf="currentStep === steps.length - 1" type="primary" (onClick)="submitRoom()">{{t('summary.submit')}}</app-agora-button>
+      </div>
     </div>
   </div>
-
-  <div *ngIf="currentStep === 1">
-    <h3>Step 2: Capacity and Features</h3>
-    <div class="form-group">
-      <label for="capacity">Capacity</label>
-      <input type="number" id="capacity" pInputText [(ngModel)]="roomData.capacity" />
-    </div>
-
-    <div class="form-group">
-      <label for="mayExceedCapacity">May Exceed Capacity</label>
-      <p-checkbox id="mayExceedCapacity" binary="true" [(ngModel)]="roomData.mayExceedCapacity"></p-checkbox>
-    </div>
-
-    <div class="form-group">
-      <label for="mergeAble">Mergeable</label>
-      <p-checkbox id="mergeAble" binary="true" [(ngModel)]="roomData.mergeAble"></p-checkbox>
-    </div>
-  </div>
-
-  @defer (when currentStep === 2; prefetch on idle) {
-    @if (currentStep === 2) {
-      <app-room-wizard-facility [(room)]="roomData" (prev)="prevStep()" (next)="nextStep()" />
-    }
-  }
-
-  <div *ngIf="currentStep === 3">
-    <!-- Step 4: Summary -->
-    <h3>Step 4: Summary</h3>
-    <pre>{{ roomData | json }}</pre>
-    <button (click)="submitRoom()" *ngIf="currentStep === steps.length - 1">Submit</button>
-
-  </div>
-
-
-<button (click)="prevStep()" [disabled]="currentStep === 0">Back</button>
-<button (click)="nextStep()" [disabled]="currentStep === steps.length - 1">Next</button>
+</div>
