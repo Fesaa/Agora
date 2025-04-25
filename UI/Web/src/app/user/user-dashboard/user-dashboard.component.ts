@@ -3,18 +3,21 @@ import {AccountService} from '../../_services/account.service';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {AuthService} from '../../_services/auth.service';
 import {Card} from 'primeng/card';
-import {Button} from 'primeng/button';
 import {RouterLink} from '@angular/router';
 import {Meeting} from '../../_models/meeting';
 import {MeetingService} from '../../_services/meeting.service';
 import {forkJoin} from 'rxjs';
+import {UtcToLocalTimePipe} from '../../_pipes/utc-to-local.pipe';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-user-dashboard',
   imports: [
     TranslocoDirective,
-    Button,
-    RouterLink
+    RouterLink,
+    UtcToLocalTimePipe,
+    Card,
+    NgIf
   ],
   templateUrl: './user-dashboard.component.html',
   styleUrl: './user-dashboard.component.css'

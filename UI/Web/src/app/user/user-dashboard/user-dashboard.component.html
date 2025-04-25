@@ -1,25 +1,114 @@
 
-<div class="dashboard" *transloco="let t; prefix: 'user.dashboard'">
+<div class="dashboard-container" *transloco="let t; prefix: 'user.dashboard'">
+  <div class="dashboard">
+    <header class="dashboard-header">
+      <h1 class="title">{{t('greeting')}} {{name}}</h1>
 
-  <h1 class="title">{{t('greeting')}} {{name}}</h1>
+      <div class="quick-actions">
+        <button class="dashboard-button primary" [routerLink]="'/user/wizard/meeting'">
+          <i class="pi pi-calendar-plus"></i>
+          <span>{{t('meeting')}}</span>
+        </button>
 
-  <div class="quick-actions">
+        @if (admin) {
+          <button class="dashboard-button primary" [routerLink]="'/management/dashboard'">
+            <i class="pi pi-cog"></i>
+            <span>{{t('admin')}}</span>
+          </button>
+        }
 
-    <p-button [routerLink]="'/user/wizard/meeting'">{{t('meeting')}}</p-button>
+        <button class="dashboard-button secondary" (click)="logout()">
+          <i class="pi pi-sign-out"></i>
+          <span>{{t('logout')}}</span>
+        </button>
+      </div>
+    </header>
 
-    @if (admin) {
-      <p-button [routerLink]="'/management/dashboard'">{{t('admin')}}</p-button>
-    }
+    <div class="dashboard-content">
+      <div class="meetings-section">
+        <h2 class="section-title">{{t('todays_meetings')}}</h2>
 
+        <div class="meetings-container">
+          @for (today of todaysMeetings; track today.id) {
+            <p-card class="meeting-card">
+              <div class="meeting-header">
+                <h3 class="meeting-title">{{today.title}}</h3>
+                <span class="meeting-time">{{today.startTime | utcToLocalTime:'short'}} - {{today.endTime | utcToLocalTime:'short'}}</span>
+              </div>
+
+              <div class="meeting-details">
+                @if (today.room) {
+                  <div class="meeting-location">
+                    <i class="pi pi-map-marker"></i>
+                    <span>{{today.room.displayName}}</span>
+                  </div>
+                }
+
+                @if (today.description) {
+                  <div class="meeting-description">
+                    <p>{{today.description}}</p>
+                  </div>
+                }
+
+                @if (today.attendees && today.attendees.length > 0) {
+                  <div class="meeting-attendees">
+                    <i class="pi pi-users"></i>
+                    <span>{{today.attendees.length}} {{t('attendees')}}</span>
+                  </div>
+                }
+              </div>
+            </p-card>
+          } @empty {
+            <div class="no-meetings">
+              <i class="pi pi-calendar-times"></i>
+              <p>{{t('no_meetings')}}</p>
+              <button class="dashboard-button text" [routerLink]="'/user/wizard/meeting'">
+                <i class="pi pi-calendar-plus"></i>
+                <span>{{t('schedule_meeting')}}</span>
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+
+      @if (upcomingMeetings && upcomingMeetings.length > 0) {
+        <div class="meetings-section">
+          <h2 class="section-title">{{t('upcoming_meetings')}}</h2>
+
+          <div class="meetings-container">
+            @for (meeting of upcomingMeetings; track meeting.id) {
+              <p-card class="meeting-card">
+                <div class="meeting-header">
+                  <h3 class="meeting-title">{{meeting.title}}</h3>
+                  <span class="meeting-time">{{meeting.startTime | utcToLocalTime:'short'}} - {{meeting.endTime | utcToLocalTime:'short'}}</span>
+                </div>
+
+                <div class="meeting-details">
+                  @if (meeting.room) {
+                    <div class="meeting-location">
+                      <i class="pi pi-map-marker"></i>
+                      <span>{{meeting.room.displayName}}</span>
+                    </div>
+                  }
+
+                  @if (meeting.description) {
+                    <div class="meeting-description">
+                      <p>{{meeting.description}}</p>
+                    </div>
+                  }
+
+                  @if (meeting.attendees && meeting.attendees.length > 0) {
+                    <div class="meeting-attendees">
+                      <i class="pi pi-users"></i>
+                      <span>{{meeting.attendees.length}} {{t('attendees')}}</span>
+                    </div>
+                  }
+                </div>
+              </p-card>
+            }
+          </div>
+        </div>
+      }
+    </div>
   </div>
-
-
-  <div class="navigation-btn">
-    <p-button (onClick)="logout()" >{{t('logout')}}</p-button>
-  </div>
-
-
-
 </div>
-
-

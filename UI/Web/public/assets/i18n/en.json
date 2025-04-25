@@ -141,7 +141,12 @@
       "greeting": "Hello,",
       "meeting": "Create meeting",
       "admin": "Admin Dashboard",
-      "logout": "Logout"
+      "logout": "Logout",
+      "todays_meetings": "Today's Meetings",
+      "upcoming_meetings": "Upcoming Meetings",
+      "attendees": "attendees",
+      "no_meetings": "You have no meetings planned today.",
+      "schedule_meeting": "Schedule a meeting"
     }
   },
 
