@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Meeting} from '../../../../_models/meeting';
-import {Button} from "primeng/button";
 import {Card} from "primeng/card";
 import {FormsModule} from "@angular/forms";
 import {TranslocoDirective} from "@jsverse/transloco";
@@ -9,15 +8,18 @@ import {MeetingService} from '../../../../_services/meeting.service';
 import {ToastService} from '../../../../_services/toast-service';
 import {Router} from '@angular/router';
 import {UtcToLocalTimePipe} from "../../../../_pipes/utc-to-local.pipe";
+import {AgoraButtonComponent} from '../../../../shared/components/agora-button/agora-button.component';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-meeting-wizard-save',
   imports: [
-    Button,
+    AgoraButtonComponent,
     Card,
     FormsModule,
     TranslocoDirective,
-    UtcToLocalTimePipe
+    UtcToLocalTimePipe,
+    NgIf
   ],
   templateUrl: './meeting-wizard-save.component.html',
   styleUrl: './meeting-wizard-save.component.css'

@@ -1,0 +1,132 @@
+/* Meeting Wizard Shared Styles */
+
+/* Form container with consistent spacing */
+.wizard-form-container {
+  display: flex;
+  flex-direction: column;
+  padding: calc(5 * var(--spacing));
+  gap: calc(4 * var(--spacing));
+}
+
+/* Form field with consistent spacing and styling */
+.wizard-form-field {
+  margin-bottom: calc(4 * var(--spacing));
+}
+
+.wizard-form-field label {
+  display: block;
+  margin-bottom: calc(2 * var(--spacing));
+  font-weight: 500;
+  color: var(--body-text-color);
+}
+
+.wizard-form-field input,
+.wizard-form-field textarea,
+.wizard-form-field .p-dropdown,
+.wizard-form-field .p-autocomplete,
+.wizard-form-field .p-calendar {
+  width: 100%;
+}
+
+/* Navigation buttons with consistent alignment */
+.wizard-navigation-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: calc(5 * var(--spacing));
+  gap: calc(3 * var(--spacing));
+}
+
+/* Single button alignment (for first step) */
+.wizard-navigation-btn.single {
+  justify-content: flex-end;
+}
+
+/* Selection list styles */
+.wizard-selection-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: calc(2 * var(--spacing));
+}
+
+.wizard-list-item {
+  padding: calc(3 * var(--spacing));
+  margin: calc(2 * var(--spacing));
+  border-radius: calc(1 * var(--spacing));
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wizard-list-item:hover:not(.selected) {
+  background-color: var(--background-color);
+}
+
+.wizard-list-item.selected {
+  background-color: var(--secundairy-color);
+  color: var(--secondary-text-color);
+}
+
+/* Summary styles for the save step */
+.wizard-summary {
+  padding: calc(3 * var(--spacing));
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: calc(2 * var(--spacing));
+}
+
+.wizard-summary h2 {
+  color: var(--primary-color-darker-shade);
+  margin-bottom: calc(4 * var(--spacing));
+  padding-bottom: calc(2 * var(--spacing));
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.wizard-summary-item {
+  margin-bottom: calc(3 * var(--spacing));
+  display: flex;
+}
+
+.wizard-summary-label {
+  font-weight: 600;
+  min-width: 150px;
+  color: var(--body-text-color);
+}
+
+.wizard-summary-value {
+  color: var(--primary-color);
+}
+
+/* Help text */
+.wizard-help-text {
+  font-size: 0.9rem;
+  color: var(--secundairy-color);
+  margin-top: calc(1 * var(--spacing));
+}
+
+/* Alert icon */
+.wizard-alert-icon {
+  color: #ff9800;
+  margin-right: calc(2 * var(--spacing));
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .wizard-form-container {
+    padding: calc(3 * var(--spacing));
+  }
+
+  .wizard-navigation-btn {
+    flex-direction: column;
+  }
+
+  .wizard-summary-item {
+    flex-direction: column;
+  }
+
+  .wizard-summary-label {
+    margin-bottom: calc(1 * var(--spacing));
+  }
+}

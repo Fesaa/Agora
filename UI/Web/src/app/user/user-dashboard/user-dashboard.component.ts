@@ -17,7 +17,6 @@ import {NgIf} from '@angular/common';
     RouterLink,
     UtcToLocalTimePipe,
     Card,
-    NgIf
   ],
   templateUrl: './user-dashboard.component.html',
   styleUrl: './user-dashboard.component.css'

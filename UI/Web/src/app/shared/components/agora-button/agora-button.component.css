@@ -1,0 +1,57 @@
+/* Custom button styles */
+.agora-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  border: 1px solid transparent;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.agora-button i {
+  font-size: 1rem;
+}
+
+.agora-button.primary {
+  background-color: var(--primary-color);
+  color: var(--secondary-text-color);
+  border-color: var(--primary-color);
+}
+
+.agora-button.primary:hover {
+  background-color: var(--primary-color-dark-shade);
+  border-color: var(--primary-color-dark-shade);
+}
+
+.agora-button.secondary {
+  background-color: #f8f9fa;
+  color: #495057;
+  border-color: #ced4da;
+}
+
+.agora-button.secondary:hover {
+  background-color: #e9ecef;
+  color: #212529;
+}
+
+.agora-button.text {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: none;
+  padding: 0.5rem 0.75rem;
+}
+
+.agora-button.text:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.agora-button:disabled {
+  opacity: 0.6;
+  cursor: default;
+  pointer-events: none;
+}

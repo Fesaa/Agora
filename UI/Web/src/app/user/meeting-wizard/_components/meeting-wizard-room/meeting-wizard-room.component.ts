@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Meeting, MeetingSlots} from '../../../../_models/meeting';
 import {Card} from 'primeng/card';
-import {Button} from 'primeng/button';
 import {TranslocoDirective, TranslocoService} from '@jsverse/transloco';
 import {DatePicker} from 'primeng/datepicker';
 import {MeetingService} from '../../../../_services/meeting.service';
@@ -9,10 +8,12 @@ import {ToastService} from '../../../../_services/toast-service';
 import {Select} from 'primeng/select';
 import {FormsModule} from '@angular/forms';
 import {InputText} from 'primeng/inputtext';
-import {NgClass, NgIf} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {MeetingRoom} from '../../../../_models/room';
 import {Splitter} from 'primeng/splitter';
 import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
+import {AgoraButtonComponent} from '../../../../shared/components/agora-button/agora-button.component';
+import {UtcToLocalTimePipe} from '../../../../_pipes/utc-to-local.pipe';
 
 enum MeetingDuration {
   QUARTER,
@@ -29,18 +30,16 @@ const customLengthRegex = /(?:(\d+)h)?(?:(\d+)m)?/;
   selector: 'app-meeting-wizard-room',
   imports: [
     Card,
-    Button,
+    AgoraButtonComponent,
     TranslocoDirective,
     DatePicker,
     Select,
     FormsModule,
     InputText,
     NgClass,
-    Splitter,
-    CdkVirtualScrollViewport,
     NgIf,
-    CdkFixedSizeVirtualScroll,
-    CdkVirtualForOf
+    NgForOf,
+    UtcToLocalTimePipe
   ],
   templateUrl: './meeting-wizard-room.component.html',
   styleUrl: './meeting-wizard-room.component.css'
@@ -59,6 +58,9 @@ export class MeetingWizardRoomComponent implements OnInit{
   selectedMeetingDuration: MeetingDuration = MeetingDuration.HOUR;
   customLength: string = '';
   meetingDurations: {label: string, value: MeetingDuration}[] = [];
+
+  dateSelected: boolean = false;
+  slotPickerMinimized: boolean = false;
 
   constructor(
     private meetingService: MeetingService,
@@ -122,6 +124,8 @@ export class MeetingWizardRoomComponent implements OnInit{
             value: room,
           };
         });
+        // Minimize the slot picker after a time slot is selected
+        this.slotPickerMinimized = true;
       },
       error: err => {
         console.error(err);
@@ -145,11 +149,14 @@ export class MeetingWizardRoomComponent implements OnInit{
         this.toastR.genericError(error.error.message);
       }
     });*/
+    this.dateSelected = true;
     this.slots = [{
       start: this.toStart(date),
       end: this.toEnd(date),
     }];
-    this.generateStartTimes()
+    this.generateStartTimes();
+    // Reset slot picker to expanded state when a new date is picked
+    this.slotPickerMinimized = false;
   }
 
   private toStart(date: Date): Date {
@@ -190,6 +197,8 @@ export class MeetingWizardRoomComponent implements OnInit{
         currentTime.setMinutes(currentTime.getMinutes() + 15);
       }
     }
+
+    console.log(this.startTimes);
   }
 
   private getDurationMinutes() {
@@ -227,4 +236,8 @@ export class MeetingWizardRoomComponent implements OnInit{
   }
 
   protected readonly MeetingDuration = MeetingDuration;
+
+  toggleSlotPicker() {
+    this.slotPickerMinimized = !this.slotPickerMinimized;
+  }
 }

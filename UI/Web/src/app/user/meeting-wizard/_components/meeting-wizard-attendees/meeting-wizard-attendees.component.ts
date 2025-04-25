@@ -1,21 +1,24 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Meeting} from '../../../../_models/meeting';
 import {Card} from 'primeng/card';
-import {Button} from 'primeng/button';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {AutoComplete, AutoCompleteCompleteEvent} from 'primeng/autocomplete';
 import {FormsModule} from '@angular/forms';
 import {MeetingService} from '../../../../_services/meeting.service';
 import {ToastService} from '../../../../_services/toast-service';
+import {AgoraButtonComponent} from '../../../../shared/components/agora-button/agora-button.component';
+import {NgForOf, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-meeting-wizard-attendees',
   imports: [
     Card,
-    Button,
+    AgoraButtonComponent,
     TranslocoDirective,
     AutoComplete,
-    FormsModule
+    FormsModule,
+    NgForOf,
+    NgIf
   ],
   templateUrl: './meeting-wizard-attendees.component.html',
   styleUrl: './meeting-wizard-attendees.component.css'
@@ -68,7 +71,13 @@ export class MeetingWizardAttendeesComponent {
         this.toastR.genericError(err.error?.message || 'unknown error')
       }
     })
+  }
 
+  removeAttendee(attendee: string) {
+    const index = this.meeting.attendees.indexOf(attendee);
+    if (index !== -1) {
+      this.meeting.attendees.splice(index, 1);
+    }
   }
 
 }

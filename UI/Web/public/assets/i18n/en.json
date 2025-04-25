@@ -86,7 +86,9 @@
         "general": {
           "header": "General information",
           "title": "Title*",
+          "title_help": "Enter a title for your meeting",
           "desc": "Description",
+          "desc_help": "Provide additional details about your meeting",
           "next": "Next",
           "require-title": {
             "title": "A meeting requires a title",
@@ -98,8 +100,16 @@
           "next": "Next",
           "prev": "Previous",
           "date-label": "Pick the date",
+          "date_help": "Select the date for your meeting",
           "duration-label": "Pick a duration",
+          "duration_help": "Select how long your meeting will be",
           "custom-duration": "Or set a custom time (XhYm)",
+          "custom_duration_help": "Enter a custom duration in the format 1h30m",
+          "available_times": "Available time slots",
+          "available_rooms": "Available rooms",
+          "show_slots": "Show all slots",
+          "hide_slots": "Hide slots",
+          "selected_time": "Selected time",
           "durations": {
             "quarter": "15m",
             "half-hour": "30m",
@@ -121,19 +131,36 @@
           "header": "Who is attending?",
           "next": "Next",
           "prev": "Previous",
-          "attendees-label": "Add attendees"
+          "attendees_label": "Add attendees",
+          "attendees_placeholder": "Enter email addresses",
+          "attendees_help": "Add email addresses of people you want to invite",
+          "selected_attendees": "Selected attendees"
         },
         "facility": {
           "header": "Facilities",
           "next": "Next",
           "prev": "Prev",
+          "facilities_label": "Available facilities",
+          "facilities_help": "Select the facilities you need for your meeting",
+          "alert_management": "Requires management approval",
+          "selected_facilities": "Selected facilities",
           "no-facilities": "The selected room has no facilities available at the selected time "
         },
         "save": {
           "header": "Save",
           "next": "Next",
           "prev": "Prev",
-          "save": "Save"
+          "save": "Save",
+          "description": "Description",
+          "no_description": "No description provided",
+          "start_time": "Start time",
+          "end_time": "End time",
+          "meeting_room": "Meeting room",
+          "attendees": "Attendees",
+          "no_attendees": "No attendees added",
+          "facilities": "Facilities",
+          "no_facilities": "No facilities selected",
+          "review_help": "Please review your meeting details before saving"
         }
       }
     },

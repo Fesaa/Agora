@@ -3,27 +3,25 @@ import {Meeting} from '../../../../_models/meeting';
 import {Facility} from '../../../../_models/facility';
 import {FacilityService} from '../../../../_services/facility.service';
 import {ToastService} from '../../../../_services/toast-service';
-import {Button} from 'primeng/button';
 import {Card} from 'primeng/card';
 import {FormsModule} from '@angular/forms';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
-import {NgClass, NgIf} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {Tooltip} from 'primeng/tooltip';
+import {AgoraButtonComponent} from '../../../../shared/components/agora-button/agora-button.component';
 
 @Component({
   selector: 'app-meeting-wizard-facility',
   imports: [
-    Button,
+    AgoraButtonComponent,
     Card,
     FormsModule,
     TranslocoDirective,
-    CdkFixedSizeVirtualScroll,
-    CdkVirtualForOf,
-    CdkVirtualScrollViewport,
     NgIf,
     NgClass,
-    Tooltip
+    Tooltip,
+    NgForOf
   ],
   templateUrl: './meeting-wizard-facility.component.html',
   styleUrl: './meeting-wizard-facility.component.css'
