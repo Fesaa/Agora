@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {MeetingRoomService} from '../../_services/meeting-room.service';
 import {FacilityService} from '../../_services/facility.service';
 import {Splitter} from 'primeng/splitter';
-import {Button} from 'primeng/button';
 import {Router, RouterLink} from '@angular/router';
+import {AgoraButtonComponent} from '../../shared/components/agora-button/agora-button.component';
 import {Facility} from '../../_models/facility';
 import {Meeting} from '../../_models/meeting';
 import {MeetingService} from '../../_services/meeting.service';
@@ -19,7 +19,7 @@ import {Tooltip} from 'primeng/tooltip';
   selector: 'app-management-dashboard',
   imports: [
     Splitter,
-    Button,
+    AgoraButtonComponent,
     RouterLink,
     UtcToLocalTimePipe,
     CdkVirtualScrollViewport,

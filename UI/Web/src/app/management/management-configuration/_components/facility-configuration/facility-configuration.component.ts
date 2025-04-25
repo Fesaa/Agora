@@ -4,8 +4,8 @@ import {Facility} from '../../../../_models/facility';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {Card} from 'primeng/card';
 import {TableModule} from 'primeng/table';
-import {Button} from 'primeng/button';
 import {TitleCasePipe} from '@angular/common';
+import {AgoraButtonComponent} from '../../../../shared/components/agora-button/agora-button.component';
 import {Router} from '@angular/router';
 import {Skeleton} from 'primeng/skeleton';
 import {ToggleSwitch} from 'primeng/toggleswitch';
@@ -20,7 +20,7 @@ import {ToastService} from '../../../../_services/toast-service';
     TranslocoDirective,
     Card,
     TableModule,
-    Button,
+    AgoraButtonComponent,
     TitleCasePipe,
     Skeleton,
     ToggleSwitch,

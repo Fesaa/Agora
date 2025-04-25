@@ -17,6 +17,6 @@
   padding: calc(1.5 * var(--spacing));
 }
 
-.actions > p-button {
+.actions > app-agora-button {
   margin-left: var(--spacing);
 }

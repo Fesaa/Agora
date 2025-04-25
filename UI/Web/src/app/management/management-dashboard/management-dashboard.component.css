@@ -23,7 +23,7 @@
   padding: var(--spacing);
 }
 
-.quick-actions > p-button {
+.quick-actions > app-agora-button {
   margin-top: calc(5*var(--spacing));
 }
 

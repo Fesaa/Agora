@@ -4,8 +4,8 @@ import {MeetingRoomService} from '../../../../_services/meeting-room.service';
 import {MeetingRoom} from '../../../../_models/room';
 import {Card} from 'primeng/card';
 import {TableModule} from 'primeng/table';
-import {Button} from 'primeng/button';
 import {Skeleton} from 'primeng/skeleton';
+import {AgoraButtonComponent} from '../../../../shared/components/agora-button/agora-button.component';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {ROOMS} from '../../../../_constants/links';
 
@@ -14,7 +14,7 @@ import {ROOMS} from '../../../../_constants/links';
   imports: [
     Card,
     TableModule,
-    Button,
+    AgoraButtonComponent,
     Skeleton,
     TranslocoDirective
   ],
