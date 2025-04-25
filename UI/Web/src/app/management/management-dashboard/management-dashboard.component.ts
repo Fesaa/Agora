@@ -14,6 +14,7 @@ import {StatsService} from '../../_services/stats.service';
 import {StatsRecord} from '../../_models/stats';
 import {PieChartModule} from '@swimlane/ngx-charts';
 import {Tooltip} from 'primeng/tooltip';
+import {MeetingCardComponent} from '../../shared/components/meeting-card/meeting-card.component';
 
 @Component({
   selector: 'app-management-dashboard',
@@ -21,13 +22,13 @@ import {Tooltip} from 'primeng/tooltip';
     Splitter,
     AgoraButtonComponent,
     RouterLink,
-    UtcToLocalTimePipe,
     CdkVirtualScrollViewport,
     CdkFixedSizeVirtualScroll,
     CdkVirtualForOf,
     TranslocoDirective,
     PieChartModule,
-    Tooltip
+    Tooltip,
+    MeetingCardComponent
   ],
   templateUrl: './management-dashboard.component.html',
   styleUrl: './management-dashboard.component.css'

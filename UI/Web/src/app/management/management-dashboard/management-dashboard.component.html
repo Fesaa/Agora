@@ -8,22 +8,14 @@
 
       @if (upcomingMeetings.length > 0) {
         <cdk-virtual-scroll-viewport itemSize="125" style="height: 750px">
-          <div *cdkVirtualFor="let meeting of upcomingMeetings" class="meeting" style="height: 125px">
-            <div class="meeting-title">
-              <p (click)="navigateToMeeting(meeting)"
-                 [pTooltip]="t('edit')"
-                 tooltipPosition="bottom"
-
-              >
-                {{meeting.title}}
-              </p>
-              <p>{{meeting.room.displayName}}</p>
-            </div>
-
-            <div class="time">
-              {{ meeting.startTime | utcToLocalTime:'short' }} to {{ meeting.endTime | utcToLocalTime:'short' }}
-            </div>
-
+          <div *cdkVirtualFor="let meeting of upcomingMeetings" style="height: 125px">
+            <app-meeting-card
+              [meeting]="meeting"
+              displayMode="compact"
+              (meetingClick)="navigateToMeeting(meeting)"
+              [pTooltip]="t('edit')"
+              tooltipPosition="bottom"
+            ></app-meeting-card>
           </div>
         </cdk-virtual-scroll-viewport>
       } @else {

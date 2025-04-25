@@ -1,0 +1,42 @@
+<ng-container *transloco="let t; prefix: 'shared.meeting_card'">
+  <!-- Detailed mode (used in user dashboard) -->
+  <ng-container *ngIf="displayMode === 'detailed'">
+    <p-card class="meeting-card">
+      <div class="meeting-header">
+        <h3 class="meeting-title" (click)="onMeetingClick()">{{meeting.title}}</h3>
+        <span class="meeting-time">{{meeting.startTime | utcToLocalTime:'short'}} - {{meeting.endTime | utcToLocalTime:'short'}}</span>
+      </div>
+
+      <div class="meeting-details">
+        <div *ngIf="meeting.room" class="meeting-location">
+          <i class="pi pi-map-marker"></i>
+          <span>{{meeting.room.displayName}}</span>
+        </div>
+
+        <div *ngIf="meeting.description" class="meeting-description">
+          <p>{{meeting.description}}</p>
+        </div>
+
+        <div *ngIf="meeting.attendees && meeting.attendees.length > 0" class="meeting-attendees">
+          <i class="pi pi-users"></i>
+          <span>{{meeting.attendees.length}} {{t('attendees')}}</span>
+        </div>
+      </div>
+    </p-card>
+  </ng-container>
+
+  <!-- Compact mode (used in management dashboard) -->
+  <ng-container *ngIf="displayMode === 'compact'">
+    <div class="meeting" (click)="onMeetingClick()">
+      <div class="meeting-title">
+        <p>{{meeting.title}}</p>
+        <p *ngIf="meeting.room">{{meeting.room.displayName}}</p>
+      </div>
+
+      <div class="time">
+        <i class="pi pi-calendar"></i>
+        <span>{{meeting.startTime | utcToLocalTime:'short'}} - {{meeting.endTime | utcToLocalTime:'short'}}</span>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

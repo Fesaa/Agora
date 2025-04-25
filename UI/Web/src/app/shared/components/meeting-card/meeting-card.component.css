@@ -1,0 +1,108 @@
+/* Detailed mode styles (from user dashboard) */
+.meeting-card {
+  height: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.meeting-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.meeting-header {
+  margin-bottom: calc(3 * var(--spacing));
+}
+
+.meeting-title {
+  font-size: 1.2rem;
+  color: var(--primary-color-darker-shade);
+  margin-bottom: calc(2 * var(--spacing));
+  cursor: pointer;
+}
+
+.meeting-time {
+  display: block;
+  color: var(--secundairy-color);
+  font-weight: 500;
+  margin-bottom: calc(2 * var(--spacing));
+}
+
+.meeting-details {
+  display: flex;
+  flex-direction: column;
+  gap: calc(3 * var(--spacing));
+}
+
+.meeting-location, .meeting-attendees {
+  display: flex;
+  align-items: center;
+  gap: calc(2 * var(--spacing));
+  color: var(--body-text-color);
+}
+
+.meeting-location i, .meeting-attendees i {
+  color: var(--secundairy-color);
+}
+
+.meeting-description {
+  margin: calc(2 * var(--spacing)) 0;
+  color: var(--body-text-color);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.meeting-description p {
+  margin: 0;
+}
+
+/* Compact mode styles (from management dashboard) */
+.meeting {
+  display: flex;
+  flex-direction: column;
+  margin: var(--spacing);
+  padding: var(--spacing) calc(2 * var(--spacing));
+  background-color: var(--surface-card);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.meeting:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.meeting > .meeting-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: calc(2 * var(--spacing));
+  flex-grow: 1;
+}
+
+.meeting > .meeting-title p {
+  margin: 0;
+}
+
+.meeting > .meeting-title p:first-child {
+  font-size: 1.2rem;
+  color: var(--primary-color-darker-shade);
+  font-weight: 500;
+}
+
+.meeting > .meeting-title p:last-child {
+  color: var(--body-text-color);
+}
+
+.meeting > .time {
+  display: flex;
+  align-items: center;
+  gap: calc(2 * var(--spacing));
+  color: var(--secundairy-color);
+  font-weight: 500;
+}
+
+.meeting > .time i {
+  color: var(--secundairy-color);
+}

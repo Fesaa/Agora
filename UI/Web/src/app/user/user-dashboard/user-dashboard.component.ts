@@ -9,14 +9,14 @@ import {MeetingService} from '../../_services/meeting.service';
 import {forkJoin} from 'rxjs';
 import {UtcToLocalTimePipe} from '../../_pipes/utc-to-local.pipe';
 import {NgIf} from '@angular/common';
+import {MeetingCardComponent} from '../../shared/components/meeting-card/meeting-card.component';
 
 @Component({
   selector: 'app-user-dashboard',
   imports: [
     TranslocoDirective,
     RouterLink,
-    UtcToLocalTimePipe,
-    Card,
+    MeetingCardComponent,
   ],
   templateUrl: './user-dashboard.component.html',
   styleUrl: './user-dashboard.component.css'
