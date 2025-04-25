@@ -5,7 +5,7 @@
 
     <div class="recommendations-grid">
 
-      @if (hasAnyRooms) {
+      @if (!hasAnyRooms) {
         <div class="recommendation">
           {{t('recommendations.rooms')}}
           <span class="clickable" (click)="changeMenuTab.emit(ConfigurationId.Rooms)">{{t('recommendations.here')}}</span>
@@ -13,7 +13,7 @@
         </div>
       }
 
-      @if (hasAnyFacilities) {
+      @if (!hasAnyFacilities) {
         <div class="recommendation">
           {{t('recommendations.facilities')}}
           <span class="clickable" (click)="changeMenuTab.emit(ConfigurationId.Facilities)">{{t('recommendations.here')}}</span>
