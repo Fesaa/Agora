@@ -1,16 +1,16 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {AllWeekDays, Availability, DayOfWeek, Facility} from '../../../../../_models/facility';
-import {Button} from 'primeng/button';
 import {Card} from 'primeng/card';
 import {Fieldset} from 'primeng/fieldset';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {Slider} from 'primeng/slider';
+import {AgoraButtonComponent} from '../../../../../shared/components/agora-button/agora-button.component';
 
 @Component({
   selector: 'app-facility-wizard-availability',
   imports: [
-    Button,
+    AgoraButtonComponent,
     Card,
     Fieldset,
     ReactiveFormsModule,

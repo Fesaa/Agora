@@ -1,44 +1,29 @@
-.navigation-btn {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-top: calc(5 * var(--spacing));
-}
+@import '../shared/meeting-wizard.css';
 
-.expand {
+.facility-info {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  gap: calc(1 * var(--spacing));
 }
 
-.scroller-item {
-  margin: calc(2.5 * var(--spacing));
-  padding: calc(2.5 * var(--spacing));
-  border-radius: var(--spacing);
-}
-
-.scroller-item:hover {
-  cursor: pointer;
-}
-
-.scroller-item:hover:not(.selected) {
-  background-color: var(--background-color);
-}
-
-.facility-item {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 5px;
-  cursor: pointer;
+.wizard-empty-state {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: calc(5 * var(--spacing));
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: calc(2 * var(--spacing));
+  text-align: center;
 }
 
-.alert-icon {
-  color: red;
-  font-size: 0.8em;
-  margin-top: 5px;
+.wizard-empty-state i {
+  font-size: 2rem;
+  color: var(--secundairy-color);
+  margin-bottom: calc(3 * var(--spacing));
+}
+
+.wizard-empty-state p {
+  color: var(--body-text-color);
+  font-size: 1.1rem;
 }

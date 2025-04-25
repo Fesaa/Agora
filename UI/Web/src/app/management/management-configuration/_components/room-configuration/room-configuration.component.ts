@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MeetingRoomService} from '../../../../_services/meeting-room.service';
 import {MeetingRoom} from '../../../../_models/room';
 import {Card} from 'primeng/card';
 import {TableModule} from 'primeng/table';
-import {Button} from 'primeng/button';
 import {Skeleton} from 'primeng/skeleton';
+import {AgoraButtonComponent} from '../../../../shared/components/agora-button/agora-button.component';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {ROOMS} from '../../../../_constants/links';
 
@@ -14,14 +14,14 @@ import {ROOMS} from '../../../../_constants/links';
   imports: [
     Card,
     TableModule,
-    Button,
+    AgoraButtonComponent,
     Skeleton,
     TranslocoDirective
   ],
   templateUrl: './room-configuration.component.html',
   styleUrl: './room-configuration.component.css'
 })
-export class RoomConfigurationComponent {
+export class RoomConfigurationComponent implements OnInit{
 
   meetingRooms: MeetingRoom[] = [];
   loading: boolean = true;

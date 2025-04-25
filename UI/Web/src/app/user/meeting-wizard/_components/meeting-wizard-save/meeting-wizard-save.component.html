@@ -1,19 +1,53 @@
 
 <p-card [header]="t('header')" *transloco="let t;prefix:'user.wizard.meeting.save'">
 
-  <div>
-    <h2>{{ meeting.title }}</h2>
-    <p><strong>Description:</strong> {{ meeting.description }}</p>
-    <p><strong>Start Time:</strong> {{ meeting.startTime | utcToLocalTime:'short' }}</p>
-    <p><strong>End Time:</strong> {{ meeting.endTime | utcToLocalTime:'short' }}</p>
-    <p><strong>Meeting Room:</strong> {{ meeting.room.displayName }}</p>
-    <p><strong>Attendees:</strong> {{ meeting.attendees.join(', ') }}</p>
-    <p><strong>Facilities:</strong> {{ getFacilityDisplayNames(meeting.facilities) }}</p>
+  <div class="wizard-form-container">
+    <div class="wizard-summary">
+      <h2>{{ meeting.title }}</h2>
+
+      <div class="wizard-summary-item">
+        <span class="wizard-summary-label">{{t('description')}}</span>
+        <span class="wizard-summary-value">{{ meeting.description || t('no_description') }}</span>
+      </div>
+
+      <div class="wizard-summary-item">
+        <span class="wizard-summary-label">{{t('start_time')}}</span>
+        <span class="wizard-summary-value">{{ meeting.startTime | utcToLocalTime:'short' }}</span>
+      </div>
+
+      <div class="wizard-summary-item">
+        <span class="wizard-summary-label">{{t('end_time')}}</span>
+        <span class="wizard-summary-value">{{ meeting.endTime | utcToLocalTime:'short' }}</span>
+      </div>
+
+      <div class="wizard-summary-item">
+        <span class="wizard-summary-label">{{t('meeting_room')}}</span>
+        <span class="wizard-summary-value">{{ meeting.room.displayName }}</span>
+      </div>
+
+      <div class="wizard-summary-item">
+        <span class="wizard-summary-label">{{t('attendees')}}</span>
+        <span class="wizard-summary-value">
+          <span *ngIf="meeting.attendees.length > 0">{{ meeting.attendees.join(', ') }}</span>
+          <span *ngIf="meeting.attendees.length === 0">{{t('no_attendees')}}</span>
+        </span>
+      </div>
+
+      <div class="wizard-summary-item">
+        <span class="wizard-summary-label">{{t('facilities')}}</span>
+        <span class="wizard-summary-value">
+          <span *ngIf="meeting.facilities.length > 0">{{ getFacilityDisplayNames(meeting.facilities) }}</span>
+          <span *ngIf="meeting.facilities.length === 0">{{t('no_facilities')}}</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="wizard-help-text">{{t('review_help')}}</div>
   </div>
 
-  <div class="navigation-btn">
-    <p-button (onClick)="prev.emit()" >{{t('next')}}</p-button>
-    <p-button (onClick)="save()">{{t('save')}}</p-button>
+  <div class="wizard-navigation-btn">
+    <app-agora-button type="secondary" (onClick)="prev.emit()">{{t('prev')}}</app-agora-button>
+    <app-agora-button type="primary" (onClick)="save()">{{t('save')}}</app-agora-button>
   </div>
 
 </p-card>

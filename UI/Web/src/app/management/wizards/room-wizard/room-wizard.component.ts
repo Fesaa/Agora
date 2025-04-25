@@ -10,22 +10,20 @@ import {ToastService} from '../../../_services/toast-service';
 import {MeetingRoom} from '../../../_models/room';
 import {RoomWizardFacilityComponent} from './_components/room-wizard-facility/room-wizard-facility.component';
 import {Observable} from 'rxjs';
+import {AgoraButtonComponent} from '../../../shared/components/agora-button/agora-button.component';
+import {TranslocoDirective, TranslocoService} from '@jsverse/transloco';
+import {Textarea} from 'primeng/textarea';
 
 
 @Component({
   selector: 'app-room-wizard',
-  imports: [StepsModule, InputTextModule, FormsModule, CommonModule, CheckboxModule, RoomWizardFacilityComponent],
+  imports: [StepsModule, InputTextModule, FormsModule, CommonModule, CheckboxModule, RoomWizardFacilityComponent, AgoraButtonComponent, TranslocoDirective, Textarea],
   templateUrl: './room-wizard.component.html',
   styleUrls: ['./room-wizard.component.css']
 })
 export class RoomWizardComponent implements OnInit {
   // Steps model for the PrimeNG steps component
-  steps = [
-    { label: 'General Info' },
-    { label: 'Capacity' },
-    { label: 'Facilities' },
-    { label: 'Summary' }
-  ];
+  steps: { label: string }[] = [];
 
   currentStep = 0;
 
@@ -45,9 +43,28 @@ export class RoomWizardComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private toastService: ToastService,
-  ) {}
+    private translocoService: TranslocoService,
+  ) {
+    this.updateStepsLabels();
+  }
+
+  private updateStepsLabels() {
+    this.steps = [
+      { label: this.translocoService.translate('management.configuration.rooms.wizard.general.header') },
+      { label: this.translocoService.translate('management.configuration.rooms.wizard.capacity.header') },
+      { label: this.translocoService.translate('management.configuration.rooms.wizard.facilities.header') },
+      { label: this.translocoService.translate('management.configuration.rooms.wizard.summary.header') }
+    ];
+  }
 
   ngOnInit(): void {
+    // Listen for translation changes
+    this.translocoService.events$.subscribe((event) => {
+      if (event.type === "translationLoadSuccess") {
+        this.updateStepsLabels();
+      }
+    });
+
     this.activatedRoute.queryParams.subscribe((params) => {
       const roomIdParam = params['roomId'];
       if (!roomIdParam) {

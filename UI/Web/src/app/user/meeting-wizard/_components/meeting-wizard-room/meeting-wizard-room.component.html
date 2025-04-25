@@ -1,60 +1,86 @@
 
 <p-card [header]="t('header')" *transloco="let t;prefix:'user.wizard.meeting.room'">
 
-  <div class="form-container">
+  <div class="wizard-form-container">
 
-    <div class="form-field">
-      <label for="date">{{t('date-label')}}</label>
-      <p-datePicker id="date" showIcon readonlyInput [minDate]="today"
-                    dateFormat="yy / mm / dd" [firstDayOfWeek]="1" selectOtherMonths
-                    showOtherMonths (onSelect)="handleDatePick($event)"
-                    [style]="{ width: '100%' }"
-      />
-    </div>
+    <div class="date-duration-row">
+      <div class="wizard-form-field date-field">
+        <label for="date">{{t('date-label')}}</label>
+        <p-datePicker id="date" showIcon readonlyInput [minDate]="today"
+                      dateFormat="yy / mm / dd" [firstDayOfWeek]="1" selectOtherMonths
+                      showOtherMonths (onSelect)="handleDatePick($event)"
+                      class="full-width"
+        />
+        <div class="wizard-help-text">{{t('date_help')}}</div>
+      </div>
 
-    <div class="form-field">
-      <label for="duration">{{t('duration-label')}}</label>
-      <p-select id="duration" [style]="{ width: '100%' }" [options]="meetingDurations" [(ngModel)]="selectedMeetingDuration" (onChange)="generateStartTimes()" />
+      <div class="wizard-form-field duration-field">
+        <label for="duration">{{t('duration-label')}}</label>
+        <p-select id="duration" class="full-width" [options]="meetingDurations"
+                  [(ngModel)]="selectedMeetingDuration" (onChange)="generateStartTimes()"
+                  [disabled]="!dateSelected" />
+        <div class="wizard-help-text">{{t('duration_help')}}</div>
+      </div>
     </div>
 
     @if (selectedMeetingDuration === MeetingDuration.CUSTOM) {
-      <div class="form-field">
+      <div class="wizard-form-field">
         <label for="custom-duration">{{t('custom-duration')}}</label>
-        <!-- TODO: Fix this invalid/dirty stuff pls... -->
         <input id="custom-duration" pInputText [(ngModel)]="customLength"
-               [ngClass]="{'ng-dirty': !isCustomTimeValid(), 'ng-invalid': !isCustomTimeValid()}">
+               [ngClass]="{'ng-dirty': !isCustomTimeValid(), 'ng-invalid': !isCustomTimeValid()}"
+               placeholder="1h30m">
+        <div class="wizard-help-text">{{t('custom_duration_help')}}</div>
       </div>
     }
 
-    <p-splitter [style]="{ height: '300px' }">
-      <ng-template #panel>
-        <!-- TODO: Redesign this. POC -->
-        <cdk-virtual-scroll-viewport *ngIf="startTimes.length > 0" itemSize="50" style="height: 300px" class="expand">
-          <div *cdkVirtualFor="let startTime of startTimes" style="height: 50px"
-               (click)="handleTimePick(startTime.value)" class="scroller-item"
-               [ngClass]="{'selected': this.meeting.startTime && this.meeting.startTime.getTime() === startTime.value.getTime()}">
-            {{startTime.label}}
-          </div>
-        </cdk-virtual-scroll-viewport>
-      </ng-template>
+    <div class="wizard-form-field" *ngIf="startTimes.length > 0">
+      <div class="slot-picker-header">
+        <label>{{t('available_times')}}</label>
+        <button *ngIf="meeting.startTime" type="button" class="slot-toggle-button" (click)="toggleSlotPicker()">
+          <i class="pi" [ngClass]="slotPickerMinimized ? 'pi-chevron-down' : 'pi-chevron-up'"></i>
+          {{slotPickerMinimized ? t('show_slots') : t('hide_slots')}}
+        </button>
+      </div>
 
-      <ng-template #panel>
-        <!-- TODO: Redesign this. POC -->
-        <cdk-virtual-scroll-viewport *ngIf="rooms.length > 0" itemSize="50" style="height: 300px" class="expand">
-          <div *cdkVirtualFor="let room of rooms" style="height: 50px"
-               (click)="handleRoomPick(room.value)" class="scroller-item"
-               [ngClass]="{'selected': this.meeting.room.id === room.value.id}">
-            {{room.label}}
-          </div>
-        </cdk-virtual-scroll-viewport>
-      </ng-template>
-    </p-splitter>
+      <div *ngIf="!slotPickerMinimized || !meeting.startTime" class="wizard-selection-list">
+        <div *ngFor="let startTime of startTimes"
+             (click)="handleTimePick(startTime.value)"
+             class="wizard-list-item"
+             [ngClass]="{'selected': meeting.startTime && meeting.startTime.getTime() === startTime.value.getTime()}">
+          <span>{{startTime.label}}</span>
+          <i *ngIf="meeting.startTime && meeting.startTime.getTime() === startTime.value.getTime()"
+             class="pi pi-check"></i>
+        </div>
+      </div>
+
+      <div *ngIf="slotPickerMinimized && meeting.startTime" class="selected-time-summary">
+        <div class="wizard-summary-item">
+          <span class="wizard-summary-label">{{t('selected_time')}}</span>
+          <span class="wizard-summary-value">
+            {{meeting.startTime | utcToLocalTime:'shortTime'}} - {{meeting.endTime | utcToLocalTime:'shortTime'}}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="wizard-form-field" *ngIf="rooms.length > 0">
+      <label>{{t('available_rooms')}}</label>
+      <div class="wizard-selection-list">
+        <div *ngFor="let room of rooms"
+             (click)="handleRoomPick(room.value)"
+             class="wizard-list-item"
+             [ngClass]="{'selected': meeting.room.id === room.value.id}">
+          <span>{{room.label}}</span>
+          <i *ngIf="meeting.room.id === room.value.id" class="pi pi-check"></i>
+        </div>
+      </div>
+    </div>
 
   </div>
 
-  <div class="navigation-btn">
-    <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
-    <p-button (onClick)="nextSection()" >{{t('next')}}</p-button>
+  <div class="wizard-navigation-btn">
+    <app-agora-button type="secondary" (onClick)="prev.emit()">{{t('prev')}}</app-agora-button>
+    <app-agora-button type="primary" (onClick)="nextSection()">{{t('next')}}</app-agora-button>
   </div>
 
 </p-card>

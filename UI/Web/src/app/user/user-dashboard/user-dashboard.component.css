@@ -1,0 +1,229 @@
+
+/* Main container styles */
+.dashboard-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  padding: calc(4 * var(--spacing));
+}
+
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header styles */
+.dashboard-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: calc(8 * var(--spacing));
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: calc(4 * var(--spacing));
+}
+
+.title {
+  margin-bottom: calc(6 * var(--spacing));
+  font-size: var(--title-font-size);
+  color: var(--primary-color-darker-shade);
+}
+
+.quick-actions {
+  display: flex;
+  flex-direction: row;
+  gap: calc(4 * var(--spacing));
+  flex-wrap: wrap;
+}
+
+.quick-actions .dashboard-button {
+  min-width: 150px;
+}
+
+/* Custom button styles */
+.dashboard-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  border: 1px solid transparent;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.dashboard-button i {
+  font-size: 1rem;
+}
+
+.dashboard-button.primary {
+  background-color: var(--primary-color);
+  color: var(--secondary-text-color);
+  border-color: var(--primary-color);
+}
+
+.dashboard-button.primary:hover {
+  background-color: var(--primary-color-dark-shade);
+  border-color: var(--primary-color-dark-shade);
+}
+
+.dashboard-button.secondary {
+  background-color: #f8f9fa;
+  color: #495057;
+  border-color: #ced4da;
+}
+
+.dashboard-button.secondary:hover {
+  background-color: #e9ecef;
+  color: #212529;
+}
+
+.dashboard-button.text {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: none;
+  padding: 0.5rem 0.75rem;
+}
+
+.dashboard-button.text:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Content styles */
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: calc(8 * var(--spacing));
+}
+
+.meetings-section {
+  margin-bottom: calc(6 * var(--spacing));
+}
+
+.section-title {
+  font-size: var(--subtitle-font-size);
+  color: var(--primary-color);
+  margin-bottom: calc(4 * var(--spacing));
+  font-weight: 600;
+}
+
+.meetings-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: calc(4 * var(--spacing));
+}
+
+/* Meeting card styles */
+.meeting-card {
+  height: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.meeting-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.meeting-header {
+  margin-bottom: calc(3 * var(--spacing));
+}
+
+.meeting-title {
+  font-size: 1.2rem;
+  color: var(--primary-color-darker-shade);
+  margin-bottom: calc(2 * var(--spacing));
+}
+
+.meeting-time {
+  display: block;
+  color: var(--secundairy-color);
+  font-weight: 500;
+  margin-bottom: calc(2 * var(--spacing));
+}
+
+.meeting-details {
+  display: flex;
+  flex-direction: column;
+  gap: calc(3 * var(--spacing));
+}
+
+.meeting-location, .meeting-attendees {
+  display: flex;
+  align-items: center;
+  gap: calc(2 * var(--spacing));
+  color: var(--body-text-color);
+}
+
+.meeting-location i, .meeting-attendees i {
+  color: var(--secundairy-color);
+}
+
+.meeting-description {
+  margin: calc(2 * var(--spacing)) 0;
+  color: var(--body-text-color);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.meeting-description p {
+  margin: 0;
+}
+
+/* No meetings state */
+.no-meetings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: calc(8 * var(--spacing));
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  color: var(--body-text-color);
+}
+
+.no-meetings i {
+  font-size: 3rem;
+  color: var(--secundairy-color);
+  margin-bottom: calc(4 * var(--spacing));
+}
+
+.no-meetings p {
+  margin-bottom: calc(4 * var(--spacing));
+  font-size: 1.1rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: calc(2 * var(--spacing));
+  }
+
+  .dashboard-header {
+    margin-bottom: calc(4 * var(--spacing));
+  }
+
+  .quick-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .quick-actions .dashboard-button {
+    width: 100%;
+  }
+
+  .meetings-container {
+    grid-template-columns: 1fr;
+  }
+
+  .meeting-card {
+    width: 100%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .meetings-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

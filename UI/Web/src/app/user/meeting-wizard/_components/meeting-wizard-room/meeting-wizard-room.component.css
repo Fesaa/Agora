@@ -1,27 +1,59 @@
-.navigation-btn {
+@import '../shared/meeting-wizard.css';
+
+.full-width {
+  width: 100%;
+}
+
+/* Date and duration in the same row for non-mobile */
+.date-duration-row {
   display: flex;
-  flex-grow: 1;
   flex-direction: row;
-  justify-content: space-between;
-  padding-top: calc(5 * var(--spacing));
+  gap: calc(4 * var(--spacing));
 }
 
-.expand {
+.date-field {
+  flex: 1;
+}
+
+.duration-field {
+  flex: 1;
+}
+
+/* Slot picker header with toggle button */
+.slot-picker-header {
   display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: calc(2 * var(--spacing));
 }
 
-.scroller-item {
-  margin: calc(2.5 * var(--spacing));
-  padding: calc(2.5 * var(--spacing));
-  border-radius: var(--spacing);
-}
-
-.scroller-item:hover {
+.slot-toggle-button {
+  background: none;
+  border: none;
+  color: var(--primary-color);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: calc(1 * var(--spacing));
+  font-size: 0.9rem;
+  padding: calc(1 * var(--spacing));
+  border-radius: calc(1 * var(--spacing));
 }
 
-.scroller-item:hover:not(.selected) {
-  background-color: var(--background-color);
+.slot-toggle-button:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.selected-time-summary {
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: calc(2 * var(--spacing));
+  padding: calc(2 * var(--spacing));
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .date-duration-row {
+    flex-direction: column;
+    gap: calc(2 * var(--spacing));
+  }
 }

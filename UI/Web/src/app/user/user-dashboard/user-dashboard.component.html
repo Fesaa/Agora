@@ -1,10 +1,60 @@
 
-<div *transloco="let t;">
-  Hello {{name}} !
-  {{t("example")}} - {{t("foo.bar")}}
-  {{ test }}
-</div>
+<div class="dashboard-container" *transloco="let t; prefix: 'user.dashboard'">
+  <div class="dashboard">
+    <header class="dashboard-header">
+      <h1 class="title">{{t('greeting')}} {{name}}</h1>
 
-<button (click)="logout()">
-  Logout
-</button>
+      <div class="quick-actions">
+        <button class="dashboard-button primary" [routerLink]="'/user/wizard/meeting'">
+          <i class="pi pi-calendar-plus"></i>
+          <span>{{t('meeting')}}</span>
+        </button>
+
+        @if (admin) {
+          <button class="dashboard-button primary" [routerLink]="'/management/dashboard'">
+            <i class="pi pi-cog"></i>
+            <span>{{t('admin')}}</span>
+          </button>
+        }
+
+        <button class="dashboard-button secondary" (click)="logout()">
+          <i class="pi pi-sign-out"></i>
+          <span>{{t('logout')}}</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="dashboard-content">
+      <div class="meetings-section">
+        <h2 class="section-title">{{t('todays_meetings')}}</h2>
+
+        <div class="meetings-container">
+          @for (today of todaysMeetings; track today.id) {
+            <app-meeting-card [meeting]="today" displayMode="detailed"></app-meeting-card>
+          } @empty {
+            <div class="no-meetings">
+              <i class="pi pi-calendar-times"></i>
+              <p>{{t('no_meetings')}}</p>
+              <button class="dashboard-button text" [routerLink]="'/user/wizard/meeting'">
+                <i class="pi pi-calendar-plus"></i>
+                <span>{{t('schedule_meeting')}}</span>
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+
+      @if (upcomingMeetings && upcomingMeetings.length > 0) {
+        <div class="meetings-section">
+          <h2 class="section-title">{{t('upcoming_meetings')}}</h2>
+
+          <div class="meetings-container">
+            @for (meeting of upcomingMeetings; track meeting.id) {
+              <app-meeting-card [meeting]="meeting" displayMode="detailed"></app-meeting-card>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

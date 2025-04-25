@@ -41,5 +41,19 @@ public static class ClaimsPrincipalExtensions
         
         return idClaim.Value;
     }
+
+    public static bool HasPolicyClaim(this ClaimsPrincipal principal, string claim)
+    {
+        var roleClaims = principal.Claims.Where(c => c.Type == ClaimTypes.Role).ToList();
+        foreach (var roleClaim in roleClaims)
+        {
+            if (roleClaim.Value.ToLower().Equals(claim.ToLower()))
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
     
 }

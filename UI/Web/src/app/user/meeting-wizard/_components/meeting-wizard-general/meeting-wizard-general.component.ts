@@ -5,8 +5,8 @@ import {TranslocoDirective} from '@jsverse/transloco';
 import {FormsModule} from '@angular/forms';
 import {InputText} from 'primeng/inputtext';
 import {Textarea} from 'primeng/textarea';
-import {Button} from 'primeng/button';
 import {ToastService} from '../../../../_services/toast-service';
+import {AgoraButtonComponent} from '../../../../shared/components/agora-button/agora-button.component';
 
 @Component({
   selector: 'app-meeting-wizard-general',
@@ -16,7 +16,7 @@ import {ToastService} from '../../../../_services/toast-service';
     FormsModule,
     InputText,
     Textarea,
-    Button
+    AgoraButtonComponent
   ],
   templateUrl: './meeting-wizard-general.component.html',
   styleUrl: './meeting-wizard-general.component.css'

@@ -1,0 +1,8 @@
+<button
+  class="agora-button {{type}}"
+  [disabled]="disabled"
+  [routerLink]="routerLink"
+  (click)="handleClick($event)">
+  <i *ngIf="icon" class="pi {{icon}}"></i>
+  <ng-content></ng-content>
+</button>

@@ -28,7 +28,7 @@
         <ng-template #caption>
 
           <div class="caption">
-            <p-button (onClick)="gotoWizard()" [label]="t('actions.new')" icon="pi pi-plus" />
+            <app-agora-button type="primary" (onClick)="gotoWizard()" icon="pi pi-plus">{{t('actions.new')}}</app-agora-button>
           </div>
 
         </ng-template>
@@ -45,9 +45,9 @@
             <th>{{room.displayName}}</th>
             <th class="actions">
 
-              <p-button variant="text" (onClick)="gotoWizard(room.id)">{{t('actions.edit')}}</p-button>
+              <app-agora-button type="text" (onClick)="gotoWizard(room.id)">{{t('actions.edit')}}</app-agora-button>
 
-              <p-button variant="text" (onClick)="delete(room.id)" severity="danger">{{t('actions.delete')}}</p-button>
+              <app-agora-button type="text" (onClick)="delete(room.id)">{{t('actions.delete')}}</app-agora-button>
 
             </th>
           </tr>
@@ -61,4 +61,3 @@
     </p-card>
 
 </div>
-

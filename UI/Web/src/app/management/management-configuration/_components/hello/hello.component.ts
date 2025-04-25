@@ -5,15 +5,15 @@ import {MeetingRoomService} from '../../../../_services/meeting-room.service';
 import {FacilityService} from '../../../../_services/facility.service';
 import {forkJoin} from 'rxjs';
 import {ConfigurationId} from '../../management-configuration.component';
-import {Button} from 'primeng/button';
 import {RouterLink} from '@angular/router';
+import {AgoraButtonComponent} from '../../../../shared/components/agora-button/agora-button.component';
 
 @Component({
   selector: 'app-hello',
   imports: [
     TranslocoDirective,
     Card,
-    Button,
+    AgoraButtonComponent,
     RouterLink
   ],
   templateUrl: './hello.component.html',

@@ -50,7 +50,7 @@
         </div>
 
         <div class="new-btn">
-          <p-button (onClick)="remove($index)" severity="danger">{{t('remove')}}</p-button>
+          <app-agora-button type="secondary" (onClick)="remove($index)">{{t('remove')}}</app-agora-button>
         </div>
 
       </p-fieldset>
@@ -58,12 +58,12 @@
   </div>
 
   <div class="new-btn">
-    <p-button (onClick)="addNewAvailability()" >{{t('new')}}</p-button>
+    <app-agora-button type="secondary" (onClick)="addNewAvailability()">{{t('new')}}</app-agora-button>
   </div>
 
   <div class="navigation-btn">
-    <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
-    <p-button (onClick)="next.emit()" >{{t('next')}}</p-button>
+    <app-agora-button type="secondary" (onClick)="prev.emit()">{{t('prev')}}</app-agora-button>
+    <app-agora-button type="primary" (onClick)="next.emit()">{{t('next')}}</app-agora-button>
   </div>
 
 </p-card>

@@ -1,7 +1,6 @@
-using System.Threading.Tasks;
+using API.Constants;
 using API.Extensions;
 using API.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -16,10 +15,9 @@ public class AccountController(ILogger<AccountController> logger, ILocalizationS
         return User.GetName();
     }
 
-    [Authorize("admin")]
-    [HttpGet("test")]
-    public async Task<string> Test()
+    [HttpGet("admin")]
+    public bool IsAdmin()
     {
-        return await localizationService.Translate(User.GetIdentifier(), "secret");
+        return User.HasPolicyClaim(PolicyConstants.AdminRole);
     }
 }

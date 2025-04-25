@@ -1,26 +1,53 @@
 
 <p-card [header]="t('header')" *transloco="let t;prefix:'user.wizard.meeting.facility'">
 
-  <cdk-virtual-scroll-viewport *ngIf="facilities.length > 0" itemSize="50" style="height: 300px" class="expand">
-    <div *cdkVirtualFor="let facility of facilities" style="height: 50px"
-         class="scroller-item facility-item" (click)="handleFacilityClick(facility)"
-         [ngClass]="{'selected': meeting.facilities.includes(facility)}"
-         [pTooltip]="facility.description"
-    >
+  <div class="wizard-form-container">
 
-      <div >{{ facility.displayName }}</div>
-      <div *ngIf="facility.alertManagement" class="alert-icon">⚠️ Alert Management Enabled</div>
+    <div class="wizard-form-field">
+      <label>{{t('facilities_label')}}</label>
+      <div class="wizard-help-text">{{t('facilities_help')}}</div>
 
+      @if (facilities.length > 0) {
+        <div class="wizard-selection-list">
+          <div *ngFor="let facility of facilities"
+               class="wizard-list-item" (click)="handleFacilityClick(facility)"
+               [ngClass]="{'selected': meeting.facilities.includes(facility)}"
+               [pTooltip]="facility.description">
+
+            <div class="facility-info">
+              <span>{{ facility.displayName }}</span>
+              <div *ngIf="facility.alertManagement" class="wizard-alert-icon">
+                <i class="pi pi-exclamation-triangle"></i>
+                <span>{{t('alert_management')}}</span>
+              </div>
+            </div>
+
+            <i *ngIf="meeting.facilities.includes(facility)" class="pi pi-check"></i>
+          </div>
+        </div>
+      } @else {
+        <div class="wizard-empty-state">
+          <i class="pi pi-info-circle"></i>
+          <p>{{t('no-facilities')}}</p>
+        </div>
+      }
     </div>
-  </cdk-virtual-scroll-viewport>
 
-  @if (facilities.length == 0) {
-    {{t('no-facilities')}}
-  }
+    <div class="wizard-form-field" *ngIf="meeting.facilities.length > 0">
+      <label>{{t('selected_facilities')}}</label>
+      <div class="wizard-summary">
+        <div *ngFor="let facility of meeting.facilities" class="wizard-summary-item">
+          <span class="wizard-summary-label">{{ facility.displayName }}</span>
+          <span class="wizard-summary-value">{{ facility.description }}</span>
+        </div>
+      </div>
+    </div>
 
-  <div class="navigation-btn">
-    <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
-    <p-button (onClick)="next.emit()" >{{t('next')}}</p-button>
+  </div>
+
+  <div class="wizard-navigation-btn">
+    <app-agora-button type="secondary" (onClick)="prev.emit()">{{t('prev')}}</app-agora-button>
+    <app-agora-button type="primary" (onClick)="next.emit()">{{t('next')}}</app-agora-button>
   </div>
 
 </p-card>

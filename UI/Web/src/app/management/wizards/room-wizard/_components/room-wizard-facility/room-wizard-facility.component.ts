@@ -8,8 +8,9 @@ import {Fieldset} from 'primeng/fieldset';
 import {FACILITIES} from '../../../../../_constants/links';
 import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {Checkbox} from 'primeng/checkbox';
-import {Button} from 'primeng/button';
 import {FormsModule} from '@angular/forms';
+import {AgoraButtonComponent} from '../../../../../shared/components/agora-button/agora-button.component';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-room-wizard-facility',
@@ -21,8 +22,9 @@ import {FormsModule} from '@angular/forms';
     CdkFixedSizeVirtualScroll,
     CdkVirtualForOf,
     Checkbox,
-    Button,
-    FormsModule
+    AgoraButtonComponent,
+    FormsModule,
+    NgClass
   ],
   templateUrl: './room-wizard-facility.component.html',
   styleUrl: './room-wizard-facility.component.css'

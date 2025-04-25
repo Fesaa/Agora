@@ -4,7 +4,7 @@ import {Card} from 'primeng/card';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {Fieldset} from 'primeng/fieldset';
 import {NgForOf, NgIf} from '@angular/common';
-import {Button} from 'primeng/button';
+import {AgoraButtonComponent} from '../../../../../shared/components/agora-button/agora-button.component';
 
 @Component({
   selector: 'app-facility-wizard-save',
@@ -14,7 +14,7 @@ import {Button} from 'primeng/button';
     Fieldset,
     NgForOf,
     NgIf,
-    Button
+    AgoraButtonComponent
   ],
   templateUrl: './facility-wizard-save.component.html',
   styleUrl: './facility-wizard-save.component.css'

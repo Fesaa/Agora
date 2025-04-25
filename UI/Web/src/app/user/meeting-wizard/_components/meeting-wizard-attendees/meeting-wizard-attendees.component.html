@@ -1,21 +1,35 @@
 
 <p-card [header]="t('header')" *transloco="let t;prefix:'user.wizard.meeting.attendees'">
 
-  <div class="form-container">
+  <div class="wizard-form-container">
 
-    <div class="form-field">
+    <div class="wizard-form-field">
+      <label for="attendees">{{t('attendees_label')}}</label>
       <p-autoComplete
+        id="attendees"
         multiple fluid unique showClear dropdown (keydown.enter)="manualEnter()"
         [(ngModel)]="meeting.attendees"
         [suggestions]="suggestions"
-        (completeMethod)="autoComplete($event)" />
+        (completeMethod)="autoComplete($event)"
+        placeholder="{{t('attendees_placeholder')}}" />
+      <div class="wizard-help-text">{{t('attendees_help')}}</div>
+    </div>
+
+    <div class="wizard-form-field" *ngIf="meeting.attendees.length > 0">
+      <label>{{t('selected_attendees')}}</label>
+      <div class="wizard-selection-list">
+        <div *ngFor="let attendee of meeting.attendees" class="wizard-list-item">
+          <span>{{attendee}}</span>
+          <i class="pi pi-times" (click)="removeAttendee(attendee)"></i>
+        </div>
+      </div>
     </div>
 
   </div>
 
-  <div class="navigation-btn">
-    <p-button (onClick)="prev.emit()" >{{t('prev')}}</p-button>
-    <p-button (onClick)="next.emit()" >{{t('next')}}</p-button>
+  <div class="wizard-navigation-btn">
+    <app-agora-button type="secondary" (onClick)="prev.emit()">{{t('prev')}}</app-agora-button>
+    <app-agora-button type="primary" (onClick)="next.emit()">{{t('next')}}</app-agora-button>
   </div>
 
 </p-card>

@@ -55,9 +55,7 @@ export class AppComponent implements OnInit {
       this.primeNG.setTranslation(primeNGTrans);
     }
 
-    if (this.authService.isAuthenticated) {
-      this.router.navigateByUrl('/user/dashboard')
-    }
+
   }
 
 }

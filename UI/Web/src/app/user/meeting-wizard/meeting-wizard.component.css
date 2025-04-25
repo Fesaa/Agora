@@ -1,8 +1,39 @@
 
+.meeting-wizard {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  padding: calc(4 * var(--spacing));
+}
+
+.wizard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .steps {
   margin-bottom: calc(5 * var(--spacing));
+  padding: calc(2 * var(--spacing)) 0;
 }
 
 .sections {
-  padding: var(--spacing);
+  padding: calc(2 * var(--spacing));
+  background-color: #fff;
+  border-radius: calc(2 * var(--spacing));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .meeting-wizard {
+    padding: calc(2 * var(--spacing));
+  }
+
+  .steps {
+    margin-bottom: calc(3 * var(--spacing));
+  }
+
+  .sections {
+    padding: calc(1 * var(--spacing));
+  }
 }

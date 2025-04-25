@@ -4,12 +4,12 @@ import {Card} from 'primeng/card';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {Fieldset} from 'primeng/fieldset';
 import {FACILITIES} from '../../../../../_constants/links';
-import {Button} from 'primeng/button';
 import {Textarea} from 'primeng/textarea';
 import {InputText} from 'primeng/inputtext';
 import {FormsModule} from '@angular/forms';
 import {Checkbox} from 'primeng/checkbox';
 import {InputNumber} from 'primeng/inputnumber';
+import {AgoraButtonComponent} from '../../../../../shared/components/agora-button/agora-button.component';
 
 @Component({
   selector: 'app-facility-wizard-general',
@@ -17,7 +17,7 @@ import {InputNumber} from 'primeng/inputnumber';
     Card,
     TranslocoDirective,
     Fieldset,
-    Button,
+    AgoraButtonComponent,
     Textarea,
     InputText,
     FormsModule,
