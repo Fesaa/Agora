@@ -94,7 +94,9 @@
       "attendees": "attendees",
       "no_meetings": "You have no meetings planned today.",
       "schedule_meeting": "Schedule a meeting",
-      "no_meetings_found": "No upcoming meetings found."
+      "no_meetings_found": "No upcoming meetings found.",
+      "viewing_room_meetings": "Viewing meetings for this room only",
+      "create_new_meeting": "Create New Meeting"
     },
     "wizard": {
       "meeting": {
@@ -188,7 +190,10 @@
       "upcoming_meetings": "Upcoming Meetings",
       "attendees": "attendees",
       "no_meetings": "You have no meetings planned today.",
-      "schedule_meeting": "Schedule a meeting"
+      "schedule_meeting": "Schedule a meeting",
+      "no_meetings_found": "No upcoming meetings found.",
+      "viewing_room_meetings": "Viewing meetings for this room only",
+      "create_new_meeting": "Create New Meeting"
     }
   },
 

@@ -7,22 +7,26 @@ import {Carousel} from 'primeng/carousel';
 import {NgIf, NgClass} from '@angular/common';
 import {PrimeTemplate} from 'primeng/api';
 import {TranslocoDirective} from '@jsverse/transloco';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MeetingRoomService} from '../_services/meeting-room.service';
+import {MeetingRoom} from '../_models/room';
+import {AgoraButtonComponent} from '../shared/components/agora-button/agora-button.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MeetingCardComponent, Carousel, NgIf, NgClass, PrimeTemplate, TranslocoDirective],
+  imports: [MeetingCardComponent, Carousel, NgClass, PrimeTemplate, TranslocoDirective, AgoraButtonComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit{
 
   meetings: Meeting[] = [];
+  roomId: number | null = null;
+  room: MeetingRoom | null = null;
 
-  // Window reference for responsive design
   window = window;
   isWideScreen = false;
 
-  // Carousel configuration
   carouselOptions = {
     numVisible: 3,
     numScroll: 1,
@@ -32,7 +36,6 @@ export class DashboardComponent implements OnInit{
     showIndicators: true
   };
 
-  // Responsive options for different screen sizes
   responsiveOptions = [
     {
       breakpoint: '1400px',
@@ -54,15 +57,47 @@ export class DashboardComponent implements OnInit{
   constructor(
     private meetingService: MeetingService,
     private toastR: ToastService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private meetingRoomService: MeetingRoomService
   ) {
   }
 
   ngOnInit(): void {
-    // Check screen size on init
     this.checkScreenSize();
 
-    // Fetch meetings
-    this.meetingService.today().subscribe({
+    this.route.queryParams.subscribe(params => {
+      if (params['roomId']) {
+        try {
+          this.roomId = parseInt(params['roomId']);
+        } catch (e) {
+          this.roomId = null;
+          this.fetchMeetings();
+          return;
+        }
+
+        this.meetingRoomService.get(this.roomId).subscribe({
+          next: room => {
+            this.room = room;
+            this.fetchMeetings();
+          },
+          error: err => {
+            this.toastR.genericError('Error loading room details');
+            this.roomId = null;
+            this.fetchMeetings();
+          }
+        });
+      } else {
+        this.fetchMeetings();
+      }
+    });
+  }
+
+  /**
+   * Fetch meetings based on roomId if present
+   */
+  fetchMeetings(): void {
+    this.meetingService.today(false, this.roomId).subscribe({
       next: m => {
         this.meetings = m;
       },
@@ -70,6 +105,11 @@ export class DashboardComponent implements OnInit{
         this.toastR.genericError(err.error.message);
       }
     });
+  }
+
+  createMeeting(): void {
+    const queryParams = this.roomId ? { roomId: this.roomId } : {};
+    this.router.navigate(['/user/wizard/meeting'], { queryParams });
   }
 
   /**
