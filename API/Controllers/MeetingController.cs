@@ -7,6 +7,7 @@ using API.DTOs;
 using API.Exceptions;
 using API.Extensions;
 using API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -44,8 +45,9 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
         return Ok();
     }
 
+    [AllowAnonymous]
     [HttpGet("today")]
-    public async Task<ActionResult<IEnumerable<MeetingDto>>> GetTodaysMeetings([FromQuery] bool userOnly = false)
+    public async Task<ActionResult<IEnumerable<MeetingDto>>> GetTodaysMeetings([FromQuery] bool userOnly = false, [FromQuery] int? roomId = null)
     {
         var now = DateTime.UtcNow;
         var midnightUtc = now.Date.AddDays(1).AddTicks(-1);
@@ -61,12 +63,18 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
         {
             opts.Add(MeetingRepository.IsAttending(User.GetIdentifier()));
         }
+
+        if (roomId != null)
+        {
+            opts.Add(MeetingRepository.InRoom(roomId.Value));
+        }
         
         var meetings = await unitOfWork.MeetingRepository.GetMeetingDtos([.. opts]);
         return Ok(meetings);
     }
 
     // TODO: pagination?
+    [AllowAnonymous]
     [HttpGet("upcoming")]
     public async Task<ActionResult<IEnumerable<MeetingDto>>> GetUpcomingMeetings([FromQuery] bool userOnly = false, [FromQuery] int dayOffSet = 0)
     {

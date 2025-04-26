@@ -1,1 +1,29 @@
-<p>dashboard works!</p>
+<div class="dashboard-container" *transloco="let t">
+  <h2 class="dashboard-title">{{ t('user.dashboard.upcoming_meetings') }}</h2>
+
+  <div *ngIf="meetings && meetings.length > 0" class="carousel-container">
+    <p-carousel
+      [value]="meetings"
+      [numVisible]="carouselOptions.numVisible"
+      [numScroll]="carouselOptions.numScroll"
+      [circular]="carouselOptions.circular"
+      [autoplayInterval]="carouselOptions.autoplayInterval"
+      [showNavigators]="carouselOptions.showNavigators"
+      [showIndicators]="carouselOptions.showIndicators"
+      [responsiveOptions]="responsiveOptions">
+
+      <ng-template pTemplate="item" let-meeting>
+        <div class="carousel-item" [ngClass]="{'wide': isWideScreen}">
+          <app-meeting-card
+            [meeting]="meeting"
+            displayMode="detailed">
+          </app-meeting-card>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+
+  <div *ngIf="!meetings || meetings.length === 0" class="no-meetings">
+    <p>{{ t('user.dashboard.no_meetings_found') }}</p>
+  </div>
+</div>

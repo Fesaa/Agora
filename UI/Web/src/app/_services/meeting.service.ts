@@ -30,7 +30,10 @@ export class MeetingService {
     return this.httpClient.delete(`${this.baseUrl}Meeting/${id}`)
   }
 
-  today(userOnly: boolean = false) {
+  today(userOnly: boolean = false, roomId: number | null = null) {
+    if (roomId) {
+      return this.httpClient.get<Meeting[]>(`${this.baseUrl}Meeting/today?userOnly=${userOnly}&roomId=${roomId}`)
+    }
     return this.httpClient.get<Meeting[]>(`${this.baseUrl}Meeting/today?userOnly=${userOnly}`)
   }
 

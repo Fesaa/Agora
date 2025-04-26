@@ -14,7 +14,12 @@
   --secundairy-color: #576CA8;
   --body-text-color: #302B27;
   --secondary-text-color: #F5F3F5;
+  --text-color-secondary: #6c757d;
 
+  /* Surface colors */
+  --surface-card: #ffffff;
+  --surface-hover: #f0f0f0;
+  --surface-border: #dee2e6;
 
   --title-font-size: 2rem;
   --subtitle-font-size: 1rem;
