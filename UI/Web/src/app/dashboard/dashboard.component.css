@@ -54,12 +54,10 @@
   background-color: var(--primary-color);
 }
 
-/* Animation for carousel transitions */
 :host ::ng-deep .p-carousel-item {
   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
-/* No Meetings Message */
 .no-meetings {
   text-align: center;
   padding: calc(4 * var(--spacing));
@@ -73,7 +71,6 @@
   color: var(--text-color-secondary);
 }
 
-/* Responsive styles */
 @media screen and (max-width: 768px) {
   .dashboard-container {
     padding: calc(2 * var(--spacing));
@@ -89,18 +86,6 @@
   }
 }
 
-/* Wide screen support */
-@media screen and (min-width: 1400px) {
-  .dashboard-container {
-    max-width: 1600px;
-  }
-
-  .carousel-item.wide {
-    width: 100%;
-  }
-}
-
-/* Room Info */
 .room-info {
   margin-bottom: calc(3 * var(--spacing));
   text-align: center;
@@ -121,7 +106,6 @@
   font-style: italic;
 }
 
-/* Create Meeting Button */
 .create-meeting-container {
   margin-top: calc(4 * var(--spacing));
   width: 100%;

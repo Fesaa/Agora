@@ -27,7 +27,7 @@
         [responsiveOptions]="responsiveOptions">
 
         <ng-template pTemplate="item" let-meeting>
-          <div class="carousel-item" [ngClass]="{'wide': isWideScreen}">
+          <div class="carousel-item">
             <app-meeting-card
               [meeting]="meeting"
               displayMode="detailed">

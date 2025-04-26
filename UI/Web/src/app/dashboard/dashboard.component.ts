@@ -4,7 +4,6 @@ import {Meeting} from '../_models/meeting';
 import {ToastService} from '../_services/toast-service';
 import {MeetingCardComponent} from '../shared/components/meeting-card/meeting-card.component';
 import {Carousel} from 'primeng/carousel';
-import {NgIf, NgClass} from '@angular/common';
 import {PrimeTemplate} from 'primeng/api';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -14,7 +13,7 @@ import {AgoraButtonComponent} from '../shared/components/agora-button/agora-butt
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MeetingCardComponent, Carousel, NgClass, PrimeTemplate, TranslocoDirective, AgoraButtonComponent],
+  imports: [MeetingCardComponent, Carousel, PrimeTemplate, TranslocoDirective, AgoraButtonComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -25,14 +24,13 @@ export class DashboardComponent implements OnInit{
   room: MeetingRoom | null = null;
 
   window = window;
-  isWideScreen = false;
 
   carouselOptions = {
     numVisible: 3,
     numScroll: 1,
     circular: true,
     autoplayInterval: 5000,
-    showNavigators: true,
+    showNavigators: false,
     showIndicators: true
   };
 
@@ -64,8 +62,6 @@ export class DashboardComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.checkScreenSize();
-
     this.route.queryParams.subscribe(params => {
       if (params['roomId']) {
         try {
@@ -93,9 +89,6 @@ export class DashboardComponent implements OnInit{
     });
   }
 
-  /**
-   * Fetch meetings based on roomId if present
-   */
   fetchMeetings(): void {
     this.meetingService.today(false, this.roomId).subscribe({
       next: m => {
@@ -110,26 +103,6 @@ export class DashboardComponent implements OnInit{
   createMeeting(): void {
     const queryParams = this.roomId ? { roomId: this.roomId } : {};
     this.router.navigate(['/user/wizard/meeting'], { queryParams });
-  }
-
-  /**
-   * Check if screen is wide and update carousel options if needed
-   */
-  checkScreenSize(): void {
-    this.isWideScreen = window.innerWidth >= 1400;
-
-    // Update carousel options based on screen size
-    if (this.isWideScreen) {
-      this.carouselOptions.numVisible = 3;
-    }
-  }
-
-  /**
-   * Listen for window resize events
-   */
-  @HostListener('window:resize')
-  onResize(): void {
-    this.checkScreenSize();
   }
 
 }
