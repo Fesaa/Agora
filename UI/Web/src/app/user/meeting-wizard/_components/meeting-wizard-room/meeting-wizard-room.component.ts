@@ -219,40 +219,13 @@ export class MeetingWizardRoomComponent implements OnInit{
   }
 
   handleDatePick(date: Date) {
-    // TODO: TimeZones are annoying. This isn't working in the backend
-    // this.fetchSlotsForDate(date);
-
-    this.createDefaultSlotsForDate(date);
-    this.generateStartTimes();
-    this.slotPickerMinimized = false;
-  }
-
-  /**
-   * Fetches available slots for a given date
-   */
-  private fetchSlotsForDate(date: Date): void {
-    if (!this.meeting.room || this.meeting.room.id === 0) {
-      return;
-    }
-
-    this.meetingService.slots(this.meeting.room.id, date).subscribe({
-      next: (slots) => {
-        this.slots = slots;
-        this.dateSelected = true;
-      },
-      error: (error) => {
-        console.error(error);
-        this.toastR.warningLoco("user.wizard.meeting.room.error-fetching-slots");
-      }
-    });
-  }
-
-  private createDefaultSlotsForDate(date: Date): void {
     this.dateSelected = true;
     this.slots = [{
       start: this.toStart(date),
       end: this.toEnd(date),
     }];
+    this.generateStartTimes();
+    this.slotPickerMinimized = false;
   }
 
   /**

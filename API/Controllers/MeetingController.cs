@@ -119,30 +119,15 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
         return Ok(emails);
     }
 
-    [HttpGet("slots/{meetingId}")]
-    public async Task<ActionResult<IEnumerable<MeetingSlot>>> GetSlots(int meetingId, [FromQuery] long unixTime)
+    [HttpPost("rooms")]
+    public async Task<ActionResult<IEnumerable<MeetingRoomDto>>> GetRooms(RoomsOnDto dto)
     {
-        if (unixTime == null)
-        {
-            return BadRequest();
-        }
-
-        var date = unixTime.ToDateTimeFromUnix(); // incorrect
-        // TZ info gets lost, and we're back a day. 
-        return Ok(await meetingService.AvailableSlotsForOn(meetingId, date));
-    }
-
-    [HttpGet("rooms")]
-    public async Task<ActionResult<IEnumerable<MeetingRoomDto>>> GetRooms([FromQuery] long? startTime, [FromQuery] long? endTime)
-    {
-        if (startTime == null || endTime == null)
+        if (dto.Start == null || dto.End == null)
         {
             return Ok(await unitOfWork.RoomRepository.GetMeetingRooms());
         }
-        
-        var startDate = startTime.Value.ToDateTimeFromUnix();
-        var endDate = endTime.Value.ToDateTimeFromUnix();
-        return Ok(await roomService.AvailableRoomsOn(startDate, endDate));
+
+        return Ok(await roomService.AvailableRoomsOn(dto.Start.Value, dto.End.Value));
     }
     
 }

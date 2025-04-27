@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ public interface IRoomRepository
     Task<MergeRooms?> GetMergeRooms(int id);
     
     Task<List<MeetingRoomDto>> GetMeetingRooms();
+    Task<List<MeetingRoomDto>> GetMeetingRoomsAvailableOn(DateTime start, DateTime end);
     Task<List<MergeRoomDto>> GetMergeRooms();
     
     void Add(MeetingRoom meetingRoom);
@@ -50,6 +52,15 @@ public class RoomRepository(DataContext context, IMapper mapper): IRoomRepositor
     {
         return await mapper
             .ProjectTo<MeetingRoomDto>(context.MeetingRooms)
+            .ToListAsync();
+    }
+    public async Task<List<MeetingRoomDto>> GetMeetingRoomsAvailableOn(DateTime start, DateTime end)
+    {
+        return await mapper
+            .ProjectTo<MeetingRoomDto>(context.MeetingRooms
+                .Where(r => !r.Meetings.Any(m => 
+                    m.StartTime <= end && m.EndTime >= start))
+            )
             .ToListAsync();
     }
     public async Task<List<MergeRoomDto>> GetMergeRooms()

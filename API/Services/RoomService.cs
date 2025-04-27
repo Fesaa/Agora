@@ -146,7 +146,7 @@ public class RoomService(ILogger<RoomService> logger, IUnitOfWork unitOfWork, IM
     }
     public async Task<IEnumerable<MeetingRoomDto>> AvailableRoomsOn(DateTime start, DateTime end)
     {
-        throw new System.NotImplementedException();
+        return await unitOfWork.RoomRepository.GetMeetingRoomsAvailableOn(start, end);
     }
 
     private async Task ValidateFacilities(MeetingRoom meetingRoom)

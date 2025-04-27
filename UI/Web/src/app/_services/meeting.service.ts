@@ -50,8 +50,6 @@ export class MeetingService {
   }
 
   roomsOn(start: Date, end: Date) {
-    return this.httpClient.get<MeetingRoom[]>(this.baseUrl + `Meeting/rooms`);
-    // TODO: Pass start & end dates once backend has it working
-    //return this.httpClient.get<MeetingRoom[]>(this.baseUrl + `Meeting/rooms?start=${start.getTime()/1000}&end=${end.getTime()/1000}`);
+    return this.httpClient.post<MeetingRoom[]>(this.baseUrl + `Meeting/rooms`, {start, end});
   }
 }
