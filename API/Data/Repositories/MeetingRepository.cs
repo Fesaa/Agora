@@ -4,10 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data.Repositories;
+
+[Flags]
+public enum MeetingIncludes
+{
+    None = 0,
+    Room = 1 << 1,
+    Facilities = 1 << 2,
+}
 
 public delegate IQueryable<Meeting> MeetingQueryOption(IQueryable<Meeting> query);
 
@@ -18,7 +27,7 @@ public interface IMeetingRepository
     void Remove(Meeting meeting);
     Task<IEnumerable<MeetingDto>> GetMeetingDtos(params MeetingQueryOption[] options);
     Task<IEnumerable<Meeting>> GetMeetings(params MeetingQueryOption[] options);
-    Task<Meeting?> GetMeetingById(int id);
+    Task<Meeting?> GetMeetingById(int id, MeetingIncludes include = MeetingIncludes.Room);
 }
 
 public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRepository
@@ -60,9 +69,11 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
 
         return await q.ToListAsync();
     }
-    public async Task<Meeting?> GetMeetingById(int id)
+    public async Task<Meeting?> GetMeetingById(int id, MeetingIncludes include = MeetingIncludes.Room)
     {
-        return await context.Meetings.FirstOrDefaultAsync(m => m.Id == id);
+        return await context.Meetings
+            .Includes(include)
+            .FirstOrDefaultAsync(m => m.Id == id);
     }
 
     public static MeetingQueryOption OnDate(DateTime date)

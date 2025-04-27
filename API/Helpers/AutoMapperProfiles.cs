@@ -23,7 +23,10 @@ public class AutoMapperProfiles: Profile
         CreateMap<Facility, FaclitiyDto>();
         CreateMap<Availability, AvailabilityDto>();
         CreateMap<AvailabilityDto, Availability>();
-        CreateMap<Meeting, MeetingDto>();
+        CreateMap<Meeting, MeetingDto>()
+            .ForMember(dest => dest.Facilities,
+                src =>
+                    src.MapFrom(m => m.UsedFacilities));
         CreateMap<UserEmail, UserEmailDto>();
 
     }

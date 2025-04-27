@@ -7,6 +7,7 @@ using API.DTOs;
 using API.Exceptions;
 using API.Extensions;
 using API.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,7 +15,8 @@ using Microsoft.Extensions.Logging;
 namespace API.Controllers;
 
 public class MeetingController(ILogger<MeetingController> logger, IMeetingService meetingService,
-    IUnitOfWork unitOfWork, IRoomService roomService, ILocalizationService localizationService): BaseApiController
+    IUnitOfWork unitOfWork, IRoomService roomService, ILocalizationService localizationService,
+    IMapper mapper): BaseApiController
 {
 
     [HttpPost]
@@ -101,12 +103,12 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
     [HttpGet("{id}")]
     public async Task<ActionResult<MeetingDto>> GetMeeting(int id)
     {
-        var meeting = await unitOfWork.MeetingRepository.GetMeetingById(id);
+        var meeting = await unitOfWork.MeetingRepository.GetMeetingById(id, MeetingIncludes.Room | MeetingIncludes.Facilities);
         if (meeting == null)
         {
             return NotFound();
         }
-        return Ok(meeting);
+        return Ok(mapper.Map<MeetingDto>(meeting));
     }
 
     [HttpGet("attendees")]
