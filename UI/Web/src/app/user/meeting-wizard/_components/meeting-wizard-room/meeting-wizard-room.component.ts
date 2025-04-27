@@ -51,7 +51,7 @@ export class MeetingWizardRoomComponent implements OnInit{
 
   today = new Date();
   slots: MeetingSlots[] = []
-  startTimes: {label: string, value: Date}[] = []
+  startTimes: {label: string, value: Date, disabled?: boolean}[] = []
   rooms: {label: string, value: MeetingRoom}[] = [];
 
   selectedMeetingDuration: MeetingDuration = MeetingDuration.HOUR;
@@ -266,11 +266,26 @@ export class MeetingWizardRoomComponent implements OnInit{
 
     while (this.canFitMeeting(currentTime, slotEnd, durationMinutes)) {
       const timeSlotLabel = this.formatTimeSlotLabel(currentTime, durationMinutes);
+      const isInPast = this.isTimeInPast(currentTime);
 
-      this.startTimes.push({ label: timeSlotLabel, value: new Date(currentTime) });
+      this.startTimes.push({
+        label: timeSlotLabel,
+        value: new Date(currentTime),
+        disabled: isInPast
+      });
 
       currentTime.setMinutes(currentTime.getMinutes() + 15);
     }
+  }
+
+  /**
+   * Checks if a given time is in the past
+   * @param time The time to check
+   * @returns True if the time is in the past, false otherwise
+   */
+  private isTimeInPast(time: Date): boolean {
+    const now = new Date();
+    return time.getTime() < now.getTime();
   }
 
   private canFitMeeting(currentTime: Date, slotEnd: Date, durationMinutes: number): boolean {
