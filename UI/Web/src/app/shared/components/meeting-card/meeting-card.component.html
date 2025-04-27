@@ -1,7 +1,7 @@
 <ng-container *transloco="let t; prefix: 'shared.meeting_card'">
   <!-- Detailed mode (used in user dashboard) -->
   <ng-container *ngIf="displayMode === 'detailed'">
-    <p-card class="meeting-card">
+    <p-card class="meeting-card" [ngClass]="{'meeting-running': isMeetingRunning()}">
       <div class="meeting-header">
         <h3 class="meeting-title" (click)="onMeetingClick()">{{meeting.title}}</h3>
         <span class="meeting-time">{{meeting.startTime | utcToLocalTime:'short'}} - {{meeting.endTime | utcToLocalTime:'short'}}</span>
@@ -27,7 +27,7 @@
 
   <!-- Compact mode (used in management dashboard) -->
   <ng-container *ngIf="displayMode === 'compact'">
-    <div class="meeting" (click)="onMeetingClick()">
+    <div class="meeting" [ngClass]="{'meeting-running': isMeetingRunning()}" (click)="onMeetingClick()">
       <div class="meeting-title">
         <p>{{meeting.title}}</p>
         <p *ngIf="meeting.room">{{meeting.room.displayName}}</p>
