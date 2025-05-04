@@ -2,7 +2,8 @@ name: Build & Push Container
 
 on:
   push:
-    brancher: ["master"]
+    branches: ["master"]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -29,7 +30,7 @@ jobs:
         id: push
         uses: docker/build-push-action@v5
         with:
-          context: ./API
+          context: .
           file: ./Dockerfile
           push: true
           tags: ghcr.io/fesaa/agora:latest
