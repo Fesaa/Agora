@@ -62,7 +62,7 @@ public static class ApplicationServiceExtensions
 
         if (!canConnect)
         {
-            logger.LogCritical("Unable to connect to the database, falling back to DefaultCalenderSyncService");
+            logger.LogCritical("First start? Cannot load settings, falling back to DefaultCalenderSyncService");
             services.AddScoped<ICalenderSyncService, DefaultCalenderSyncService>();
             return;
         }
@@ -90,10 +90,6 @@ public static class ApplicationServiceExtensions
         var settingsRepository = unitOfWork.SettingsRepository;
 
         var canConnect = await context.Database.CanConnectAsync();
-        if (!canConnect)
-        {
-            await context.Database.MigrateAsync();
-        }
         
         // Need the policies to be always present, or requests fail 
         services.AddAuthorization(options =>
