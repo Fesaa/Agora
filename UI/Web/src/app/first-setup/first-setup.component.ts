@@ -11,9 +11,9 @@ import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
 import {FormsModule} from '@angular/forms';
 import {Select} from 'primeng/select';
-import {Button} from 'primeng/button';
 import {MessageService} from 'primeng/api';
 import {Toast} from 'primeng/toast';
+import {AgoraButtonComponent} from '../shared/components/agora-button/agora-button.component';
 
 @Component({
   selector: 'app-first-setup',
@@ -26,8 +26,8 @@ import {Toast} from 'primeng/toast';
     InputText,
     FormsModule,
     Select,
-    Button,
-    Toast
+    Toast,
+    AgoraButtonComponent
   ],
   templateUrl: './first-setup.component.html',
   styleUrl: './first-setup.component.css'

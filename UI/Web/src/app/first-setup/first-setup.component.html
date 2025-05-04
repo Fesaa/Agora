@@ -25,8 +25,9 @@
                 class="form-input form-member" />
 
       <div class="form-member">
-        <p-button *transloco="let t" (click)="submit()"
-                  [label]="t('shared.forms.submit', { scope: '' })"  />
+        <app-agora-button *transloco="let t" (onClick)="submit()">
+          {{t('shared.forms.submit', { scope: '' })}}
+        </app-agora-button>
       </div>
 
     </div>
