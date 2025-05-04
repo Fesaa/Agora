@@ -90,6 +90,10 @@ public static class ApplicationServiceExtensions
         var settingsRepository = unitOfWork.SettingsRepository;
 
         var canConnect = await context.Database.CanConnectAsync();
+        if (!canConnect)
+        {
+            await context.Database.MigrateAsync();
+        }
         
         // Need the policies to be always present, or requests fail 
         services.AddAuthorization(options =>

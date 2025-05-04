@@ -87,6 +87,7 @@ public class Startup(IConfiguration configuration, IWebHostEnvironment env)
         app.UseResponseCaching();
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseStaticFiles();
         app.UseDefaultFiles();
         app.UseSerilogRequestLogging(opts =>
         {
@@ -97,6 +98,7 @@ public class Startup(IConfiguration configuration, IWebHostEnvironment env)
         app.UseEndpoints(builder =>
         {
             builder.MapControllers();
+            builder.MapFallbackToController("Index", "Fallback");
         });
         
         
