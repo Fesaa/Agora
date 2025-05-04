@@ -26,6 +26,11 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'doc',
+          id: 'guides/setup',
+          label: 'Setup'
+        },
+        {
+          type: 'doc',
           id: 'guides/open-id-connect',
           label: 'OpenId Connect'
         },
