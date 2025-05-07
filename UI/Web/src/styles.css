@@ -3,6 +3,12 @@
 @import "./theme/forms.css";
 @import "./theme/shared.css";
 
+:root {
+  --p-primary-color: var(--primary-color) !important;
+  --p-secundairy-color: var(--secundairy-color) !important;
+  --p-primary-hover-color: var(--secundairy-color); !important;
+}
+
 body {
   background-color: var(--background-color);
   color: var(--body-text-color)
