@@ -36,6 +36,11 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'doc',
+          id: "guides/meetings",
+          label: "Meetings",
+        },
+        {
+          type: 'doc',
           id: 'guides/roles-and-permissions',
           label: 'Roles and Permissions'
         },
