@@ -1,1 +1,54 @@
-<p>dashboard works!</p>
+<div class="dashboard-container" *transloco="let t">
+  <h2 class="dashboard-title">
+    @if (!room) {
+      {{ t('user.dashboard.upcoming_meetings') }}
+    } @else {
+      {{ room.displayName }} ({{ room.location }})
+    }
+  </h2>
+
+  @if (room) {
+    <div class="room-info">
+      <p>{{ t('user.dashboard.viewing_room_meetings') }}</p>
+      <p class="room-description">{{ room.description }}</p>
+    </div>
+  }
+
+  @if (meetings && meetings.length > 0) {
+    <div class="carousel-container">
+      <p-carousel
+        [value]="meetings"
+        [numVisible]="carouselOptions.numVisible"
+        [numScroll]="carouselOptions.numScroll"
+        [circular]="carouselOptions.circular"
+        [autoplayInterval]="carouselOptions.autoplayInterval"
+        [showNavigators]="carouselOptions.showNavigators"
+        [showIndicators]="carouselOptions.showIndicators"
+        [responsiveOptions]="responsiveOptions">
+
+        <ng-template pTemplate="item" let-meeting>
+          <div class="carousel-item">
+            <app-meeting-card
+              [meeting]="meeting"
+              displayMode="detailed">
+            </app-meeting-card>
+          </div>
+        </ng-template>
+      </p-carousel>
+    </div>
+  }
+
+  @if (!meetings || meetings.length === 0) {
+    <div class="no-meetings">
+      <p>{{ t('user.dashboard.no_meetings_found') }}</p>
+    </div>
+  }
+
+  @if (roomId) {
+    <div class="create-meeting-container">
+      <app-agora-button [type]="'primary'" (onClick)="createMeeting()">
+        {{ t('user.dashboard.create_new_meeting') }}
+      </app-agora-button>
+    </div>
+  }
+</div>

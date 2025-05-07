@@ -78,6 +78,10 @@ export class RoomWizardFacilityComponent implements OnInit {
     this.activeMap[facility.id] = false;
   }
 
+  isIncluded(facility: Facility) {
+    return this.activeMap[facility.id];
+  }
+
 
   protected readonly FACILITIES = FACILITIES;
 }

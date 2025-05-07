@@ -1,0 +1,47 @@
+.dialog-container {
+  width: 50vw;
+}
+
+@media screen and (max-width: 1199px) {
+  .dialog-container {
+    width: 75vw;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .dialog-container {
+    width: 90vw;
+  }
+}
+
+.dialog-header {
+  /* Inherit default header styling or add your own if needed */
+}
+
+.dialog-content-container {
+  margin-bottom: 20px;
+}
+
+.dialog-title {
+  font-size: 1.25rem; /* Equivalent to text-xl */
+  color: black; /* Equivalent to text-black */
+  margin-bottom: 1.25rem; /* Equivalent to mb-5 */
+}
+
+.dark .dialog-title {
+  color: white; /* Equivalent to dark:text-white */
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end; /* Equivalent to justify-end */
+  gap: 0.5rem; /* Equivalent to gap-2, assuming default font-size */
+}
+
+.dialog-footer agora-button:first-child {
+  /* Style for the cancel button */
+}
+
+.dialog-footer agora-button:last-child {
+  /* Style for the confirm button */
+}

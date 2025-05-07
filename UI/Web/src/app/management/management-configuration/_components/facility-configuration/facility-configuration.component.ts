@@ -13,6 +13,7 @@ import {FormsModule} from '@angular/forms';
 import {Tooltip} from 'primeng/tooltip';
 import {Observable} from 'rxjs';
 import {ToastService} from '../../../../_services/toast-service';
+import {DialogService} from '../../../../_services/dialog.service';
 
 @Component({
   selector: 'app-facility-configuration',
@@ -41,6 +42,7 @@ export class FacilityConfigurationComponent implements OnInit{
     private facilityService: FacilityService,
     private router: Router,
     private toastR: ToastService,
+    private dialogService: DialogService,
   ) {
   }
 
@@ -60,16 +62,28 @@ export class FacilityConfigurationComponent implements OnInit{
     }
 
     obs.subscribe({
-      next: result => {
-
-      },
       error: error => {
         this.toastR.errorLoco("shared.generic-error", {}, {err: error.message});
       }
     })
   }
 
-  delete(id: number) {}
+  async delete(id: number) {
+    if (!await this.dialogService.openDialog("Are you sure you want to delete this facility")) {
+      return;
+    }
+
+    this.facilityService.delete(id).subscribe({
+      next: _ => {
+        const facility = this.facilities.find(f => f.id === id);
+        this.toastR.successLoco("management.configuration.facilities.delete", {}, {name: facility?.displayName});
+        this.facilities = this.facilities.filter(f => f.id !== id);
+      },
+      error: error => {
+        this.toastR.errorLoco("shared.generic-error", {}, {err: error.message});
+      }
+    });
+  }
 
   gotoWizard(id?: number) {
     this.router.navigateByUrl('management/wizard/facility' + (id ? `?facilityId=${id}` : ''));

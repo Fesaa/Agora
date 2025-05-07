@@ -1,0 +1,23 @@
+<p-dialog
+  [(visible)]="visible"
+  class="dialog-container"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [header]="header"
+  [resizable]="false"
+  *transloco="let t;"
+>
+  <div class="dialog-content-container">
+    <h1 class="dialog-title">{{ text }}</h1>
+    <ng-content></ng-content>
+  </div>
+
+  <div class="dialog-footer">
+    <app-agora-button (onClick)="closeDialog()" type="secondary">
+      {{ t('shared.cancel') | titlecase }}
+    </app-agora-button>
+    <app-agora-button (onClick)="confirm()" type="primary">
+      {{ t('shared.confirm') | titlecase }}
+    </app-agora-button>
+  </div>
+</p-dialog>

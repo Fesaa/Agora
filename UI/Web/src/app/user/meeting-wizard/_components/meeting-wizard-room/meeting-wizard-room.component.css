@@ -50,6 +50,18 @@
   padding: calc(2 * var(--spacing));
 }
 
+/* Disabled time slot styling */
+.wizard-list-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: var(--text-color-secondary);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.wizard-list-item.disabled:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
 /* Responsive styles */
 @media (max-width: 768px) {
   .date-duration-row {

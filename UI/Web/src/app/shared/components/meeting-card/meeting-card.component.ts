@@ -4,7 +4,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { Card } from 'primeng/card';
 import { RouterLink } from '@angular/router';
 import { UtcToLocalTimePipe } from '../../../_pipes/utc-to-local.pipe';
-import { NgIf } from '@angular/common';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-meeting-card',
@@ -12,7 +12,8 @@ import { NgIf } from '@angular/common';
     TranslocoDirective,
     UtcToLocalTimePipe,
     Card,
-    NgIf
+    NgIf,
+    NgClass
   ],
   templateUrl: './meeting-card.component.html',
   styleUrl: './meeting-card.component.css',
@@ -22,6 +23,11 @@ export class MeetingCardComponent {
   @Input() meeting!: Meeting;
   @Input() displayMode: 'detailed' | 'compact' = 'detailed';
   @Output() meetingClick = new EventEmitter<Meeting>();
+
+  isMeetingRunning(): boolean {
+    const now = new Date();
+    return new Date(this.meeting.startTime) <= now;
+  }
 
   onMeetingClick(): void {
     this.meetingClick.emit(this.meeting);

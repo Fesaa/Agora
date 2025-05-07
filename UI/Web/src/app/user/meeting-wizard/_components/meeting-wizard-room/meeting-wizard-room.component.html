@@ -44,9 +44,12 @@
 
       <div *ngIf="!slotPickerMinimized || !meeting.startTime" class="wizard-selection-list">
         <div *ngFor="let startTime of startTimes"
-             (click)="handleTimePick(startTime.value)"
+             (click)="!startTime.disabled && handleTimePick(startTime.value)"
              class="wizard-list-item"
-             [ngClass]="{'selected': meeting.startTime && meeting.startTime.getTime() === startTime.value.getTime()}">
+             [ngClass]="{
+               'selected': meeting.startTime && meeting.startTime.getTime() === startTime.value.getTime(),
+               'disabled': startTime.disabled
+             }">
           <span>{{startTime.label}}</span>
           <i *ngIf="meeting.startTime && meeting.startTime.getTime() === startTime.value.getTime()"
              class="pi pi-check"></i>

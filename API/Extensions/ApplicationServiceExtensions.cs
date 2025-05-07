@@ -40,6 +40,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<IRoomService, RoomService>();
         services.AddScoped<IFacilityService, FacilityService>();
         services.AddScoped<IMeetingService, MeetingService>();
+        services.AddScoped<INotifyService, NotifyService>();
         
         services.AddSqlite();
 
@@ -62,7 +63,7 @@ public static class ApplicationServiceExtensions
 
         if (!canConnect)
         {
-            logger.LogCritical("Unable to connect to the database, falling back to DefaultCalenderSyncService");
+            logger.LogCritical("First start? Cannot load settings, falling back to DefaultCalenderSyncService");
             services.AddScoped<ICalenderSyncService, DefaultCalenderSyncService>();
             return;
         }

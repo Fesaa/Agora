@@ -7,13 +7,16 @@ using API.DTOs;
 using API.Exceptions;
 using API.Extensions;
 using API.Services;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace API.Controllers;
 
 public class MeetingController(ILogger<MeetingController> logger, IMeetingService meetingService,
-    IUnitOfWork unitOfWork, IRoomService roomService, ILocalizationService localizationService): BaseApiController
+    IUnitOfWork unitOfWork, IRoomService roomService, ILocalizationService localizationService,
+    IMapper mapper): BaseApiController
 {
 
     [HttpPost]
@@ -44,8 +47,9 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
         return Ok();
     }
 
+    [AllowAnonymous]
     [HttpGet("today")]
-    public async Task<ActionResult<IEnumerable<MeetingDto>>> GetTodaysMeetings([FromQuery] bool userOnly = false)
+    public async Task<ActionResult<IEnumerable<MeetingDto>>> GetTodaysMeetings([FromQuery] bool userOnly = false, [FromQuery] int? roomId = null)
     {
         var now = DateTime.UtcNow;
         var midnightUtc = now.Date.AddDays(1).AddTicks(-1);
@@ -61,12 +65,18 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
         {
             opts.Add(MeetingRepository.IsAttending(User.GetIdentifier()));
         }
+
+        if (roomId != null)
+        {
+            opts.Add(MeetingRepository.InRoom(roomId.Value));
+        }
         
         var meetings = await unitOfWork.MeetingRepository.GetMeetingDtos([.. opts]);
         return Ok(meetings);
     }
 
     // TODO: pagination?
+    [AllowAnonymous]
     [HttpGet("upcoming")]
     public async Task<ActionResult<IEnumerable<MeetingDto>>> GetUpcomingMeetings([FromQuery] bool userOnly = false, [FromQuery] int dayOffSet = 0)
     {
@@ -93,12 +103,12 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
     [HttpGet("{id}")]
     public async Task<ActionResult<MeetingDto>> GetMeeting(int id)
     {
-        var meeting = await unitOfWork.MeetingRepository.GetMeetingById(id);
+        var meeting = await unitOfWork.MeetingRepository.GetMeetingById(id, MeetingIncludes.Room | MeetingIncludes.Facilities);
         if (meeting == null)
         {
             return NotFound();
         }
-        return Ok(meeting);
+        return Ok(mapper.Map<MeetingDto>(meeting));
     }
 
     [HttpGet("attendees")]
@@ -109,30 +119,15 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
         return Ok(emails);
     }
 
-    [HttpGet("slots/{meetingId}")]
-    public async Task<ActionResult<IEnumerable<MeetingSlot>>> GetSlots(int meetingId, [FromQuery] long unixTime)
+    [HttpPost("rooms")]
+    public async Task<ActionResult<IEnumerable<MeetingRoomDto>>> GetRooms(RoomsOnDto dto)
     {
-        if (unixTime == null)
-        {
-            return BadRequest();
-        }
-
-        var date = unixTime.ToDateTimeFromUnix(); // incorrect
-        // TZ info gets lost, and we're back a day. 
-        return Ok(await meetingService.AvailableSlotsForOn(meetingId, date));
-    }
-
-    [HttpGet("rooms")]
-    public async Task<ActionResult<IEnumerable<MeetingRoomDto>>> GetRooms([FromQuery] long? startTime, [FromQuery] long? endTime)
-    {
-        if (startTime == null || endTime == null)
+        if (dto.Start == null || dto.End == null)
         {
             return Ok(await unitOfWork.RoomRepository.GetMeetingRooms());
         }
-        
-        var startDate = startTime.Value.ToDateTimeFromUnix();
-        var endDate = endTime.Value.ToDateTimeFromUnix();
-        return Ok(await roomService.AvailableRoomsOn(startDate, endDate));
+
+        return Ok(await roomService.AvailableRoomsOn(dto.Start.Value, dto.End.Value));
     }
     
 }

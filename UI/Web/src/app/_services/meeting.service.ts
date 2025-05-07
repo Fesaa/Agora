@@ -30,7 +30,10 @@ export class MeetingService {
     return this.httpClient.delete(`${this.baseUrl}Meeting/${id}`)
   }
 
-  today(userOnly: boolean = false) {
+  today(userOnly: boolean = false, roomId: number | null = null) {
+    if (roomId) {
+      return this.httpClient.get<Meeting[]>(`${this.baseUrl}Meeting/today?userOnly=${userOnly}&roomId=${roomId}`)
+    }
     return this.httpClient.get<Meeting[]>(`${this.baseUrl}Meeting/today?userOnly=${userOnly}`)
   }
 
@@ -47,8 +50,6 @@ export class MeetingService {
   }
 
   roomsOn(start: Date, end: Date) {
-    return this.httpClient.get<MeetingRoom[]>(this.baseUrl + `Meeting/rooms`);
-    // TODO: Pass start & end dates once backend has it working
-    //return this.httpClient.get<MeetingRoom[]>(this.baseUrl + `Meeting/rooms?start=${start.getTime()/1000}&end=${end.getTime()/1000}`);
+    return this.httpClient.post<MeetingRoom[]>(this.baseUrl + `Meeting/rooms`, {start, end});
   }
 }

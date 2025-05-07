@@ -53,4 +53,9 @@ public class MeetingRoom
     /// The MergeRooms where this MeetingRoom is the Parent
     /// </summary>
     public List<MergeRooms> ParentMergeRooms { get; set; } = [];
+    
+    /// <summary>
+    /// Meetings in this room
+    /// </summary>
+    public List<Meeting> Meetings { get; set; } = [];
 }

@@ -1,0 +1,130 @@
+/* Dashboard Container */
+.dashboard-container {
+  padding: calc(4 * var(--spacing));
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard-title {
+  font-size: 1.8rem;
+  color: var(--primary-color-darker-shade);
+  margin-bottom: calc(4 * var(--spacing));
+  text-align: center;
+}
+
+/* Carousel Container */
+.carousel-container {
+  margin-bottom: calc(4 * var(--spacing));
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Carousel Item */
+.carousel-item {
+  padding: calc(2 * var(--spacing));
+  height: 100%;
+}
+
+/* Override PrimeNG carousel styles */
+:host ::ng-deep .p-carousel .p-carousel-content .p-carousel-prev,
+:host ::ng-deep .p-carousel .p-carousel-content .p-carousel-next {
+  color: var(--primary-color);
+  background-color: var(--surface-card);
+  border-radius: 50%;
+  margin: 0 calc(2 * var(--spacing));
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+:host ::ng-deep .p-carousel .p-carousel-content .p-carousel-prev:hover,
+:host ::ng-deep .p-carousel .p-carousel-content .p-carousel-next:hover {
+  color: var(--primary-color-darker-shade);
+  background-color: var(--surface-hover);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+:host ::ng-deep .p-carousel .p-carousel-indicators .p-carousel-indicator button {
+  background-color: var(--surface-border);
+}
+
+:host ::ng-deep .p-carousel .p-carousel-indicators .p-carousel-indicator.p-highlight button {
+  background-color: var(--primary-color);
+}
+
+:host ::ng-deep .p-carousel-item {
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.no-meetings {
+  text-align: center;
+  padding: calc(4 * var(--spacing));
+  background-color: var(--surface-card);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.no-meetings p {
+  font-size: 1.2rem;
+  color: var(--text-color-secondary);
+}
+
+@media screen and (max-width: 768px) {
+  .dashboard-container {
+    padding: calc(2 * var(--spacing));
+  }
+
+  .dashboard-title {
+    font-size: 1.5rem;
+    margin-bottom: calc(3 * var(--spacing));
+  }
+
+  .carousel-item {
+    padding: var(--spacing);
+  }
+}
+
+.room-info {
+  margin-bottom: calc(3 * var(--spacing));
+  text-align: center;
+  padding: calc(2 * var(--spacing));
+  background-color: var(--surface-hover);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.room-info p {
+  color: var(--text-color-secondary);
+  margin: 0;
+}
+
+.room-description {
+  margin-top: calc(1 * var(--spacing)) !important;
+  font-style: italic;
+}
+
+.create-meeting-container {
+  margin-top: calc(4 * var(--spacing));
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.create-meeting-button {
+  padding: calc(2 * var(--spacing)) calc(4 * var(--spacing));
+  background-color: var(--primary-color);
+  color: var(--primary-color-text);
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.create-meeting-button:hover {
+  background-color: var(--primary-color-darker-shade);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

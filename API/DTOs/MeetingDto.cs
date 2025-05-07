@@ -20,8 +20,8 @@ public class MeetingDto
     public DateTime EndTime { get; set; }
     
     public MeetingRoomDto? Room { get; set; }
-    
-    public IList<string> Attendees { get; set; }
-    
-    public IList<FaclitiyDto> Facilities { get; set; }
+
+    public IList<string> Attendees { get; set; } = [];
+
+    public IList<FaclitiyDto> Facilities { get; set; } = [];
 }

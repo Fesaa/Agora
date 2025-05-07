@@ -5,14 +5,15 @@ import {Button} from 'primeng/button';
 import {Card} from 'primeng/card';
 import {ReactiveFormsModule} from '@angular/forms';
 import {TranslocoDirective} from '@jsverse/transloco';
+import {AgoraButtonComponent} from '../shared/components/agora-button/agora-button.component';
 
 @Component({
   selector: 'app-callback',
   imports: [
-    Button,
     Card,
     ReactiveFormsModule,
-    TranslocoDirective
+    TranslocoDirective,
+    AgoraButtonComponent
   ],
   templateUrl: './callback.component.html',
   styleUrl: './callback.component.css'

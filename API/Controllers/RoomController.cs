@@ -5,6 +5,7 @@ using API.Data;
 using API.DTOs;
 using API.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -43,6 +44,7 @@ public class RoomController(ILogger<RoomController> logger, IRoomService roomSer
         return Ok();
     }
 
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<ActionResult<MeetingRoomDto>> GetMeetingRoom(int id)
     {

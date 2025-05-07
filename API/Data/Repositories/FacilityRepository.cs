@@ -40,11 +40,17 @@ public class FacilityRepository(DataContext context, IMapper mapper): IFacilityR
     public async Task<Facility?> GetById(int id)
     {
         return await context.Facilities
+            .Include(f => f.MeetingRooms)
+            .Include(f => f.Availability)
             .FirstOrDefaultAsync(f => f.Id == id);
     }
     public async Task<IList<Facility>> GetByIds(List<int> ids)
     {
-        return await context.Facilities.Where(f => ids.Contains(f.Id)).ToListAsync();
+        return await context.Facilities
+            .Where(f => ids.Contains(f.Id))
+            .Include(f => f.MeetingRooms)
+            .Include(f => f.Availability)
+            .ToListAsync();
     }
     public async Task<IList<Facility>> GetByIdsInRoom(List<int> ids, int roomId, bool activeOnly = false)
     {
@@ -52,6 +58,8 @@ public class FacilityRepository(DataContext context, IMapper mapper): IFacilityR
             .Where(f => ids.Contains(f.Id))
             .Where(f => f.MeetingRooms.Select(m => m.Id).Contains(roomId))
             .Where(f => !activeOnly || f.Active)
+            .Include(f => f.MeetingRooms)
+            .Include(f => f.Availability)
             .ToListAsync();
     }
     public async Task<IList<FaclitiyDto>> GetByRoom(int roomId, bool activeOnly = false)
@@ -61,6 +69,8 @@ public class FacilityRepository(DataContext context, IMapper mapper): IFacilityR
                 context.Facilities
                     .Where(f => f.MeetingRooms.Select(m => m.Id).Contains(roomId))
                     .Where(f => !activeOnly || f.Active)
+                    .Include(f => f.MeetingRooms)
+                    .Include(f => f.Availability)
                 )
             .ToListAsync();
     }
@@ -74,6 +84,7 @@ public class FacilityRepository(DataContext context, IMapper mapper): IFacilityR
     }
     public void Delete(Facility facility)
     {
+        context.Availabilities.RemoveRange(facility.Availability);
         context.Facilities.Remove(facility);
     }
 }

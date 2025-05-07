@@ -37,9 +37,18 @@ export class MeetingWizardSaveComponent {
   }
 
   save() {
-    this.meetingService.create(this.meeting).subscribe({
+    let obs;
+
+    if (this.meeting.id === 0) {
+      obs = this.meetingService.create(this.meeting);
+    } else {
+      obs = this.meetingService.update(this.meeting);
+    }
+
+    obs?.subscribe({
       next: () => {
         this.toastR.success('Meeting was saved');
+        this.router.navigateByUrl('user/dashboard');
       },
       error: (err) => {
         console.error(err);

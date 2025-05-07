@@ -3,7 +3,9 @@
   <p-card>
     <p class="title">{{t('title')}}</p>
     <div class="button-holder">
-      <p-button (click)="returnToAction()" [label]="t('submit', { scope: '' })"  />
+      <app-agora-button (onClick)="returnToAction()">
+        <span>{{t('submit', { scope: '' })}}</span>
+      </app-agora-button>
     </div>
   </p-card>
 

@@ -14,7 +14,7 @@ for more information.
 
 ## Known issues
 
-Currently, a lot of your OpenId Connect configuration is hardcoded. We want to open this up, so have more freedom.
+Currently, a lot of your OpenId Connect configuration is hardcoded. We want to open this up, to have more freedom.
 
 ### Limitations
 
