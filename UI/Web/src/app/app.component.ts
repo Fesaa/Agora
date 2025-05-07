@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
 import {AuthService} from './_services/auth.service';
 import {OpenIdConnectService} from './_services/open-id-connect.service';
@@ -7,6 +7,7 @@ import {ThemeService} from './_services/theme.service';
 import {Toast} from 'primeng/toast';
 import {PrimeNG} from 'primeng/config';
 import {TranslocoService} from '@jsverse/transloco';
+import {DialogService} from './_services/dialog.service';
 
 @Component({
   selector: 'app-root',
@@ -22,10 +23,13 @@ export class AppComponent implements OnInit {
     private authService: AuthService, // Needed so the flow can finish on callback DO NOT REMOVE
     private openIdService: OpenIdConnectService,
     private titleService: Title,
+    private vcr: ViewContainerRef,
+    private ds: DialogService,
     private themeService: ThemeService,
     private primeNG: PrimeNG,
     private transLoco: TranslocoService
   ) {
+    this.ds.viewContainerRef = this.vcr;
   }
 
   ngOnInit(): void {
