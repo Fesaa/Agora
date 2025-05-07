@@ -21,7 +21,6 @@ public interface IRoomService
     Task<MeetingRoom> Update(MeetingRoomDto meetingRoomDto);
     Task<MergeRooms> UpdateMergeRoom(MergeRoomDto mergeRoomDto);
     Task Delete(int id, bool force = false);
-    Task DeleteMergeRoom(int id);
     Task<IEnumerable<MeetingRoomDto>> AvailableRoomsOn(DateTime start, DateTime end);
 }
 
@@ -140,10 +139,7 @@ public class RoomService(ILogger<RoomService> logger, IUnitOfWork unitOfWork, IM
         unitOfWork.RoomRepository.Remove(room);
         await unitOfWork.CommitAsync();
     }
-    public Task DeleteMergeRoom(int id)
-    {
-        throw new System.NotImplementedException();
-    }
+
     public async Task<IEnumerable<MeetingRoomDto>> AvailableRoomsOn(DateTime start, DateTime end)
     {
         return await unitOfWork.RoomRepository.GetMeetingRoomsAvailableOn(start, end);

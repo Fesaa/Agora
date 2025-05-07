@@ -18,38 +18,33 @@ public interface IFacilityService
     Task<Facility> UpdateAsync(FaclitiyDto facilityDto);
     Task ActiveAsync(int id);
     // TODO: Change to Tuple with the specific meetings? Idk. Meetings aren't implemented yet. SO big TODO here.
-    Task<IList<MeetingRoom>> DeActivateAsync(int id);
+    Task DeActivateAsync(int id);
     Task DeleteAsync(int id, bool force = false);
 }
 
-public class FacilityService(ILogger<FacilityService> logger, IUnitOfWork unitOfWork, IMapper mapper): IFacilityService
+public class FacilityService(ILogger<FacilityService> logger, IUnitOfWork unitOfWork, IMapper mapper,
+    INotifyService notifyService): IFacilityService
 {
 
     public async Task<Facility> CreateAsync(FaclitiyDto facilityDto)
     {
         var f = new Facility()
         {
-            DisplayName = facilityDto.DisplayName,
-            Description = facilityDto.Description,
+            DisplayName = facilityDto.DisplayName.Trim(),
+            Description = facilityDto.Description.Trim(),
             Availability = facilityDto.Availability.Select(mapper.Map<Availability>).ToList(),
             Cost = facilityDto.Cost,
             AlertManagement = facilityDto.AlertManagement,
         };
 
         unitOfWork.FacilityRepository.Add(f);
-        if (unitOfWork.HasChanges())
-        {
-            await unitOfWork.CommitAsync();
-        }
+        await unitOfWork.CommitAsync();
+
         return f;
     }
     public async Task<Facility> UpdateAsync(FaclitiyDto facilityDto)
     {
-        var f = await unitOfWork.FacilityRepository.GetById(facilityDto.Id);
-        if (f == null)
-        {
-            throw new AgoraException("facility-not-found");
-        }
+        var f = await unitOfWork.FacilityRepository.GetById(facilityDto.Id) ?? throw new AgoraException("facility-not-found");;
         
         f.DisplayName = facilityDto.DisplayName;
         f.Description = facilityDto.Description;
@@ -71,17 +66,13 @@ public class FacilityService(ILogger<FacilityService> logger, IUnitOfWork unitOf
     }
     public async Task ActiveAsync(int id)
     {
-        var f = await unitOfWork.FacilityRepository.GetById(id);
-        if (f == null)
-        {
-            throw new AgoraException("facility-not-found");
-        }
+        var f = await unitOfWork.FacilityRepository.GetById(id) ?? throw new AgoraException("facility-not-found");;
         
         f.Active = true;
         unitOfWork.FacilityRepository.Update(f);
         await unitOfWork.CommitAsync();
     }
-    public async Task<IList<MeetingRoom>> DeActivateAsync(int id)
+    public async Task DeActivateAsync(int id)
     {
         var f = await unitOfWork.FacilityRepository.GetById(id);
         if (f == null)
@@ -92,42 +83,58 @@ public class FacilityService(ILogger<FacilityService> logger, IUnitOfWork unitOf
         f.Active = false;
         unitOfWork.FacilityRepository.Update(f);
 
-        var impacted = new List<MeetingRoom>();
         foreach (var room in f.MeetingRooms)
         {
+            var meetings = await unitOfWork.MeetingRepository.GetMeetings(
+                MeetingRepository.InRoomOrMergedRoom(room.Id),
+                MeetingRepository.EndAfter(DateTime.UtcNow),
+                MeetingRepository.IsUsing(id));
+            
             room.Facilities.Remove(f);
-            // TODO: Check if there are upcoming meetings
-            // if (room.HasUpcomingMeeting())
-            // {
-            //     impacted.Add(room);
-            // }
+            await NotifyFacilityLostForMeetings(f, meetings);
         }
         
         await unitOfWork.CommitAsync();
-        return impacted;
     }
     public async Task DeleteAsync(int id, bool force = false)
     {
-        var f = await unitOfWork.FacilityRepository.GetById(id);
-        if (f == null)
-        {
-            throw new AgoraException("facility-not-found");
-        }
+        var f = await unitOfWork.FacilityRepository.GetById(id) ?? throw new AgoraException("facility-not-found");
 
         var meetings = await unitOfWork.MeetingRepository.GetMeetings(
             MeetingRepository.InAnyRoom(f.MeetingRooms.Select(r => r.Id)),
             MeetingRepository.EndAfter(DateTime.UtcNow),
             MeetingRepository.IsUsing(id));
 
-        if (meetings.Any() && !force)
+        if (meetings.Any() && !force) throw new AgoraException("facility-still-in-use");
+
+        await NotifyFacilityLostForMeetings(f, meetings);
+        foreach (var meeting in meetings)
         {
-            // TODO: Use other exception?
-            throw new AgoraException("facility-still-in-use");
+            meeting.UsedFacilities.Remove(f);
         }
 
-        // TODO delete from meeting, notify users
+        foreach (var room in f.MeetingRooms)
+        {
+            room.Facilities.Remove(f);
+        }
         
         unitOfWork.FacilityRepository.Delete(f);
         await unitOfWork.CommitAsync();
     }
+
+    /// <summary>
+    /// Notifies all impacted organizers that they'll be missing a facility in an upcoming meeting
+    /// </summary>
+    /// <param name="facility"></param>
+    /// <param name="meetings"></param>
+    private async Task NotifyFacilityLostForMeetings(Facility facility, IList<Meeting> meetings)
+    {
+        if (!meetings.Any()) return;
+
+        //var userIds = meeting.Attendees.Select(a => a).ToList();
+        //userIds.Add(meeting.CreatorId);
+        // TODO: Add actual information to notify, is NOP atm
+        //await notifyService.Notify(userIds);
+    }
+    
 }

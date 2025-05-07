@@ -34,7 +34,7 @@ export class FacilityService {
   }
 
   delete(id: number) {
-    return this.httpClient.delete(this.baseUrl + "/" + id);
+    return this.httpClient.delete(this.baseUrl + id);
   }
 
   activate(id: number) {

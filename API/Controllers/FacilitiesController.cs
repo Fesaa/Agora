@@ -68,9 +68,10 @@ public class FacilitiesController(ILogger<FacilitiesController> logger, IUnitOfW
     }
 
     [HttpPost("deactivate/{id}")]
-    public async Task<ActionResult<IList<MeetingRoom>>> Deactivate(int id)
+    public async Task<ActionResult> Deactivate(int id)
     {
-        return Ok(await facilityService.DeActivateAsync(id));
+        await facilityService.DeActivateAsync(id);
+        return Ok();
     }
     
 }

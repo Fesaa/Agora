@@ -31,6 +31,8 @@
     "meeting_card": {
       "attendees": "attendees"
     },
+    "confirm": "confirm",
+    "cancel": "Cancel",
 
     "lorum-ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
   },
@@ -188,20 +190,6 @@
           "review_help": "Please review your meeting details before saving"
         }
       }
-    },
-    "dashboard": {
-      "greeting": "Hello,",
-      "meeting": "Create meeting",
-      "admin": "Admin Dashboard",
-      "logout": "Logout",
-      "todays_meetings": "Today's Meetings",
-      "upcoming_meetings": "Upcoming Meetings",
-      "attendees": "attendees",
-      "no_meetings": "You have no meetings planned today.",
-      "schedule_meeting": "Schedule a meeting",
-      "no_meetings_found": "No upcoming meetings found.",
-      "viewing_room_meetings": "Viewing meetings for this room only",
-      "create_new_meeting": "Create New Meeting"
     }
   },
 
@@ -302,7 +290,8 @@
             "label": "Actions",
             "edit": "Edit",
             "delete": "Delete",
-            "new": "New"
+            "new": "New",
+            "goto": "Go to room page"
           },
           "empty": {
             "header": "No rooms configured",
@@ -356,6 +345,10 @@
             "submit": "Submit",
             "back": "Back"
           }
+        },
+        "delete": {
+          "title": "Success",
+          "summary": "Room {{name}} has been deleted successfully"
         }
       },
       "facilities": {
@@ -426,6 +419,10 @@
             "save": "Save",
             "prev": "Back"
           }
+        },
+        "delete": {
+          "title": "Success",
+          "summary": "Facility {{name}} has been deleted successfully"
         }
       }
     },

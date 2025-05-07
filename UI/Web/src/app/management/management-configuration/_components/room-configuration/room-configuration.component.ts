@@ -8,6 +8,8 @@ import {Skeleton} from 'primeng/skeleton';
 import {AgoraButtonComponent} from '../../../../shared/components/agora-button/agora-button.component';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {ROOMS} from '../../../../_constants/links';
+import {DialogService} from '../../../../_services/dialog.service';
+import {ToastService} from '../../../../_services/toast-service';
 
 @Component({
   selector: 'app-room-configuration',
@@ -31,6 +33,8 @@ export class RoomConfigurationComponent implements OnInit{
   constructor(
     private roomService: MeetingRoomService,
     private router: Router,
+    private toastR: ToastService,
+    private dialogService: DialogService,
   ) {
   }
 
@@ -41,10 +45,29 @@ export class RoomConfigurationComponent implements OnInit{
     })
   }
 
-  delete(id: number) {}
+  async delete(id: number) {
+    if (!await this.dialogService.openDialog("Are you sure you want to delete this room")) {
+      return;
+    }
+
+    this.roomService.delete(id).subscribe({
+      next: _ => {
+        const room = this.meetingRooms.find(r => r.id === id);
+        this.toastR.successLoco("management.configuration.rooms.delete", {}, {name: room?.displayName});
+        this.meetingRooms = this.meetingRooms.filter(r => r.id !== id);
+      },
+      error: error => {
+        this.toastR.errorLoco("shared.generic-error", {}, {err: error.message});
+      }
+    })
+  }
 
   gotoWizard(id?: number) {
     this.router.navigateByUrl('management/wizard/room' + (id ? `?roomId=${id}` : ''));
+  }
+
+  goto(roomId: number) {
+    this.router.navigateByUrl(`dashboard?roomId=${roomId}`)
   }
 
   protected readonly ROOMS = ROOMS;

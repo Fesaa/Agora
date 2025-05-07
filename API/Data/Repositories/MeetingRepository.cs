@@ -25,8 +25,8 @@ public interface IMeetingRepository
     void Add(Meeting meeting);
     void Update(Meeting meeting);
     void Remove(Meeting meeting);
-    Task<IEnumerable<MeetingDto>> GetMeetingDtos(params MeetingQueryOption[] options);
-    Task<IEnumerable<Meeting>> GetMeetings(params MeetingQueryOption[] options);
+    Task<IList<MeetingDto>> GetMeetingDtos(params MeetingQueryOption[] options);
+    Task<IList<Meeting>> GetMeetings(params MeetingQueryOption[] options);
     Task<Meeting?> GetMeetingById(int id, MeetingIncludes include = MeetingIncludes.Room);
 }
 
@@ -45,7 +45,7 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
     {
         context.Meetings.Remove(meeting);
     }
-    public async Task<IEnumerable<MeetingDto>> GetMeetingDtos(params MeetingQueryOption[] options)
+    public async Task<IList<MeetingDto>> GetMeetingDtos(params MeetingQueryOption[] options)
     {
         var q = context.Meetings.AsQueryable()
             .AsNoTracking();
@@ -57,7 +57,7 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
         
         return await mapper.ProjectTo<MeetingDto>(q).ToListAsync();
     }
-    public async Task<IEnumerable<Meeting>> GetMeetings(params MeetingQueryOption[] options)
+    public async Task<IList<Meeting>> GetMeetings(params MeetingQueryOption[] options)
     {
         var q = context.Meetings.AsQueryable()
             .AsNoTracking();
