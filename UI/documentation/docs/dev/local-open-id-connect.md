@@ -40,22 +40,21 @@ With the following setup steps,
     - root: http://localhost:4200
     - redirect: http://localhost:4200/callback
     - origin: http://localhost:4200
-- Create api client (id must be `agora-api`)
 - Create client scope
-    - name doesn't matter, I use `agora-api-audience`
+    - name doesn't matter, I use `agora-audience`
     - add mapper
         - by configuration
         - audience
-        - name: `agora-api` (can be whatever)
-        - include Client Audience: `agora-api`
+        - name: `agora` (can be whatever)
+        - include Client Audience: `agora`
 - In `agora` client
     - Client scopes
     - Add client scope
-    - Select agora-api-audience
+    - Select `agora-audience`
     - Set default
-- Choose `KeyCloak` as provider, and set url to `http://localhost:8080/realms/dev-realm` on first setup screen
+- Choose `KeyCloak` as provider, and set url to `http://localhost:8080/realms/<your-realm-name>` on first setup screen
 - Roles for authorization
-    - In `agora-api` client -> roles
+    - In `agora` client -> roles
     - Add wanted roles -> See [Roles and permissions](../guides/roles-and-permissions)
     - To your user, add the role
 

@@ -8,8 +8,7 @@ This can be a KeyCloak instance, Microsoft, anything that follows the OpenId Con
 
 Agora expects the following layout;
 
-2 clients; one for the backend (`agora-api`) and one for the WPA (`agora`). The `agora` client
-should grant an audience to `agora-api`. Permissions are given by granted the correct roles to users; see [Roles and Permissions](./roles-and-permissions)
+A client with audience `agora`, and with its roles mapped under that name. Permissions are given by granted the correct roles to users; see [Roles and Permissions](./roles-and-permissions)
 for more information.
 
 ## Known issues
