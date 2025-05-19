@@ -28,7 +28,7 @@ public class KeyCloakRoleClaimsTransformation: IClaimsTransformation
             return Task.FromResult<ClaimsPrincipal>(principal);
         }
 
-        var agoraApi = resources.GetValueOrDefault("agora-api");
+        var agoraApi = resources.GetValueOrDefault("agora");
         if (agoraApi?.roles == null)
         {
             return Task.FromResult<ClaimsPrincipal>(principal);

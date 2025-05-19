@@ -52,6 +52,7 @@ public class Startup(IConfiguration configuration, IWebHostEnvironment env)
     public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider)
     {
         var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogDebug("Configuring for {Environment}", env.EnvironmentName);
 
         app.UseMiddleware<ExceptionMiddleware>();
         

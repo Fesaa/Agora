@@ -133,7 +133,7 @@ public static class ApplicationServiceExtensions
             .AddJwtBearer(options =>
             {
                 options.Authority = authority;
-                options.Audience = "agora-api";
+                options.Audience = "agora";
 
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters
