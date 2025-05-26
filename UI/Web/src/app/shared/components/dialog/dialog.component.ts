@@ -1,7 +1,6 @@
 import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {ReplaySubject} from "rxjs";
 import {Dialog} from "primeng/dialog";
-import {Button} from "primeng/button";
 import {TranslocoDirective} from "@jsverse/transloco";
 import {TitleCasePipe} from "@angular/common";
 import {AgoraButtonComponent} from '../agora-button/agora-button.component';
@@ -10,7 +9,6 @@ import {AgoraButtonComponent} from '../agora-button/agora-button.component';
   selector: 'app-dialog',
   imports: [
     Dialog,
-    Button,
     TranslocoDirective,
     TitleCasePipe,
     AgoraButtonComponent
