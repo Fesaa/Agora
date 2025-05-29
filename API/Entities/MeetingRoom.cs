@@ -25,6 +25,11 @@ public class MeetingRoom
     public required string Location { get; set; }
 
     /// <summary>
+    /// If a meeting in this room requires acknowledgement of management
+    /// </summary>
+    public required bool RequiresAck { get; set; }
+    
+    /// <summary>
     /// How many people can be seated
     /// </summary>
     public required int Capacity { get; set; }

@@ -39,7 +39,7 @@ public class RoomController(ILogger<RoomController> logger, IRoomService roomSer
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id, bool force = false)
     {
-        force &= User.IsInRole(PolicyConstants.AdminRole);
+        force &= User.IsInRole(PolicyConstants.Admin);
         await roomService.Delete(id, force);
         return Ok();
     }

@@ -8,8 +8,10 @@ namespace API.Data.Repositories;
 
 public interface IUserPreferencesRepository
 {
+    Task<bool> UserExists(string userId);
     Task<UserPreferences> GetByUserIdAsync(string userId);
     Task<string?> GetLocaleAsync(string userId);
+    Task EnsureExistsAsync(string userId);
 }
 
 public class UserPreferencesRepository(DataContext context, IMapper mapper): IUserPreferencesRepository
@@ -21,6 +23,13 @@ public class UserPreferencesRepository(DataContext context, IMapper mapper): IUs
         {
             ExternalId = userId,
         };
+    }
+
+    public async Task<bool> UserExists(string userId)
+    {
+        return await context.AppUserPreferences
+            .AsNoTracking()
+            .AnyAsync(x => x.ExternalId == userId);
     }
 
 
@@ -37,6 +46,11 @@ public class UserPreferencesRepository(DataContext context, IMapper mapper): IUs
         }
 
         return pref;
+    }
+
+    public async Task EnsureExistsAsync(string userId)
+    {
+        await GetByUserIdAsync(userId);
     }
 
     public async Task<string?> GetLocaleAsync(string userId)

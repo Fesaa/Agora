@@ -45,6 +45,7 @@ public class RoomService(ILogger<RoomService> logger, IUnitOfWork unitOfWork, IM
             Id = meetingRoomDto.Id,
             DisplayName = meetingRoomDto.DisplayName,
             Location = meetingRoomDto.Location,
+            RequiresAck = meetingRoomDto.RequiresAck,
             Capacity = meetingRoomDto.Capacity,
             Description = string.IsNullOrEmpty(meetingRoomDto.Description) ? string.Empty : meetingRoomDto.Description,
             MergeAble = meetingRoomDto.MergeAble,

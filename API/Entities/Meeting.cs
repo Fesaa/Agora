@@ -27,6 +27,11 @@ public class Meeting
     /// UTC
     /// </summary>
     public required DateTime EndTime { get; set; }
+
+    /// <summary>
+    /// Is true if the room does not require it
+    /// </summary>
+    public required bool Acknowledged { get; set; } = true;
     
     /// <summary>
     /// The room this meeting is happening in

@@ -12,6 +12,8 @@ public class MeetingRoomDto
     
     public required string Location { get; set; }
     
+    public required bool RequiresAck { get; set; }
+    
     public required int Capacity { get; set; }
     
     public bool MayExceedCapacity { get; set; } = false;

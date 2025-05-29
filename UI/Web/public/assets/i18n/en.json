@@ -29,7 +29,8 @@
     "saturday": "Saturday",
     "sunday": "Sunday",
     "meeting_card": {
-      "attendees": "attendees"
+      "attendees": "attendees",
+      "not-acknowledged": "This meeting has yet to be approved by management"
     },
     "confirm": "confirm",
     "cancel": "Cancel",
@@ -161,7 +162,9 @@
           "attendees_label": "Add attendees",
           "attendees_placeholder": "Enter email addresses",
           "attendees_help": "Add email addresses of people you want to invite",
-          "selected_attendees": "Selected attendees"
+          "selected_attendees": "Selected attendees",
+          "allowOther": "Creator",
+          "allowOther_help": "Create this meeting in their name"
         },
         "facility": {
           "header": "Facilities",
@@ -444,6 +447,17 @@
         "room": "New Meeting Room",
         "facility": "New Facility",
         "meeting": "New Meeting"
+      },
+      "ack": {
+        "title": "Approve meetings",
+        "empty": "All meetings have been approved",
+        "ack": "Approve meeting"
+      },
+      "toast": {
+        "ack": {
+          "title": "Acknowledged {{title}} ",
+          "summary": ""
+        }
       }
     }
   },

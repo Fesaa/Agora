@@ -11,6 +11,14 @@ namespace API.Data.Repositories;
 public interface IEmailsRepository
 {
     Task<IEnumerable<UserEmailDto>> GetEmailsAsync(params EmailsFilter[] filters);
+    Task InsertOrUpdate(string userId, string email);
+    /// <summary>
+    /// Returns the id provided by OIDC
+    /// </summary>
+    /// <param name="email"></param>
+    /// <returns></returns>
+    /// <remarks>Despite the name, this will also match and return on the external id</remarks>
+    Task<string?> GetIdByEmail(string email);
 }
 
 public delegate IQueryable<UserEmail> EmailsFilter(IQueryable<UserEmail> emails); 
@@ -29,6 +37,34 @@ public class EmailsRepository(DataContext context, IMapper mapper): IEmailsRepos
         }
         
         return await mapper.ProjectTo<UserEmailDto>(q).ToListAsync();
+    }
+
+    public async Task InsertOrUpdate(string userId, string email)
+    {
+        var userEmail = await context.UserEmails.Where(ue => ue.ExternalId == userId).FirstOrDefaultAsync();
+        if (userEmail == null)
+        {
+            userEmail = new ()
+            {
+                ExternalId = userId,
+                Email = email,
+            };
+            context.UserEmails.Add(userEmail);
+        }
+        else
+        {
+            userEmail.Email = email;
+            context.UserEmails.Update(userEmail);
+        }
+        
+        await context.SaveChangesAsync();
+    }
+    public async Task<string?> GetIdByEmail(string email)
+    {
+        return await context.UserEmails
+            .Where(ue => ue.Email == email || ue.ExternalId == email)
+            .Select(ue => ue.ExternalId)
+            .FirstOrDefaultAsync();
     }
 
     /// <summary>

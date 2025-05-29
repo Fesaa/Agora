@@ -23,7 +23,7 @@
 
         @defer (when sections[index].id === MeetingWizardId.Attendees; prefetch on idle) {
           @if (sections[index].id === MeetingWizardId.Attendees) {
-            <app-meeting-wizard-attendees [meeting]="meeting" (prev)="navigateToPage(1)" (next)="navigateToPage(3)" />
+            <app-meeting-wizard-attendees [meeting]="meeting" [allowOther]="allowOther" (prev)="navigateToPage(1)" (next)="navigateToPage(3)" />
           }
         }
 

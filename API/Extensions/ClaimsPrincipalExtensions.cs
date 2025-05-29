@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Security.Claims;
+using API.Constants;
 
 namespace API.Extensions;
 
@@ -42,12 +43,37 @@ public static class ClaimsPrincipalExtensions
         return idClaim.Value;
     }
 
+    public static string GetEmail(this ClaimsPrincipal user)
+    {
+        var emailClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
+        if (emailClaim == null)
+        {
+            throw new UnauthorizedAccessException();
+        }
+        return emailClaim.Value;
+    }
+
     public static bool HasPolicyClaim(this ClaimsPrincipal principal, string claim)
     {
         var roleClaims = principal.Claims.Where(c => c.Type == ClaimTypes.Role).ToList();
         foreach (var roleClaim in roleClaims)
         {
             if (roleClaim.Value.ToLower().Equals(claim.ToLower()))
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    public static bool HasPolicyClaimOrAdmin(this ClaimsPrincipal principal, string claim)
+    {
+        var roleClaims = principal.Claims.Where(c => c.Type == ClaimTypes.Role).ToList();
+        foreach (var roleClaim in roleClaims)
+        {
+            if (roleClaim.Value.ToLower().Equals(claim.ToLower()) ||
+                roleClaim.Value.ToLower().Equals(PolicyConstants.Admin.ToLower()))
             {
                 return true;
             }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.Constants;
 using API.Data;
 using API.Data.Repositories;
 using API.DTOs;
@@ -22,9 +23,18 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
     [HttpPost]
     public async Task<ActionResult> CreateMeeting(MeetingDto meetingDto)
     {
+        var userId = User.GetIdentifier();
+        if (meetingDto.CreatorId != "")
+        {
+            if (!User.HasPolicyClaimOrAdmin(PolicyConstants.CreateForOther)) return Unauthorized();
+            
+            var creatorId = await unitOfWork.EmailsRepository.GetIdByEmail(meetingDto.CreatorId);
+            userId = creatorId ?? throw new AgoraException("meeting-creator-id");
+        }
+        
         try
         {
-            await meetingService.CreateMeeting(User.GetIdentifier(), meetingDto);
+            await meetingService.CreateMeeting(userId, meetingDto);
         }
         catch (AgoraException agoraException)
         {
@@ -34,6 +44,7 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
     }
 
     [HttpPost("update")]
+    [Authorize(PolicyConstants.Admin)]
     public async Task<ActionResult> UpdateMeeting(MeetingDto meetingDto)
     {
         await meetingService.UpdateMeeting(meetingDto);
@@ -51,6 +62,11 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
     [HttpGet("today")]
     public async Task<ActionResult<IEnumerable<MeetingDto>>> GetTodaysMeetings([FromQuery] bool userOnly = false, [FromQuery] int? roomId = null)
     {
+        if (!userOnly && !User.HasPolicyClaim(PolicyConstants.Admin))
+        {
+            throw new UnauthorizedAccessException();
+        }
+        
         var now = DateTime.UtcNow;
         var midnightUtc = now.Date.AddDays(1).AddTicks(-1);
         var startUtc = midnightUtc.AddDays(-1);
@@ -128,6 +144,26 @@ public class MeetingController(ILogger<MeetingController> logger, IMeetingServic
         }
 
         return Ok(await roomService.AvailableRoomsOn(dto.Start.Value, dto.End.Value));
+    }
+
+    [HttpPost("ack")]
+    [Authorize(PolicyConstants.Admin)]
+    public async Task<IActionResult> AckMeeting([FromQuery] int meetingId, [FromQuery] bool ack)
+    {
+        await meetingService.AcknowledgeMeeting(meetingId, ack);
+        return Ok();
+    }
+
+    [HttpGet("require-ack")]
+    [Authorize(PolicyConstants.Admin)]
+    public async Task<ActionResult<IList<MeetingDto>>> RequireAck()
+    {
+        var meetings = await unitOfWork.MeetingRepository.GetMeetings(
+            MeetingRepository.StartAfter(DateTime.Now), 
+            MeetingRepository.NeedsAck()
+            );
+        
+        return Ok(meetings);
     }
     
 }

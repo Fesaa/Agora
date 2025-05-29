@@ -3,7 +3,12 @@
   <ng-container *ngIf="displayMode === 'detailed'">
     <p-card class="meeting-card" [ngClass]="{'meeting-running': isMeetingRunning()}">
       <div class="meeting-header">
-        <h3 class="meeting-title" (click)="onMeetingClick()">{{meeting.title}}</h3>
+        <div class="meeting-title-container">
+          <h3 class="meeting-title" (click)="onMeetingClick()">{{meeting.title}}</h3>
+          @if (!meeting.acknowledged) {
+            <span [pTooltip]="t('not-acknowledged')" class="pi pi-exclamation-triangle warning"></span>
+          }
+        </div>
         <span class="meeting-time">{{meeting.startTime | utcToLocalTime:'short'}} - {{meeting.endTime | utcToLocalTime:'short'}}</span>
       </div>
 
@@ -29,7 +34,10 @@
   <ng-container *ngIf="displayMode === 'compact'">
     <div class="meeting" [ngClass]="{'meeting-running': isMeetingRunning()}" (click)="onMeetingClick()">
       <div class="meeting-title">
-        <p>{{meeting.title}}</p>
+        <p class="meeting-title" (click)="onMeetingClick()">{{meeting.title}}</p>
+        @if (!meeting.acknowledged) {
+          <span [pTooltip]="t('not-acknowledged')" class="pi pi-exclamation-triangle warning"></span>
+        }
         <p *ngIf="meeting.room">{{meeting.room.displayName}}</p>
       </div>
 

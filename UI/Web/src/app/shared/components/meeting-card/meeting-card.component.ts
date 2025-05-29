@@ -5,6 +5,7 @@ import { Card } from 'primeng/card';
 import { RouterLink } from '@angular/router';
 import { UtcToLocalTimePipe } from '../../../_pipes/utc-to-local.pipe';
 import { NgIf, NgClass } from '@angular/common';
+import {Tooltip} from 'primeng/tooltip';
 
 @Component({
   selector: 'app-meeting-card',
@@ -13,7 +14,8 @@ import { NgIf, NgClass } from '@angular/common';
     UtcToLocalTimePipe,
     Card,
     NgIf,
-    NgClass
+    NgClass,
+    Tooltip
   ],
   templateUrl: './meeting-card.component.html',
   styleUrl: './meeting-card.component.css',
@@ -22,6 +24,7 @@ import { NgIf, NgClass } from '@angular/common';
 export class MeetingCardComponent {
   @Input() meeting!: Meeting;
   @Input() displayMode: 'detailed' | 'compact' = 'detailed';
+  @Input() displayAck: boolean = false;
   @Output() meetingClick = new EventEmitter<Meeting>();
 
   isMeetingRunning(): boolean {

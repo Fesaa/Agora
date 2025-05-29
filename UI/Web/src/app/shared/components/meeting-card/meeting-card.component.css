@@ -19,11 +19,22 @@
   margin-bottom: calc(3 * var(--spacing));
 }
 
+.meeting-title-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .meeting-title {
   font-size: 1.2rem;
   color: var(--primary-color-darker-shade);
   margin-bottom: calc(2 * var(--spacing));
   cursor: pointer;
+}
+
+.warning {
+  color: var(--warning-color-darker-shade);
 }
 
 .meeting-time {

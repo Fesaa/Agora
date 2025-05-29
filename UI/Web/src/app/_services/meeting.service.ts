@@ -52,4 +52,13 @@ export class MeetingService {
   roomsOn(start: Date, end: Date) {
     return this.httpClient.post<MeetingRoom[]>(this.baseUrl + `Meeting/rooms`, {start, end});
   }
+
+  ack(meetingId: number, ack: boolean) {
+    return this.httpClient.post(this.baseUrl + `Meeting/ack?meetingId=${meetingId}&ack=${ack}`, {});
+  }
+
+  needAck() {
+    return this.httpClient.get<Meeting[]>(`${this.baseUrl}Meeting/require-ack`);
+  }
+
 }

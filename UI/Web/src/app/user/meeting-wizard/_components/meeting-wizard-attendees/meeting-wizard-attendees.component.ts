@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Meeting} from '../../../../_models/meeting';
 import {Card} from 'primeng/card';
 import {TranslocoDirective} from '@jsverse/transloco';
@@ -8,6 +8,9 @@ import {MeetingService} from '../../../../_services/meeting.service';
 import {ToastService} from '../../../../_services/toast-service';
 import {AgoraButtonComponent} from '../../../../shared/components/agora-button/agora-button.component';
 import {NgForOf, NgIf} from '@angular/common';
+import {ActivatedRoute} from '@angular/router';
+import {AccountService, Role} from '../../../../_services/account.service';
+import {forkJoin, take} from 'rxjs';
 
 @Component({
   selector: 'app-meeting-wizard-attendees',
@@ -26,10 +29,11 @@ import {NgForOf, NgIf} from '@angular/common';
 export class MeetingWizardAttendeesComponent {
 
   @Input({required: true}) meeting!: Meeting;
+  @Input({required: true}) allowOther: boolean = false;
   @Output() prev: EventEmitter<void> = new EventEmitter();
   @Output() next: EventEmitter<void> = new EventEmitter();
 
-  suggestions: string[] = []
+  suggestions: string[] = [];
 
   constructor(
     private meetingService: MeetingService,
@@ -56,7 +60,7 @@ export class MeetingWizardAttendeesComponent {
     autoCompleteInput.value = '';
   }
 
-  autoComplete(e: AutoCompleteCompleteEvent) {
+  autoComplete(includeOwn: boolean, e: AutoCompleteCompleteEvent) {
     const q = e.query.trim();
     if (q.length === 0) {
       return;
@@ -64,7 +68,11 @@ export class MeetingWizardAttendeesComponent {
 
     this.meetingService.attendees(q).subscribe({
       next: (attendees) => {
-        this.suggestions = [q, ...attendees.map(a => a.email)];
+        if (includeOwn) {
+          this.suggestions = [q, ...attendees.map(a => a.email)];
+        } else {
+          this.suggestions = attendees.map(a => a.email);
+        }
       },
       error: (err) => {
         console.error(err);
