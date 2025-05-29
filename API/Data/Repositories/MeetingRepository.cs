@@ -116,6 +116,11 @@ public class MeetingRepository(DataContext context, IMapper mapper): IMeetingRep
         return q => q.Where(m => m.Room.Id == roomId);
     }
 
+    public static MeetingQueryOption NeedsAck()
+    {
+        return q => q.Where(m => !m.Acknowledged && m.Room.RequiresAck);
+    }
+
     /// <summary>
     /// Filters on the room id, or rooms where one of its children has the id
     /// </summary>

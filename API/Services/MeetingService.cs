@@ -8,6 +8,7 @@ using API.DTOs;
 using API.Entities;
 using API.Exceptions;
 using Microsoft.Extensions.Logging;
+using AgoraException = API.Exceptions.AgoraException;
 
 namespace API.Services;
 
@@ -17,6 +18,7 @@ public interface IMeetingService
     Task CreateMeeting(string userId, MeetingDto meetingDto);
     Task UpdateMeeting(MeetingDto meetingDto);
     Task DeleteMeeting(int meetingId);
+    Task AcknowledgeMeeting(int meetingId, bool ack);
 }
 
 public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWork,
@@ -69,6 +71,7 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
         {
             CreatorId = userId,
             Room = room,
+            Acknowledged = !room.RequiresAck,
             Title = meetingDto.Title,
             Description = meetingDto.Description,
             StartTime = meetingDto.StartTime.ToUniversalTime(),
@@ -167,6 +170,15 @@ public class MeetingService(ILogger<MeetingService> logger, IUnitOfWork unitOfWo
         await calenderSyncService.DeleteMeetingForUsers(meeting.ExternalId, allUsers);
         
         unitOfWork.MeetingRepository.Remove(meeting);
+        await unitOfWork.CommitAsync();
+    }
+
+    public async Task AcknowledgeMeeting(int meetingId, bool ack)
+    {
+        var meeting = await unitOfWork.MeetingRepository.GetMeetingById(meetingId);
+        if (meeting == null) throw new AgoraException("meeting-not-found");
+        
+        meeting.Acknowledged = ack;
         await unitOfWork.CommitAsync();
     }
 

@@ -102,7 +102,7 @@
 /* Help text */
 .wizard-help-text {
   font-size: 0.9rem;
-  color: var(--secundairy-color);
+  color: var(--text-color-secondary);
   margin-top: calc(1 * var(--spacing));
 }
 

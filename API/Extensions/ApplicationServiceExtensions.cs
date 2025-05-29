@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Security.Claims;
@@ -95,9 +96,12 @@ public static class ApplicationServiceExtensions
         // Need the policies to be always present, or requests fail 
         services.AddAuthorization(options =>
         {
-            options.AddPolicy(PolicyConstants.AdminRole,
+            options.AddPolicy(PolicyConstants.Admin,
                 policy => policy.RequireClaim(ClaimTypes.Role,
-                    PolicyConstants.AdminRole, PolicyConstants.AdminRole.ToLower(), PolicyConstants.AdminRole.ToUpper()));
+                    PolicyConstants.Admin, PolicyConstants.Admin.ToLower(), PolicyConstants.Admin.ToUpper()));
+            options.AddPolicy(PolicyConstants.CreateForOther,
+                policy =>policy.RequireClaim(ClaimTypes.Role,
+                    PolicyConstants.CreateForOther, PolicyConstants.CreateForOther.ToLower(), PolicyConstants.CreateForOther.ToUpper()));
         });
 
         // First start up, only local authentication
@@ -142,6 +146,22 @@ public static class ApplicationServiceExtensions
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = async ctx =>
+                    {
+
+                        // NOTE: This causes some issues with race conditions, on first login. After this, it's all fine;
+                        var userId = ctx.Principal?.GetIdentifier();
+                        var email = ctx.Principal?.GetEmail();
+                        if (userId == null || email == null) return;
+
+                        var myUnitOfWork = ctx.HttpContext.RequestServices.GetRequiredService<IUnitOfWork>();
+                        await myUnitOfWork.UserPreferencesRepository.EnsureExistsAsync(userId);
+                        await myUnitOfWork.EmailsRepository.InsertOrUpdate(userId, email);
+                        await myUnitOfWork.CommitAsync();
+                    },
                 };
             });
     }

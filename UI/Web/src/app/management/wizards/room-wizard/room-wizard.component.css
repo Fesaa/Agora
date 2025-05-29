@@ -1,4 +1,5 @@
 @import '../shared/management-wizard.css';
+@import '../../../user/meeting-wizard/_components/shared/meeting-wizard.css';
 
 .room-wizard {
   width: 100%;

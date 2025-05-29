@@ -46,6 +46,12 @@
             <p-checkbox id="mergeAble" binary="true" [(ngModel)]="roomData.mergeAble"></p-checkbox>
             <div class="wizard-help-text">{{t('capacity.mergeable_help')}}</div>
           </div>
+
+          <div class="wizard-form-field">
+            <label for="ack">{{t('capacity.ack')}}</label>
+            <p-checkbox id="ack" binary="true" [(ngModel)]="roomData.requiresAck"></p-checkbox>
+            <div class="wizard-help-text">{{t('capacity.ack_help')}}</div>
+          </div>
         </div>
       </div>
 

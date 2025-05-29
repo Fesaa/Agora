@@ -14,6 +14,8 @@ public class MeetingDto
     public string Description { get; set; } = String.Empty;
     
     public string ExternalId { get; set; }
+
+    public required bool Acknowledged { get; set; } = true;
     
     public DateTime StartTime { get; set; }
     

@@ -7,6 +7,7 @@ export type Meeting = {
   title: string,
   description: string,
   externalId: string,
+  acknowledged: boolean,
   startTime: Date,
   endTime: Date,
   room: MeetingRoom,

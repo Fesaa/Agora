@@ -11,6 +11,8 @@ import {
 } from './_components/meeting-wizard-attendees/meeting-wizard-attendees.component';
 import {MeetingWizardFacilityComponent} from './_components/meeting-wizard-facility/meeting-wizard-facility.component';
 import {MeetingWizardSaveComponent} from './_components/meeting-wizard-save/meeting-wizard-save.component';
+import {forkJoin, take} from 'rxjs';
+import {AccountService, Role} from '../../_services/account.service';
 
 export enum MeetingWizardId {
   General = 'General',
@@ -37,6 +39,7 @@ export enum MeetingWizardId {
 export class MeetingWizardComponent implements OnInit{
 
   meeting: Meeting | undefined;
+  allowOther: boolean = false;
   index: number = 0;
 
   sections: {id: MeetingWizardId, label: string}[] = [
@@ -55,12 +58,14 @@ export class MeetingWizardComponent implements OnInit{
     externalId: '',
     startTime: null!,
     endTime: null!,
+    acknowledged: false,
     room: {
       id: 0,
       displayName: '',
       description: '',
       location: '',
       capacity: 0,
+      requiresAck: false,
       mayExceedCapacity: false,
       mergeAble: false,
       facilities: []
@@ -71,6 +76,7 @@ export class MeetingWizardComponent implements OnInit{
 
   constructor(
     private meetingService: MeetingService,
+    private accountService: AccountService,
     private route: ActivatedRoute,
     private router: Router,
     private toastR: ToastService,
@@ -108,6 +114,19 @@ export class MeetingWizardComponent implements OnInit{
         }
       })
     })
+
+    forkJoin([
+      this.accountService.roles(),
+      this.route.queryParams.pipe(take(1)),
+    ]).subscribe({
+      next: ([roles, query]) => {
+        const hasRole = roles.includes(Role.CreateForOther) || roles.includes(Role.Admin);
+        this.allowOther = hasRole && query["allowOther"] === "true";
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
   }
 
   private loadStage() {
@@ -116,7 +135,8 @@ export class MeetingWizardComponent implements OnInit{
     }
 
     if (this.meeting.id === 0) {
-      //this.navigateToPage(0, true); // Disabled during testing
+      this.navigateToPage(0, true);
+      return;
     }
 
     this.route.fragment.subscribe(fragment => {

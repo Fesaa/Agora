@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace API.Controllers;
 
-[Authorize(PolicyConstants.AdminRole)]
+[Authorize(PolicyConstants.Admin)]
 public class OpenIdConnectController(ILogger<SettingsController> logger, IUnitOfWork unitOfWork,
     ILocalizationService localizationService): BaseApiController
 {
@@ -55,7 +55,7 @@ public class OpenIdConnectController(ILogger<SettingsController> logger, IUnitOf
         return await UpdateOpenIdSettings(infoDto);
     }
 
-    [Authorize(PolicyConstants.AdminRole)]
+    [Authorize(PolicyConstants.Admin)]
     [HttpPost("update")]
     public async Task<ActionResult<OpenIdConnectInfoDto>> UpdateOpenIdSettings(OpenIdConnectInfoDto infoDto, [FromQuery] bool shutdown = false)
     {
