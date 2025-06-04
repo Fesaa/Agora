@@ -5,6 +5,7 @@ export type MeetingRoom = {
   displayName: string;
   description: string;
   location: string;
+  requiresAck: boolean;
   capacity: number;
   mayExceedCapacity: boolean;
   mergeAble: boolean;

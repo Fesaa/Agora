@@ -52,7 +52,7 @@ public class FacilitiesController(ILogger<FacilitiesController> logger, IUnitOfW
     [HttpDelete("{id}")]
     public async Task<ActionResult<FaclitiyDto>> Delete(int id, [FromQuery] bool force = false)
     {
-        force &= User.IsInRole(PolicyConstants.AdminRole);
+        force &= User.IsInRole(PolicyConstants.Admin);
 
         logger.LogDebug("{UserName} is trying to deleting facility {Id}", User.GetName(), id);
 

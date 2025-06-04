@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using API.Constants;
 using API.Extensions;
 using API.Services;
@@ -18,6 +21,15 @@ public class AccountController(ILogger<AccountController> logger, ILocalizationS
     [HttpGet("admin")]
     public bool IsAdmin()
     {
-        return User.HasPolicyClaim(PolicyConstants.AdminRole);
+        return User.HasPolicyClaim(PolicyConstants.Admin);
+    }
+
+    [HttpGet("roles")]
+    public IList<string> Roles()
+    {
+        return User.Claims
+            .Where(c => c.Type == ClaimTypes.Role)
+            .Select(c => c.Value)
+            .ToList();
     }
 }

@@ -27,14 +27,42 @@
   <ng-template #panel>
     <p-splitter layout="vertical" [panelSizes]="[50, 50]">
       <ng-template #panel>
-        <div class="panel" *transloco="let t;prefix:'management.dashboard.facilities'">
-          <span class="panel-header">{{t('title')}}</span>
-          <div>
-            @if (mostUsedFacilities.length > 0) {
-              <ngx-charts-advanced-pie-chart [results]="mostUsedFacilities" />
-            }
-          </div>
-        </div>
+        <p-splitter [panelSizes]="[33, 67]">
+
+          <ng-template #panel>
+            <div class="panel" *transloco="let t;prefix:'management.dashboard.ack'">
+              <span class="panel-header">{{t('title')}}</span>
+
+              @if (requireAckMeetings.length > 0) {
+                <cdk-virtual-scroll-viewport itemSize="125" style="height: 750px">
+                  <div *cdkVirtualFor="let meeting of requireAckMeetings" style="height: 125px">
+                    <app-meeting-card
+                      [meeting]="meeting"
+                      displayMode="compact"
+                      (meetingClick)="acknowledge(meeting)"
+                      [pTooltip]="t('ack')"
+                      tooltipPosition="bottom"
+                    ></app-meeting-card>
+                  </div>
+                </cdk-virtual-scroll-viewport>
+              } @else {
+                <span>{{t('empty')}}</span>
+              }
+            </div>
+          </ng-template>
+
+          <ng-template #panel>
+            <div class="panel" *transloco="let t;prefix:'management.dashboard.facilities'">
+              <span class="panel-header">{{t('title')}}</span>
+              <div>
+                @if (mostUsedFacilities.length > 0) {
+                  <ngx-charts-advanced-pie-chart [results]="mostUsedFacilities" />
+                }
+              </div>
+            </div>
+          </ng-template>
+
+        </p-splitter>
       </ng-template>
       <ng-template #panel>
         <p-splitter [panelSizes]="[70, 30]">
@@ -58,11 +86,11 @@
 
                 <app-agora-button type="primary" [routerLink]="'/management/configuration'">{{t('configure')}}</app-agora-button>
 
-                <app-agora-button type="secondary" [routerLink]="'/management/wizard/facility'">{{t('room')}}</app-agora-button>
+                <app-agora-button type="secondary" [routerLink]="'/management/wizard/room'">{{t('room')}}</app-agora-button>
 
-                <app-agora-button type="secondary" [routerLink]="">{{t('facility')}}</app-agora-button>
+                <app-agora-button type="secondary" [routerLink]="'/management/wizard/facility'">{{t('facility')}}</app-agora-button>
 
-                <app-agora-button type="secondary" [routerLink]="'/user/wizard/meeting'" [queryParams]="{return: 'true'}">{{t(('meeting'))}}</app-agora-button>
+                <app-agora-button type="secondary" [routerLink]="'/user/wizard/meeting'" [queryParams]="{return: 'true', allowOther: 'true'}">{{t(('meeting'))}}</app-agora-button>
 
               </div>
 

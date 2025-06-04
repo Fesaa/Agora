@@ -3,6 +3,11 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
+export enum Role {
+  Admin = 'Admin',
+  CreateForOther = 'CreateForOther',
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,5 +23,9 @@ export class AccountService {
 
   admin() {
     return this.httpClient.get<boolean>(`${this.baseUrl}Account/admin`);
+  }
+
+  roles() {
+    return this.httpClient.get<Role[]>(`${this.baseUrl}Account/roles`);
   }
 }

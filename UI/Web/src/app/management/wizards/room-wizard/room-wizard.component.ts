@@ -33,6 +33,7 @@ export class RoomWizardComponent implements OnInit {
     description: '',
     location: '',
     capacity: 0,
+    requiresAck: false,
     mayExceedCapacity: false,
     mergeAble: false,
     facilities: []
