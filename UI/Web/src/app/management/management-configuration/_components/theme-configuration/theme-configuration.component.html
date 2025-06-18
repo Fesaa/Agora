@@ -16,8 +16,8 @@
     </ng-template>
   </p-fileupload>
 
-  <cdk-virtual-scroll-viewport itemSize="50" style="height: 400px">
-    <div class="theme-container" *cdkVirtualFor="let theme of themes;">
+  @for (theme of themes; track theme.id) {
+    <div class="theme-container">
       <div class="information">
         <span class="theme-name">{{theme.name | titlecase}}</span>
       </div>
@@ -38,5 +38,5 @@
         <p-tag [value]="theme.themeProvider | provider | titlecase" />
       </div>
     </div>
-  </cdk-virtual-scroll-viewport>
+  }
 </div>

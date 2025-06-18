@@ -51,7 +51,22 @@ public class FacilityService(ILogger<FacilityService> logger, IUnitOfWork unitOf
         
         // TODO: Remove from upcoming meetings that use this during unavailable hours/days
         // And send notification if so
-        f.Availability = facilityDto.Availability.Select(mapper.Map<Availability>).ToList();
+        var existingAvailabilities = f.Availability.ToDictionary(a => a.Id);
+        f.Availability.Clear();
+        foreach (var mapped in facilityDto.Availability.Select(mapper.Map<Availability>))
+        {
+            if (existingAvailabilities.TryGetValue(mapped.Id, out var existing))
+            {
+                existing.DayOfWeek = mapped.DayOfWeek;
+                existing.TimeRange = mapped.TimeRange;
+                f.Availability.Add(existing);
+            }
+            else
+            {
+                f.Availability.Add(mapped);
+            }
+        }
+
         
         f.Cost = facilityDto.Cost;
         f.AlertManagement = facilityDto.AlertManagement;

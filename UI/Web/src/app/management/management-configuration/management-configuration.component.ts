@@ -76,13 +76,13 @@ export class ManagementConfigurationComponent implements OnInit {
             icon: 'pi pi-ethereum',
             configID: ConfigurationId.BrandingThemes,
             command: this.setSelectedCommand(ConfigurationId.BrandingThemes),
-          },
+          },/*,
           {
             label: 'branding.logo',
             icon: 'pi pi-star-half',
             configID: ConfigurationId.BrandingLogo,
             command: this.setSelectedCommand(ConfigurationId.BrandingLogo),
-          }
+          }*/
         ]
       }
     ]

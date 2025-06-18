@@ -8,9 +8,6 @@ import {MeetingService} from '../../../../_services/meeting.service';
 import {ToastService} from '../../../../_services/toast-service';
 import {AgoraButtonComponent} from '../../../../shared/components/agora-button/agora-button.component';
 import {NgForOf, NgIf} from '@angular/common';
-import {ActivatedRoute} from '@angular/router';
-import {AccountService, Role} from '../../../../_services/account.service';
-import {forkJoin, take} from 'rxjs';
 
 @Component({
   selector: 'app-meeting-wizard-attendees',

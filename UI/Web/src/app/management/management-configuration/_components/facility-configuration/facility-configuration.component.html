@@ -8,8 +8,7 @@
     </p-card>
   </div>
 
-  @if (facilities.length > 0) {
-    <p-card>
+  <p-card>
     <p-table
       #facilitiesTable
       [value]="facilities"
@@ -59,16 +58,7 @@
         <p-skeleton />
       </ng-template>
 
-      <ng-template #emptymessage>
-        <p-card [header]="t('empty.header')">
-          <div>
-            <app-agora-button type="primary" (onClick)="gotoWizard()">{{t('empty.new') | titlecase}}</app-agora-button>
-          </div>
-        </p-card>
-      </ng-template>
-
     </p-table>
-    </p-card>
-  }
+  </p-card>
 
 </div>

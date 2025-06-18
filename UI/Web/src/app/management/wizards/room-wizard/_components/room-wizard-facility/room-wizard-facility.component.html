@@ -9,14 +9,18 @@
 
   <div class="wizard-form-container">
     <div class="wizard-form-field">
-      <cdk-virtual-scroll-viewport itemSize="25" style="height: 300px" class="facility-preview-holder wizard-selection-list">
-        <div *cdkVirtualFor="let f of facilities">
-          <div class="facility-preview wizard-list-item" [ngClass]="{'selected': activeMap[f.id]}" (click)="onCheckBoxChange(f, !isIncluded(f))">
-            <span>{{f.displayName}}</span>
-            <p-checkbox variant="filled" binary="true" [(ngModel)]="activeMap[f.id]" (onChange)="onCheckBoxChange(f, $event.checked)" />
+      @if (facilities.length == 0) {
+        <span>{{ t('empty') }}</span>
+      } @else {
+        <cdk-virtual-scroll-viewport itemSize="25" style="height: 300px" class="facility-preview-holder wizard-selection-list">
+          <div *cdkVirtualFor="let f of facilities">
+            <div class="facility-preview wizard-list-item" [ngClass]="{'selected': activeMap[f.id]}" (click)="onCheckBoxChange(f, !isIncluded(f))">
+              <span>{{f.displayName}}</span>
+              <p-checkbox variant="filled" binary="true" [(ngModel)]="activeMap[f.id]" (onChange)="onCheckBoxChange(f, $event.checked)" />
+            </div>
           </div>
-        </div>
-      </cdk-virtual-scroll-viewport>
+        </cdk-virtual-scroll-viewport>
+      }
     </div>
   </div>
 

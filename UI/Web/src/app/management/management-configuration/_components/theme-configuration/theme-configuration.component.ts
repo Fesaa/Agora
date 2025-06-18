@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ThemeService} from '../../../../_services/theme.service';
 import {Theme} from '../../../../_models/theme';
 import {Card} from 'primeng/card';
@@ -39,6 +39,7 @@ export class ThemeConfigurationComponent implements OnInit{
     private themeService: ThemeService,
     private toastR: ToastService,
     private loco: TranslocoService,
+    private cdRef: ChangeDetectorRef,
   ) {
   }
 
@@ -84,6 +85,7 @@ export class ThemeConfigurationComponent implements OnInit{
     this.themeService.upload(e.files[0]).subscribe({
       next: (theme) => {
         this.themes.push(theme);
+        this.cdRef.markForCheck();
         this.toastR.successLoco("management.configuration.branding.themes.actions.upload.success", {}, {name: theme.name})
       },
       error: (err) => {

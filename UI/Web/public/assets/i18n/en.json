@@ -322,7 +322,9 @@
             "mergeable": "Mergeable",
             "mergeable_help": "This room can be merged with other rooms",
             "next": "Next",
-            "back": "Back"
+            "back": "Back",
+            "ack": "Require acknowledgement",
+            "ack_help": "Require acknowledgement from management, before the meeting is confirmed"
           },
           "facilities": {
             "header": "Link facilities",
@@ -331,7 +333,8 @@
               "p1": "Select which facilities can be used in this room. When selected, all times are applied."
             },
             "prev": "Previous",
-            "next": "Next"
+            "next": "Next",
+            "empty": "No facilities created yet"
           },
           "summary": {
             "header": "Summary",
